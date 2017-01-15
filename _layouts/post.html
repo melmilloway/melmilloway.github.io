@@ -3,12 +3,7 @@ layout: default
 ---
 <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <header class="mast bg-black">
-    <figure class="absolute-bg" style="background-image: url('{{ page.image }}');"></figure>
-    <div class="mast__container">
-      <h1 itemprop="name headline">{{ page.title }}</h1>
-    </div>
-  </header>
+  {% include mast.html %}
 
   <section class="post section-padding" itemprop="articleBody">
     {{ content }}

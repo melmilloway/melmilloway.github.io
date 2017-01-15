@@ -24,28 +24,16 @@ section {
 }
 
 .section-padding {
-  padding: 1em;
+  padding: 3em 1em;
 
   @media (min-width: $mq-sm) {
-    padding: 2em;
+    padding-right: 2em;
+    padding-left: 2em;
   }
 
   @media (min-width: $mq-md) {
-    padding: 3em;
-  }
-
-  &--sm {
-    padding: 1em;
-
-    @media (min-width: $mq-sm) {
-      padding-right: 2em;
-      padding-left: 2em;
-    }
-
-    @media (min-width: $mq-md) {
-      padding-right: 3em;
-      padding-left: 3em;
-    }
+    padding-right: 3em;
+    padding-left: 3em;
   }
 }
 
@@ -56,6 +44,17 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1em;
+
+  @media (min-width: $mq-sm) {
+    padding-right: 2em;
+    padding-left: 2em;
+  }
+
+  @media (min-width: $mq-md) {
+    padding-right: 3em;
+    padding-left: 3em;
+  }  
 
   &__img {
 
@@ -71,15 +70,15 @@ section {
     & > *:not(:last-child) {
       margin-right: 1.5em;
     }
-  }
 
-  a {
+    a {
 
-    &:hover,
-    &:active,
-    &:focus {
-      color: $color-alpha;
-      border-bottom: 1px solid $color-alpha;
+      &:hover,
+      &:active,
+      &:focus {
+        color: $color-alpha;
+        border-bottom: 1px solid $color-alpha;
+      }
     }
   }
 }
