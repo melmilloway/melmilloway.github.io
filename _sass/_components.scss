@@ -1,0 +1,43 @@
+/**
+ * Mast
+ */
+.mast {
+  @extend %flex-center;
+
+  position: relative;
+
+  height: 18em;
+
+  @media (min-width: $mq-sm) {
+    height: 24em;
+  }
+
+  @media (min-width: $mq-md) {
+    height: 30em;
+  }
+
+  &__container {
+    z-index: 1;
+
+    max-width: $mq-md;
+
+    color: $color-white;
+    text-align: center;
+  }
+}
+
+/**
+ * Post
+ */
+.post {
+  max-width: $mq-md;
+  margin: 0 auto;
+
+  @media (min-width: $mq-md) {
+    width: 75%;
+  }
+
+  @media (min-width: $mq-xl) {
+    width: 60%;
+  }
+}

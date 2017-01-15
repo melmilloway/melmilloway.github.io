@@ -6,8 +6,7 @@ $font-body: "Apercu", sans-serif;
 
 $color-alpha: #4231a9;
 
-$color-black: #333;
-$color-grey: #d3d3d3;
+$color-black: #000;
 $color-white: #fff;
 
 $mq-xs: 20em;
@@ -26,6 +25,7 @@ $mq-xxl: 114em;
 
 body {
   font-family: $font-body;
+  font-weight: 300;
   font-size: 100%;
   line-height: 1.6;
 
@@ -50,7 +50,7 @@ body {
   }
 
   @media (min-width: $mq-xxl) {
-    font-size: 125%;
+    font-size: 120%;
   }
 }
 
@@ -58,11 +58,25 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 
   font-family: $font-header;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2em;
+
+  @media (min-width: $mq-md) {
+    font-size: 5em;
+  }
 }
 
 p {
   margin-top: 0;
   margin-bottom: 0.75em;
+}
+
+a {
+  color: $color-black;
+  text-decoration: none;
 }
 
 figure {
@@ -71,7 +85,6 @@ figure {
 
 img {
   display: block;
-  width: 100%;
   max-width: 100%;
 }
 

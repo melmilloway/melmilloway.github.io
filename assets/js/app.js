@@ -1,0 +1,62 @@
+var PleaseDontGo = (function() {
+  var s;
+
+  return {
+    settings: {
+      originalTitle: document.title,
+      // New title when tab is changed
+      newTitle: 'Please Don\'t Go!',
+      favicon: document.querySelectorAll('[rel="icon"]')[0],
+      originalFavicon: document.querySelectorAll('[rel="icon"]')[0].href,
+      // New favicon when tab is changed
+      newFavicon: '/assets/images/favicon-dontgo.ico'
+    },
+
+    init: function() {
+      s = this.settings;
+      this.visibility();
+    },
+
+    visibility: function() {
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') {
+          setTimeout(function() {
+            document.title = s.newTitle;
+            s.favicon.setAttribute('href', s.newFavicon);
+          }, 1500);
+        } else {
+          document.title = s.originalTitle;
+          s.favicon.setAttribute('href', s.originalFavicon);
+        }
+      });
+    }
+  }
+})();
+
+var ActiveClass = (function() {
+  var s;
+
+  return {
+    settings: {
+      page: location.pathname.split('/')[1],
+      nav: document.getElementsByClassName('header__list')[0]
+    },
+
+    init: function() {
+      s = this.settings;
+      this.addClass();
+    },
+
+    addClass: function() {
+      var active = s.nav.querySelectorAll('[href="' + s.page + '"]')[0];
+      if (active === 'portfolio' || active === 'blog' || active === 'about') {
+        active.classList.add('js-active');
+      }
+    }
+  }
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
+  PleaseDontGo.init();
+  ActiveClass.init();
+});
