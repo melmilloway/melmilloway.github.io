@@ -1,8 +1,10 @@
 ---
 layout: post
 title: "Welcome to Jekyll!"
+subtitle: Hashtag flexitarian waistcoat poke unicorn knausgaard
 date: 2017-01-14
 description: 
+gif:
 image: https://source.unsplash.com/qHblAFPy2uU/2000x1200
 ---
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.

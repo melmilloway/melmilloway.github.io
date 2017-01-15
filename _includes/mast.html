@@ -1,5 +1,7 @@
 <header class="mast bg-black">
-  <figure class="absolute-bg" style="background-image: url('{{ page.image }}');"></figure>
+  {% if page.gif or page.image %}
+    <figure class="absolute-bg" style="background-image: url('{% if page.gif %}{{ page.gif }}{% elsif page.image %}{{ page.image }}{% endif %}');"></figure>
+  {% endif %}
   <div class="mast__container">
     <h1 itemprop="name headline">{{ page.title }}</h1>
   </div>

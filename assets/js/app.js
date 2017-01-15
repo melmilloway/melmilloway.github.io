@@ -49,9 +49,11 @@ var ActiveClass = (function() {
 
     addClass: function() {
       var active = s.nav.querySelectorAll('[href="/' + s.page + '"]')[0];
-      var activeLink = active.getAttribute('href').substring(1);
-      if (activeLink === 'portfolio' || activeLink === 'blog' || activeLink === 'about') {
-        active.classList.add('js-active');
+      if (active) {
+        var activeLink = active.getAttribute('href').substring(1);
+        if (activeLink === 'portfolio' || activeLink === 'blog' || activeLink === 'about') {
+          active.classList.add('js-active');
+        }
       }
     }
   }

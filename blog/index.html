@@ -1,0 +1,38 @@
+---
+layout: default
+title: Blog
+description: 
+gif:
+image: 
+permalink: /blog
+---
+{% include mast.html %}
+
+<section class="post section-padding">
+  <div class="grid">
+    <div class="text-center">
+      <p class="post__intro">Twee XOXO helvetica keytar pabst echo park. Occupy shabby chic freegan +1 slow-carb, fam before they sold out echo park beard. Ramps listicle cred, etsy typewriter williamsburg mixtape fanny pack seitan pok pok fap godard.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding">
+  <div class="grid">
+    <ul itemscope itemtype="http://schema.org/Blog">
+      {% for post in paginator.posts %}
+        <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          <a class="preview__link" href="{{ post.url | prepend: site.baseurl }}" itemprop="url">
+            <h1 class="preview__header" itemprop="name">{{ post.title }}</h1>
+            <p class="preview__subheader">
+              <span itemprop="datePublished" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</span>
+
+              {% if post.subtitle %}
+                — <span itemprop="description">{{ post.subtitle }}</span>
+              {% endif %}
+            </p>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

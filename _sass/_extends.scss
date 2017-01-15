@@ -6,3 +6,14 @@
   align-items: center;
   justify-content: center;
 }
+
+/**
+ * Intro Font
+ */
+%intro-font {
+  font-size: 1.25em;
+
+  @media (min-width: $mq-md) {
+    font-size: 1.5em;
+  }
+}

@@ -37,6 +37,15 @@ section {
   }
 }
 
+.grid {
+  max-width: $mq-md;
+  margin: 0 auto;
+
+  @media (min-width: $mq-md) {
+    width: 75%;
+  }
+}
+
 /**
  * Header
  */
