@@ -129,11 +129,17 @@ section {
  * Footer
  */
 .footer {
+  padding: 1em;
 
   @media (min-width: $mq-sm) {
+    padding: 2em;
+  }
+
+  @media (min-width: $mq-md) {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 3em;
   }
 
   &__list {
@@ -173,6 +179,16 @@ section {
       &:active,
       &:focus {
         color: #0077b5;
+      }
+    }
+
+    &.fa-instagram,
+    #home &.fa-instagram {
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: #003569;
       }
     }
   }
