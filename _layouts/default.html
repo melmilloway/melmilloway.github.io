@@ -3,7 +3,7 @@
 
   {% include head.html %}
 
-  <body class="👋">
+  <body id="{% if page.title %}{{ page.title | downcase }}{% else %}home{% endif %}" class="👋">
 
     {% include header.html %}
 

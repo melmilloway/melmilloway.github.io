@@ -6,4 +6,7 @@
   </ul>
 </footer>
 
+{% if page.title | downcase == 'about' %}
+<script type="text/javascript" src="{{ '/assets/js/instafetch.min.js' | prepend: site.baseurl }}"></script>
+{% endif %}
 <script type="text/javascript" src="{{ '/assets/js/app.js' | prepend: site.baseurl }}"></script>

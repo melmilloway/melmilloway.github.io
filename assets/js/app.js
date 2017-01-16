@@ -38,7 +38,7 @@ var ActiveClass = (function() {
 
   return {
     settings: {
-      page: location.pathname.split('/')[1],
+      page: document.body.id,
       nav: document.getElementsByClassName('header__list')[0]
     },
 
@@ -62,4 +62,12 @@ var ActiveClass = (function() {
 document.addEventListener('DOMContentLoaded', function() {
   PleaseDontGo.init();
   ActiveClass.init();
+
+  if (document.body.id === 'about') {
+    instafetch.init({
+      accessToken: '3980752.1677ed0.62bb6a2ad3ef4dc0a6aad768ab8939ab',
+      target: 'instafetch',
+      numOfPics: 6,
+    });
+  }
 });

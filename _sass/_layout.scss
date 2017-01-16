@@ -14,6 +14,10 @@ body {
  */
 main {
   flex-grow: 1;
+
+  #home & {
+    @extend %flex-center;
+  }
 }
 
 /**
@@ -35,6 +39,12 @@ section {
     padding-right: 3em;
     padding-left: 3em;
   }
+
+  &--no-top {
+    @extend .section-padding;
+
+    padding-top: 0;
+  }
 }
 
 .grid {
@@ -44,6 +54,14 @@ section {
   @media (min-width: $mq-md) {
     width: 75%;
   }
+}
+
+/**
+ * Home
+ */
+#home {
+  color: $color-white;
+  background-color: $color-alpha;
 }
 
 /**
@@ -88,6 +106,17 @@ section {
         color: $color-alpha;
         border-bottom: 1px solid $color-alpha;
       }
+
+      #home & {
+        color: $color-white;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: $color-white;
+          border-bottom: 1px solid $color-white;
+        }
+      }
     }
   }
 }
@@ -123,7 +152,12 @@ section {
   a {
     transition: color 0.2s ease;
 
-    &.fa-twitter {
+    #home & {
+      color: $color-white;
+    }
+
+    &.fa-twitter,
+    #home &.fa-twitter {
 
       &:hover,
       &:active,
@@ -132,7 +166,8 @@ section {
       }
     }
 
-    &.fa-linkedin {
+    &.fa-linkedin,
+    #home &.fa-linkedin {
 
       &:hover,
       &:active,
