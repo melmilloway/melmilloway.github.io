@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (document.body.id === 'about') {
     instafetch.init({
-      accessToken: '3980752.1677ed0.62bb6a2ad3ef4dc0a6aad768ab8939ab',
+      accessToken: '30115961.1677ed0.903e99e5b4944d8aad1694d879b7d981',
       target: 'instafetch',
       numOfPics: 6,
     });

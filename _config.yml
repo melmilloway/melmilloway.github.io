@@ -3,7 +3,7 @@ email: mmilloway87@gmail.com
 baseurl: ""
 paginate: 10
 paginate_path: "/blog/page-:num"
-google_analytics: 
+google_analytics: UA-90549014-1
 
 # SEO settings
 title: Mel Milloway
