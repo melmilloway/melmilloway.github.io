@@ -14,9 +14,12 @@ body {
  */
 main {
   flex-grow: 1;
+  padding-top: 4em;
 
   #home & {
     @extend %flex-center;
+
+    padding-top: 0;
   }
 }
 
@@ -68,10 +71,19 @@ section {
  * Header
  */
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1em;
+  height: 4em;
+  width: 100%;
+
+  background-color: $color-white;
+  box-shadow: 0 1px 1px rgba($color-black, 0.1);
 
   @media (min-width: $mq-sm) {
     padding-right: 2em;
@@ -81,7 +93,14 @@ section {
   @media (min-width: $mq-md) {
     padding-right: 4em;
     padding-left: 4em;
-  }  
+  }
+
+  #home & {
+    position: static;
+
+    background-color: transparent;
+    box-shadow: none;
+  }
 
   &__img {
 
@@ -129,6 +148,8 @@ section {
  * Footer
  */
 .footer {
+  z-index: 9;
+
   padding: 1em;
 
   @media (min-width: $mq-sm) {

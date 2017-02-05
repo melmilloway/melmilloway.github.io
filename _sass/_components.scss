@@ -16,33 +16,6 @@
 }
 
 /**
- * Home Background
- */
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-
-  height: 100%;
-  width: 100%;
-
-  overflow: hidden;
-
-  &__img {
-    position: absolute;
-
-    height: 100vh;
-    width: 300vw;
-
-    background: url('/assets/images/background.png') repeat-x;
-    background-size: contain;
-    background-position: center;
-    animation: marquee 120s linear infinite;
-  }
-}
-
-/**
  * Mast
  */
 .mast {
@@ -71,6 +44,8 @@
   }
 
   &--home {
+    z-index: 9;
+
     padding: 1em;
   }
 }
@@ -109,6 +84,7 @@
     @extend %intro-font;
 
     display: inline-block;
+    margin-top: 0.25em;
     margin-bottom: 0;
 
     line-height: 1.2;
@@ -147,7 +123,6 @@
   @include flex-grid (1, 2, 3, $pad: 1em);
 
   img {
-    display: block;
     width: 100%;
   }
 }
