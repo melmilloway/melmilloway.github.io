@@ -57,6 +57,10 @@ section {
   @media (min-width: $mq-md) {
     width: 75%;
   }
+
+  @media (min-width: $mq-xxl) {
+    width: 50%;
+  }
 }
 
 /**
@@ -81,6 +85,8 @@ section {
   justify-content: space-between;
   height: 4em;
   width: 100%;
+  padding-right: 1em;
+  padding-left: 1em;
 
   background-color: $color-white;
   box-shadow: 0 1px 1px rgba($color-black, 0.1);
