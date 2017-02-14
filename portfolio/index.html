@@ -11,7 +11,7 @@ permalink: /portfolio
 <section class="post section-padding">
   <div class="grid">
     <div class="text-center">
-      <p class="post__intro">I love creating multimedia. The tools I most commonly work in are: After Effects, Camtasia, Adobe Illustrator, Front-end frameworks, Adapt Authoring Tool and Framework, and Articulate Storyline. Check out some of my work below.</p>
+      <p class="intro">I love creating multimedia. The tools I most commonly work in are: After Effects, Camtasia, Adobe Illustrator, Front-end frameworks, Adapt Authoring Tool and Framework, and Articulate Storyline. Check out some of my work below.</p>
     </div>
   </div>
 </section>
@@ -24,13 +24,11 @@ permalink: /portfolio
           <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
             <a class="preview__link" href="{{ post.url | prepend: site.baseurl }}" itemprop="url">
               <h1 class="preview__header" itemprop="name">{{ post.title }}</h1>
-              <p class="preview__subheader">
-                <span itemprop="datePublished" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-                {% if post.subtitle %}
-                  — <span itemprop="description">{{ post.subtitle }}</span>
-                {% endif %}
-              </p>
+              {% if post.subtitle %}
+                <p class="preview__subheader">
+                  <span itemprop="description">{{ post.subtitle }}</span>
+                </p>
+              {% endif %}
             </a>
           </li>
         {% endif %}
