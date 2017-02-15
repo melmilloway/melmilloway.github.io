@@ -190,3 +190,10 @@
     width: 100%;
   }
 }
+
+/**
+ * Screensaver
+ */
+.screensaver {
+  @extend %fixed-bg;
+}

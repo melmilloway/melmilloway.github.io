@@ -17,3 +17,21 @@
     font-size: 1.5em;
   }
 }
+
+/**
+ * Fixed Background Cover
+ */
+%fixed-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+
+  display: none;
+  height: 100%;
+  width: 100%;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}

@@ -59,14 +59,59 @@ var ActiveClass = (function() {
   }
 })();
 
+var ScreenSaver = (function() {
+  var s;
+
+  return {
+    settings: {
+      screensaver: document.getElementsByClassName('screensaver')[0],
+      timeout: 0,
+      active: false
+    },
+
+    init: function() {
+      s = this.settings;
+      this.timeout();
+      this.mousemove();
+    },
+
+    timeout: function() {
+      s.timeout = setTimeout(function() {
+        ScreenSaver.show();
+      }, 30000);
+    },
+
+    mousemove: function() {
+      document.addEventListener('mousemove', function() {
+        clearTimeout(s.timeout);
+        if (s.active) {
+          ScreenSaver.hide();
+        }
+
+        ScreenSaver.timeout();
+      });
+    },
+
+    show: function() {
+      s.active = true;
+      s.screensaver.style.display = 'block';
+    },
+
+    hide: function() {
+      s.active = false;
+      s.screensaver.style.display = 'none';
+    }
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
   PleaseDontGo.init();
   ActiveClass.init();
+  ScreenSaver.init();
 
   if (document.body.id === 'about') {
     instafetch.init({
       accessToken: '30115961.1677ed0.903e99e5b4944d8aad1694d879b7d981',
-      target: 'instafetch',
       numOfPics: 6,
     });
   }
