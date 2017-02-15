@@ -94,12 +94,12 @@ var ScreenSaver = (function() {
 
     show: function() {
       s.active = true;
-      s.screensaver.style.display = 'block';
+      s.screensaver.classList.add('js-active');
     },
 
     hide: function() {
       s.active = false;
-      s.screensaver.style.display = 'none';
+      s.screensaver.classList.remove('js-active');
     }
   }
 })();
