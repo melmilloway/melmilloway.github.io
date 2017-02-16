@@ -178,6 +178,25 @@
     font-size: 0.75em;
     text-align: center;
   }
+
+  .video {
+    position: relative;
+
+    height: 0;
+    margin: 2em 0;
+    padding-bottom: 56.5%;
+    
+    overflow: hidden;
+
+    iframe, object, embed, video {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      height: 100%;
+      width: 100%;
+    }
+  }
 }
 
 /**

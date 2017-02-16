@@ -8,7 +8,7 @@ permalink: /blog
 ---
 {% include mast.html %}
 
-<section class="post section-padding">
+<section class="post section-padding bg-white">
   <div class="grid">
     <div class="text-center">
       <p class="intro">Hey there, welcome to my blog. I write about design and development of digital learning.</p>
@@ -16,24 +16,22 @@ permalink: /blog
   </div>
 </section>
 
-<section class="section-padding--no-top">
+<section class="section-padding--no-top bg-white">
   <div class="grid">
     <ul itemscope itemtype="http://schema.org/Blog">
       {% for post in paginator.posts %}
-        {% if post.type contains "blog" %}
-          <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-            <a class="preview__link" href="{{ post.url | prepend: site.baseurl }}" itemprop="url">
-              <h1 class="preview__header" itemprop="name">{{ post.title }}</h1>
-              <p class="preview__subheader">
-                <span itemprop="datePublished" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          <a class="preview__link" href="{{ post.url | prepend: site.baseurl }}" itemprop="url">
+            <h1 class="preview__header" itemprop="name">{{ post.title }}</h1>
+            <p class="preview__subheader">
+              <span itemprop="datePublished" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</span>
 
-                {% if post.subtitle %}
-                  — <span itemprop="description">{{ post.subtitle }}</span>
-                {% endif %}
-              </p>
-            </a>
-          </li>
-        {% endif %}
+              {% if post.subtitle %}
+                — <span itemprop="description">{{ post.subtitle }}</span>
+              {% endif %}
+            </p>
+          </a>
+        </li>
       {% endfor %}
     </ul>
   </div>

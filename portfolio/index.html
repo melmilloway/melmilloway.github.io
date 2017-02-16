@@ -8,7 +8,7 @@ permalink: /portfolio
 ---
 {% include mast.html %}
 
-<section class="post section-padding">
+<section class="post section-padding bg-white">
   <div class="grid">
     <div class="text-center">
       <p class="intro">I love creating multimedia. The tools I most commonly work in are: After Effects, Camtasia, Adobe Illustrator, Front-end frameworks, Adapt Authoring Tool and Framework, and Articulate Storyline. Check out some of my work below.</p>
@@ -16,23 +16,17 @@ permalink: /portfolio
   </div>
 </section>
 
-<section class="section-padding--no-top">
+<section class="section-padding--no-top bg-white">
   <div class="grid">
-    <ul itemscope itemtype="http://schema.org/Blog">
-      {% for post in site.posts %}
-        {% if post.type contains "portfolio" %}
-          <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-            <a class="preview__link" href="{{ post.url | prepend: site.baseurl }}" itemprop="url">
-              <h1 class="preview__header" itemprop="name">{{ post.title }}</h1>
-              {% if post.subtitle %}
-                <p class="preview__subheader">
-                  <span itemprop="description">{{ post.subtitle }}</span>
-                </p>
-              {% endif %}
-            </a>
-          </li>
-        {% endif %}
-      {% endfor %}
+    <ul>
+      <li class="preview">
+        <a class="preview__link" href="http://s3-us-west-2.amazonaws.com/melstoryline/build/index.html#/id/co-15" target="_blank">
+          <h1 class="preview__header">Adapt Rad Quiz Template</h1>
+          <p class="preview__subheader">
+            <span itemprop="description">Created in the Adapt Framework</span>
+          </p>
+        </a>
+      </li>
     </ul>
   </div>
 </section>

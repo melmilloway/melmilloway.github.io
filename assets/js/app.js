@@ -69,26 +69,21 @@ var ScreenSaver = (function() {
       active: false
     },
 
-    init: function() {
+    init: function(sec) {
       s = this.settings;
-      this.timeout();
-      this.mousemove();
+      this.mousemove(sec);
     },
 
-    timeout: function() {
-      s.timeout = setTimeout(function() {
-        ScreenSaver.show();
-      }, 30000);
-    },
-
-    mousemove: function() {
+    mousemove: function(sec) {
       document.addEventListener('mousemove', function() {
         clearTimeout(s.timeout);
         if (s.active) {
           ScreenSaver.hide();
         }
 
-        ScreenSaver.timeout();
+        s.timeout = setTimeout(function() {
+          ScreenSaver.show();
+        }, 1000 * sec);
       });
     },
 
@@ -104,10 +99,12 @@ var ScreenSaver = (function() {
   }
 })();
 
+var rellax = new Rellax('.rellax');
+
 document.addEventListener('DOMContentLoaded', function() {
   PleaseDontGo.init();
   ActiveClass.init();
-  ScreenSaver.init();
+  ScreenSaver.init(30);
 
   if (document.body.id === 'about') {
     instafetch.init({
