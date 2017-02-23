@@ -1,0 +1,6 @@
+<ul class="post-meta__list">
+  <li><span>Share:</span></li>
+  <li><a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text={{ page.title }}+{{ page.url | prepend: site.url }}+by+@melmilloway" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+  <li><a class="fa fa-linkedin" href="https://www.linkedin.com/shareArticle?url={{ page.url | prepend: site.url }}&title={{ page.title }}&summary={{ page.content | strip_html | truncatewords: 30 }}&source={{ site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+  <li><a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | prepend: site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+</ul>
