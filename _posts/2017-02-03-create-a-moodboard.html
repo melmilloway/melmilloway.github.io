@@ -9,7 +9,12 @@ image: /assets/images/blog/moodboard-mast.jpg
 ---
 <div class="post-meta post-meta--repost">
   <p class="italic">Originally posted on <a href="https://elearningindustry.com/" target="_blank">eLearning Industry</a></p>
-  {% include share.html %}
+  <ul class="post-meta__list">
+    <li><span>Share:</span></li>
+    <li><a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text={{ page.title }}+{{ page.url | prepend: site.url }}+by+@melmilloway" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+    <li><a class="fa fa-linkedin" href="https://www.linkedin.com/shareArticle?url={{ page.url | prepend: site.url }}&title={{ page.title }}&summary={{ page.content | strip_html | truncatewords: 30 }}&source={{ site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+    <li><a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | prepend: site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+  </ul>
 </div>
 
 <p>I’m walking down the street with my boyfriend. We’re about to pick up dinner at one of our favorite Thai places in Seattle. This is the time we usually talk to each other about books we’re currently reading, things we need to do, and personal projects. He’s a web developer and oftentimes some of my best design inspiration comes from outside the field of learning. I ask him what he’s working on. His response is “Oh, our designer is currently working on moodboards for our next project.” That’s when I learned about moodboards. So, what is a moodboard?</p>
