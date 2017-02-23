@@ -104,7 +104,7 @@ var rellax = new Rellax('.rellax');
 document.addEventListener('DOMContentLoaded', function() {
   PleaseDontGo.init();
   ActiveClass.init();
-  ScreenSaver.init(60);
+  ScreenSaver.init(30);
 
   if (document.body.id === 'about') {
     instafetch.init({
