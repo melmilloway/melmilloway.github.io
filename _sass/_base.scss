@@ -72,6 +72,10 @@ h1 {
   @media (min-width: $mq-md) {
     font-size: 4em;
   }
+
+  @media (min-width: $mq-xxl) {
+    font-size: 5em;
+  }
 }
 
 h2 {
