@@ -142,7 +142,7 @@
 
   ol, ul:not(.post-meta__list) {
     margin-bottom: 1em;
-    margin-left: 1em;
+    margin-left: 1.5em;
 
     font-size: 1.1em;
 
@@ -151,11 +151,15 @@
 
       &:before {
         position: absolute;
-        left: -1em;
+        left: -1.5em;
       }
 
       &:not(:last-child) {
         margin-bottom: 0.5em;
+      }
+
+      & > p {
+        font-size: 1em;
       }
     }
   }
@@ -208,6 +212,12 @@
       height: 100%;
       width: 100%;
     }
+  }
+
+  .video--list {
+    @extend .video;
+
+    margin: 0.5em 0;
   }
 
   .browser {
