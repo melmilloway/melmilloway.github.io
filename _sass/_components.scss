@@ -140,6 +140,33 @@
     }
   }
 
+  blockquote {
+    @extend %intro-font;
+
+    margin: 1.5em 0;
+
+    font-weight: 500;
+
+    @media (min-width: $mq-md) {
+      padding-left: 1.5em;
+
+      border-left: 4px solid $color-alpha;
+    }
+
+    cite {
+      display: block;
+      margin-top: 0.5em;
+
+      font-weight: 300;
+      font-style: normal;
+      font-size: 0.7em;
+
+      &:before {
+        content: "\2014 \0020";
+      }
+    }
+  }
+
   ol, ul:not(.post-meta__list) {
     margin-bottom: 1em;
     margin-left: 1.5em;
@@ -177,6 +204,10 @@
 
   figure {
     margin: 2.5em 0;
+  }
+
+  .figure--list {
+    margin: 0.5em 0;
   }
 
   img {

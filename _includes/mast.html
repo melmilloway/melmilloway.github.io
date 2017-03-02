@@ -4,7 +4,7 @@
   {% endif %}
   <div class="mast__container">
     <h1 itemprop="name headline">{{ page.title }}</h1>
-    {% if page.type == "blog" %}
+    {% if page.layout == "post" %}
       <span class="mast__time"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time></span>
     {% endif %}
   </div>
