@@ -1,0 +1,23 @@
+/**
+ * Play to Learn Table
+ */
+.play-to-learn-table {
+  margin-bottom: 1em;
+
+  border: 1px solid $color-black; 
+  border-collapse: collapse; 
+  text-align: left;
+
+  th {
+    padding: 10px 20px;
+
+    font-weight: 500;
+    color: $color-white;
+    background-color: $color-black;
+    text-align: left;
+  }
+
+  td {
+    padding: 10px 20px;
+  }
+}
