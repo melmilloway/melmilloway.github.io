@@ -1,5 +1,5 @@
 /**
- * Play to Learn Table
+ * Play to Learn Table - 3/16/17
  */
 .play-to-learn-table {
   margin-bottom: 1em;
@@ -19,5 +19,36 @@
 
   td {
     padding: 10px 20px;
+  }
+}
+
+/**
+ * Women in Tech List - 3/26/17
+ */
+ol.women-in-tech--seven {
+
+  & > li { 
+
+    &:nth-child(1):before {
+      content: "7.";
+    }
+
+    &:nth-child(2):before {
+      content: "8.";
+    }
+  }
+}
+
+ol.women-in-tech--nine {
+
+  & > li { 
+
+    &:nth-child(1):before {
+      content: "9.";
+    }
+
+    &:nth-child(2):before {
+      content: "10.";
+    }
   }
 }
