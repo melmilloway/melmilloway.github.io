@@ -1,0 +1,54 @@
+---
+layout: post
+title: "An Example of Storyline and Customized xAPI"
+subtitle: 
+date: 2017-04-18
+description: 
+gif: /assets/images/blog/espresso-mast.gif
+image: /assets/images/blog/espresso-mast.jpg
+---
+<div class="post-meta">
+  <ul class="post-meta__list">
+    <li><span>Share:</span></li>
+    <li><a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text={{ page.title }}+{{ page.url | prepend: site.url }}+by+@melmilloway" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+    <li><a class="fa fa-linkedin" href="https://www.linkedin.com/shareArticle?url={{ page.url | prepend: site.url }}&title={{ page.title }}&summary={{ page.content | strip_html | truncatewords: 30 }}&source={{ site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+    <li><a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | prepend: site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+  </ul>
+</div>
+
+<p class="intro">I created several videos on how to add custom xAPI to Storyline that will be on an upcoming post on <a href="https://elearningindustry.com/" target="_blank">eLearning Industry</a>. In the meantime, check out the project associated with the videos and see some live statements at the bottom of this post.</p>
+<p>I created the <a href="https://s3-us-west-2.amazonaws.com/storylinexapiexample/Espresso-Matchmaker/launcher.html" target="_blank">Espresso Matchmaker</a> in Storyline 2 and the output is HTML5. The project uses xAPI to track what users select, what their drink outcome is, and if they replay the project.</p> 
+<p>The actor or user in the project is randomized, using some JavaScript that randomized an email address and appends a number between 1 and 5000 to the email. The postive of this is you don't need SSO and users remain anonymous. The negative is that you won't get much user info and if a user returns to the project they will have a different random actor name.</p>
+<p>There are many uses for xAPI in learning projects, especially when it comes to noticing data trends that you can further investigate. e.g. If you see a majority people are interacting with a software simulation in a way that was not intended you can investigate if it is a system issue or a training issue.</p>
+<p>I'll talk more about executing xAPI with Storyline and uses in my article on eLearning Industry. Be on the lookout for the article!</p>
+
+<div class="browser-wrapper">
+  <figure class="browser">
+    <img src="/assets/images/blog/espresso.gif" alt="Espresso Matchmaker Animated GIF"/>
+  </figure>
+  <div>
+    <span>Try out the <a href="https://s3-us-west-2.amazonaws.com/storylinexapiexample/Espresso-Matchmaker/launcher.html" target="_blank">Espresso Matchmaker</a> and see your xAPI statements below</span>
+  </div>
+</div>
+
+<p>Check out your statements below after trying out the Espresso Matchmaker</p>
+ 
+<script type="text/javascript" id="waxid-8408f73b-39e9-4cd2-84d5-12173644edfe">
+var _waxr = _waxr || [];
+
+(function () {
+    var reportembed = document.createElement('script'); reportembed.defer = true; reportembed.type = 'text/javascript';
+    reportembed.src = 'https://melmilloway.waxlrs.com/embed.js';
+    _waxr.push(['report', 'activitystream', '/lnYGhDg9dqdtpiXTbu0COGfSHZDj4Q8s7xjTbPaWkpEU7Hz1zrR8jF/xScagw1kLqXawvMvFv0PzO/ScoDQOeiWsO3xVaSRgCmXJHhhQvjeETxWnTA3yNjODNHtd/8+ksCK5qopyqp2TVBrGM5/JtMcoulQpL7uOIFpFcElhZ4aLtQrVUGcedn3QityfIA0HCNK6vBsfxvQnzKkpWuxJGe0kpjthVfJ94tGwgHBQumLCccX+NniCM5umFk5m6iAbAPi7AmBKAxnrrudnx95eFr33ZptciU1P1MBRRvCc/JSAPyPPBV8Zh/DZey/BoPut0fWecFhdg+5CP9+GAYArr8lfkLR9Y51UpSBy1IG7dNSrprVZLPeeJ34g2bMc2haEIxZZUprNaAIfrwAoXXH9PwvgZStS/vXg8ea9HbL2Lmim+wzNcjg5GVkn5emYI4TXrz/p27L7BXV2uHi6qpDePvqWgHdDfM/HFJ1/IewvGOaP2O5Lf0LsWWypWj1ymsbZ7Y6LbdIr3Q4/eM9BxyCkiDDNGknB5kB/Y30ZlA2cMBDP+CvBpQpOrjyBWizDl61htq8mzofnRIhvW6C', reportembed]);
+    var s = document.getElementById('waxid-8408f73b-39e9-4cd2-84d5-12173644edfe');
+    s.parentNode.insertBefore(reportembed, s);
+})();
+</script>
+
+
+
+
+
+
+
+
