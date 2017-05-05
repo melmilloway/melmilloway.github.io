@@ -40,5 +40,11 @@
       ga('create', '{{ site.google_analytics }}', 'auto');
       ga('send', 'pageview');
     </script>
+    <script>
+      function trackOutboundLink(url) {
+        ga('send', 'event', 'Social Media Link', 'click', url, {transport: 'beacon'});
+        return true;
+      }
+    </script>
   {% endif %}
 </head>
