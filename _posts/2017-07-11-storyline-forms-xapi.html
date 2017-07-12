@@ -20,54 +20,51 @@ image: /assets/images/blog/survey-mast.jpg
 
 <p>I created a simple survey page example that can be added to the end of any activity to help gauge the user’s confidence in what they just learned/practiced.</p>
 
-<div class="browser-wrapper">
-  <figure class="browser">
-    <img src="/assets/images/blog/codecademy.png" alt="Codecademy survey pop-up"/>
-  </figure>
-</div>
+<figure class="browser">
+  <img src="/assets/images/blog/codecademy.png" alt="Survey Pop-up"/>
+</figure>
 
 <p>I was inspired by <a href="http://www.codecaddemy.com" target="_blank">Codecademy’s</a> feedback forms which pop up after every lesson.</p>
 
 <p>Instead of using a star system as ratings I chose to go with a Netflix approach of thumbs up/thumbs down or you can choose to leave no rating. I feel like thumbs up/thumbs down is a little less subjective than star ratings. I also send the users comments from the comment field to the LRS.</p>
 
 <div class="browser-wrapper">
-<a href="https://s3-us-west-2.amazonaws.com/storylinexapi/Survey/launcher.html" target="_blank">
-  <figure class="browser">
-    <img src="/assets/images/blog/survey.png" alt="A screenshot of the survey"/>
-  </figure>
+  <a href="https://s3-us-west-2.amazonaws.com/storylinexapi/Survey/launcher.html" target="_blank">
+    <figure class="browser">
+      <img src="/assets/images/blog/survey.png" alt="Survey Screenshot"/>
+    </figure>
   </a>
   <div>
-    <span>Check out<a href="https://s3-us-west-2.amazonaws.com/storylinexapi/Survey/launcher.html" target="_blank"> my example</a> and leave me a comment with your name.</span>
+    <span>Check out <a href="https://s3-us-west-2.amazonaws.com/storylinexapi/Survey/launcher.html" target="_blank">my example</a> and leave me a comment with your name.</span>
   </div>
 </div>
 
 <p>You can even view the comment being sent to me in Google Chrome by going to: <strong>More Tools -> Developer Tools -> Console</strong>. It should be recorded right in your Console like the picture below! You can also do this in other browsers but it might be different steps.</p>
 
-
-<div class="browser-wrapper">
-  <figure class="browser">
-    <img src="/assets/images/blog/survey-console.png" alt="A screenshot of the survey and console"/>
-  </figure>
-</div>
+<figure class="browser">
+  <img src="/assets/images/blog/survey-console.png" alt="Survey and Console Screenshot"/>
+</figure>
 
 <p>But what else are form fields good for? Here are some ideas for uses of form fields and xAPI</p>
 
 <ol>
-<li><strong>Collect help requests, feedback, or survey data in your project</strong></li>
+  <li>
+    <strong>Collect help requests, feedback, or survey data in your project</strong>
+    <p>You could keep a “Contact” or “Help” button at the top of your project at all times. The button could open a layer with form fields. This way you can gather data on bugs, incorrect information people have found, or if someone needs help. Another example would be to create an embedded survey/feedback area like I did in mine.</p>
+  </li>
 
-<p>You could keep a “Contact” or “Help” button at the top of your project at all times. The button could open a layer with form fields. This way you can gather data on bugs, incorrect information people have found, or if someone needs help. Another example would be to create an embedded survey/feedback area like I did in mine.</p>
+  <li>
+    <strong>Gather incorrect answers to practice</strong>
+    <p>For example, say you have a language activity and your user needs to enter the German word for cat. You may want to know when people incorrectly answer this to see if there are commonalities so you can address the issue. You can also do this for other subject areas, such as a math or coding challenge.</p>
+  </li>
 
-<li><strong>Gather incorrect answers to practice</strong></li>
-
-<p>For example, say you have a language activity and your user needs to enter the German word for cat. You may want to know when people incorrectly answer this to see if there are commonalities so you can address the issue. You can also do this for other subject areas, such as a math or coding challenge.</p>
-
-<li><strong>Collect scenario based data</strong></li>
-
-<p>For example, you may want to collect simulation scenario based data around how a manager interacts with an employee during their performance review or perhaps data around how a customer service representative responds to an email from a customer.</p>
+  <li>
+    <strong>Collect scenario based data</strong>
+    <p>For example, you may want to collect simulation scenario based data around how a manager interacts with an employee during their performance review or perhaps data around how a customer service representative responds to an email from a customer.</p>
+  </li>
 </ol>
 
-<p><strong>What’s next?</strong></p>
-<p>Currently I have the variable data from Storyline being set to the Object, Name in my xAPI statement. Right now, my function doesn’t have a field for Results but what I could do is add Results and put the variable data within it as a Response. Check out this post for more on what a Result element is, as well as Response: <a href = "https://www.ht2labs.com/blog/xapi-statement-result/" target = "_blank">https://www.ht2labs.com/blog/xapi-statement-result/</a>.</p>
+<p class="bold">What’s next?</p>
+<p>Currently I have the variable data from Storyline being set to the Object, Name in my xAPI statement. Right now, my function doesn’t have a field for Results but what I could do is add Results and put the variable data within it as a Response. Check out this post for more on what a Result element is, as well as Response: <a href="https://www.ht2labs.com/blog/xapi-statement-result/" target = "_blank">https://www.ht2labs.com/blog/xapi-statement-result/</a>.</p>
 
 <p>I’m thinking about creating some tutorials to help show the community how to send Articulate Storyline 360/3 variable and form data to an LRS. Are you interested? Let me know!</p>
-
