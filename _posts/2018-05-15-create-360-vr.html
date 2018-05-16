@@ -1,0 +1,42 @@
+---
+layout: post
+title: "Create A 360° Image Virtual Reality Project In Under 10 Minutes"
+subtitle: 
+date: 2018-05-15
+description: 
+gif: /assets/images/blog/vr-mast.gif
+image: /assets/images/blog/vr-mast.jpg
+---
+<div class="post-meta">
+  <ul class="post-meta__list">
+    <li><span>Share:</span></li>
+    <li><a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text={{ page.title }}+{{ page.url | prepend: site.url }}+by+@melmilloway" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+    <li><a class="fa fa-linkedin" href="https://www.linkedin.com/shareArticle?url={{ page.url | prepend: site.url }}&title={{ page.title }}&summary={{ page.content | strip_html | truncatewords: 30 }}&source={{ site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+    <li><a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | prepend: site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
+  </ul>
+</div>
+
+<p class="intro">A few weeks ago, a learning and development colleague reached out to me about creating virtual reality experiences. During the 2017 Fall xAPI Cohort. I created a virtual reality experience that immerses individuals in locations around Seattle. I called it <a href="http://melslearninglab.com/seattle-scenes/" target="_blank">Scenes Around Seattle.</a></p> 
+
+<p>Creating virtual reality experiences is and can be super easy! Using <a href="https://aframe.io/" target="_blank">A-Frame</a>, you will be able to create virtual reality experiences for free in minutes. Yes, that's right, I said FOR FREE in mere minutes! So cool. 😎</p>
+
+<h3>First, what could you use 360° Image VR for in training? Here are some ideas:</h3>
+	<ul>
+		<li>Identify safety hazards (or really anything where context in a location helps users)</li>
+		<li>Create office tours for new hires</li>
+		<li>Branch out with branching narratives</li>
+	</ul>
+
+<h3>Ready to create a VR experience? Here's what you'll need:</h3>
+	<ul>
+		<li>An equirectangular photo, <a href="https://www.flickr.com/groups/equirectangular/" target="_blank">get a free photo to test out</a> or buy a 360 camera <a href="https://theta360.com/en/" target="_blank">like this one</a>.</li>
+		<li>A text editor like this free one, <a href="https://www.sublimetext.com/" target="_blank">Sublime Text</a>.</li>
+		<li><a href="https://github.com/aframevr/aframe/blob/v0.7.0/examples/boilerplate/panorama/index.html" target="_blank">A-Frame 360 VR framework code</a> and <a href="https://github.com/aframevr/aframe/blob/master/dist/aframe-master.js" target="_blank">JavaScript file</a>. Thanks, Mozilla!</li>
+		<li>The following Python server command: python -m SimpleHTTPServer 8000</li>
+	</ul>
+
+<h3>Time to try it out, you got this! 🎉</h3>
+
+<div class="video--list">
+	<iframe src="https://www.youtube.com/embed/TgN-WL2dpRY" frameborder="0" allowfullscreen></iframe>
+</div>
