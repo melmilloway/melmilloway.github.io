@@ -1,0 +1,42 @@
+//-------------------------------------------- 
+// Sections
+//--------------------------------------------
+section {
+  position: relative;
+}
+
+.section-padding {
+  padding: 3em 1em;
+
+  @media (min-width: $mq-sm) {
+    padding-right: 2em;
+    padding-left: 2em;
+  }
+
+  @media (min-width: $mq-md) {
+    padding-right: 3em;
+    padding-left: 3em;
+  }
+
+  &--no-top {
+    @extend .section-padding;
+
+    padding-top: 0;
+  }
+}
+
+//-------------------------------------------- 
+// Grid
+//--------------------------------------------
+.grid {
+  max-width: $mq-md;
+  margin: 0 auto;
+
+  @media (min-width: $mq-md) {
+    width: 65%;
+  }
+
+  @media (min-width: $mq-xxl) {
+    width: 50%;
+  }
+}

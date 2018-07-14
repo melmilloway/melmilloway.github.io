@@ -1,13 +1,19 @@
+---
+layout: compress
+---
 <!DOCTYPE html>
 <html>
 
   {% include head.html %}
 
   <body id="{% if page.title %}{{ page.title | downcase }}{% else %}home{% endif %}" class="👋">
+
     {% include header.html %}
 
-    <main role="main">
+    <main>
+
       {{ content }}
+      
     </main>
 
     <div class="screensaver" style="background-image: url('/assets/images/screensaver.gif');"></div>

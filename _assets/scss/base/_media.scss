@@ -1,0 +1,32 @@
+//----------------------------------------------
+// Media
+//----------------------------------------------
+figure,
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  display: block;
+}
+
+//----------------------------------------------
+// Absolute Background
+//----------------------------------------------
+.absolute-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  height: 100%;
+  width: 100%;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}

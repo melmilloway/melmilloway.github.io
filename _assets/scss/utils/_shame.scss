@@ -1,0 +1,81 @@
+//-------------------------------------------- 
+// Homepage
+//--------------------------------------------
+#home {
+  color: $color-white;
+  background-color: $color-alpha;
+}
+
+//-------------------------------------------- 
+// Emoji Subheader
+//--------------------------------------------
+#about .subheader-img {
+  display: inline;
+  height: 1em;
+  width: 1em;
+  margin: 0;
+}
+
+//-------------------------------------------- 
+// Play to Learn Table - 3/16/17
+//--------------------------------------------
+.play-to-learn-table {
+  margin-bottom: 1em;
+
+  border: 1px solid $color-black; 
+  border-collapse: collapse; 
+  text-align: left;
+
+  th {
+    padding: 10px 20px;
+
+    font-weight: 500;
+    color: $color-white;
+    background-color: $color-black;
+    text-align: left;
+  }
+
+  td {
+    padding: 10px 20px;
+  }
+}
+
+//-------------------------------------------- 
+// Women in Tech List - 3/26/17
+//--------------------------------------------
+ol.women-in-tech--seven {
+
+  & > li { 
+
+    &:nth-child(1):before {
+      content: "7.";
+    }
+
+    &:nth-child(2):before {
+      content: "8.";
+    }
+  }
+}
+
+ol.women-in-tech--nine {
+
+  & > li { 
+
+    &:nth-child(1):before {
+      content: "9.";
+    }
+
+    &:nth-child(2):before {
+      content: "10.";
+    }
+  }
+}
+
+//-------------------------------------------- 
+// Scrum Master Recap - 4/16/18
+//--------------------------------------------
+.statement-viewer {
+  padding-top: 40px;
+
+  border: 1px solid $color-grey;
+}

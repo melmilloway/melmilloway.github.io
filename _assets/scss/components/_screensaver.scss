@@ -1,0 +1,15 @@
+//----------------------------------------------
+// Screen Saver
+//---------------------------------------------- 
+.screensaver {
+  @extend %fixed-bg;
+
+  display: none;
+
+  &.js-active {
+
+    @media (min-width: $mq-md) {
+      display: block;
+    }
+  }
+}

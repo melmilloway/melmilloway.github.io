@@ -1,0 +1,36 @@
+//-------------------------------------------- 
+// Background Colors
+//--------------------------------------------
+.bg-alpha {
+  background-color: $color-alpha;
+}
+
+.bg-white {
+  background-color: $color-white;
+}
+
+.bg-black {
+  background-color: $color-black;
+}
+
+//-------------------------------------------- 
+// Text
+//--------------------------------------------
+.bold {
+  font-weight: 500;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.text-center {
+  text-align: center;
+}
+
+//-------------------------------------------- 
+// Opacity
+//--------------------------------------------
+.no-opacity {
+  opacity: 0;
+}

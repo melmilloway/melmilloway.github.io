@@ -1,0 +1,52 @@
+//----------------------------------------------
+// Preview
+//---------------------------------------------- 
+.preview {
+
+  &:not(:last-child) {
+    margin-bottom: 3em;
+  }
+
+  ul & {
+    list-style-type: none;
+  }
+
+  &__link {
+
+    &:hover,
+    &:active,
+    &:focus {
+
+      .preview__header,
+      .preview__subheader {
+        color: $color-alpha;
+      }
+
+      .preview__subheader {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__header {
+    font-size: 2.75em;
+
+    @media (min-width: $mq-md) {
+      font-size: 4em;
+    }
+
+    @media (min-width: $mq-xxl) {
+      font-size: 4em;
+    }
+  }
+
+  &__subheader {
+    @extend %intro-font;
+
+    display: inline-block;
+    margin-top: 0.25em;
+    margin-bottom: 0;
+
+    line-height: 1.2;
+  }
+}

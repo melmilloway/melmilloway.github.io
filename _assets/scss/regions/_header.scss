@@ -1,0 +1,80 @@
+//----------------------------------------------
+// Header
+//---------------------------------------------- 
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4em;
+  width: 100%;
+  padding-right: 1em;
+  padding-left: 1em;
+
+  background-color: $color-white;
+  box-shadow: 0 1px 1px rgba($color-black, 0.1);
+
+  @media (min-width: $mq-sm) {
+    padding-right: 2em;
+    padding-left: 2em;
+  }
+
+  @media (min-width: $mq-md) {
+    padding-right: 4em;
+    padding-left: 4em;
+  }
+
+  #home & {
+    position: static;
+
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  &__img {
+
+    img {
+      height: 2em;
+      width: 2em;
+    }
+  }
+
+  &__list {
+    display: flex;
+
+    list-style-type: none;
+
+    & > *:not(:last-child) {
+      margin-right: 1.5em;
+    }
+
+    a {
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: $color-alpha;
+        border-bottom: 1px solid $color-alpha;
+      }
+
+      #home & {
+        color: $color-white;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: $color-white;
+          border-bottom: 1px solid $color-white;
+        }
+      }
+    }
+  }
+
+  .js-active {
+    color: $color-alpha;
+  }
+}

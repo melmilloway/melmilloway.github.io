@@ -1,0 +1,45 @@
+//----------------------------------------------
+// Mast
+//---------------------------------------------- 
+.mast {
+  @extend %flex-center;
+
+  position: relative;
+
+  height: 18em;
+  padding: 1em;
+
+  @media (min-width: $mq-sm) {
+    height: 24em;
+  }
+
+  @media (min-width: $mq-md) {
+    height: 30em;
+  }
+
+  @media (min-width: $mq-xxl) {
+    height: 36em;
+  }
+
+  &__container {
+    z-index: 1;
+
+    max-width: 45em;
+
+    color: $color-white;
+    text-align: center;
+  }
+
+  &__time {
+    display: block;
+    margin-top: 1em;
+
+    font-size: 1.1em;
+  }
+
+  &--home {
+    z-index: 9;
+
+    padding: 1em;
+  }
+}

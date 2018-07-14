@@ -1,6 +1,9 @@
-/**
- * Flex Grid
- */
+//---------------------------------------------- 
+//  Flex Grid - flex-grid()
+//  @description: Creates a flexbox grid
+//  @param:       $sm, $md, $lg, $xl, $xxl: [null] - Media sizes
+//  @param:       $pad: [0] - Padding of child elements and negative margin of parent
+//----------------------------------------------
 @mixin flex-grid($sm: null, $md: null, $lg: null, $xl: null, $xxl: null, $pad: 0) {
   display: flex;
   flex-direction: row;

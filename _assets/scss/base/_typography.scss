@@ -1,34 +1,18 @@
-/**
- * Base Variables
- */
-$font-header: "Calibre", serif;
-$font-body: "Apercu", sans-serif;
-
-$color-alpha: #4231a9;
-
-$color-black: #000;
-$color-grey: #ddd;
-$color-white: #fff;
-
-$mq-xs: 20em;
-$mq-sm: 30em;
-$mq-md: 54em;
-$mq-lg: 64em;
-$mq-xl: 76.5em;
-$mq-xxl: 114em;
-
-/**
- * Base Settings/Overwrite Normalize
- */
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-
+//----------------------------------------------
+// Base typography
+//---------------------------------------------- 
 body {
   font-family: $font-body;
   font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  line-height: $base-lineheight;
+}
+
+//----------------------------------------------
+// Fluid body sizing
+//---------------------------------------------- 
+body {
   font-size: 100%;
-  line-height: 1.4;
 
   @media (min-width: $mq-sm) {
     font-size: 102.5%;
@@ -51,6 +35,9 @@ body {
   }
 }
 
+//----------------------------------------------
+// Headings
+//---------------------------------------------- 
 h1, h2 {
   margin: 0;
 
@@ -65,6 +52,9 @@ h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
+//----------------------------------------------
+// H1 Theme
+//---------------------------------------------- 
 h1 {
   font-size: 2.75em;
   line-height: 0.9;
@@ -78,6 +68,9 @@ h1 {
   }
 }
 
+//----------------------------------------------
+// H2 Theme
+//---------------------------------------------- 
 h2 {
   margin-bottom: 0.5em;
 
@@ -89,6 +82,9 @@ h2 {
   }
 }
 
+//----------------------------------------------
+// H3 Theme
+//---------------------------------------------- 
 h3 {
   margin: 0.75em 0 0.35em;
 
@@ -99,6 +95,9 @@ h3 {
   }
 }
 
+//----------------------------------------------
+// Paragraphs
+//---------------------------------------------- 
 p {
   margin-top: 0;
   margin-bottom: 0.75em;
@@ -106,32 +105,16 @@ p {
   font-size: 1.1em;
 }
 
+//----------------------------------------------
+// Misc
+//---------------------------------------------- 
 strong {
   font-weight: 500;
 }
 
-a {
-  color: $color-black;
-  text-decoration: none;
-}
-
-figure {
-  margin: 0;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-ol, ul {
-  margin: 0;
-  padding: 0;
-}
-
-/**
- * Text Selection
- */
+//----------------------------------------------
+// Selection
+//---------------------------------------------- 
 ::selection {
   color: $color-white;
   background-color: $color-alpha;

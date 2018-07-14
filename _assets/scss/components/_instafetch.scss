@@ -1,0 +1,16 @@
+//----------------------------------------------
+// Instafetch
+//---------------------------------------------- 
+#instafetch {
+  @include flex-grid (1, 2, 3, $pad: 1em);
+
+  align-items: center;
+
+  a {
+    display: block;
+  }
+
+  img {
+    width: 100%;
+  }
+}

@@ -1,26 +1,35 @@
-# Site settings
+# Site/SEO settings
 email: mmilloway87@gmail.com
-baseurl: ""
-paginate: 999
-paginate_path: "/blog/page-:num"
+permalink: /:year/:month/:day/:title/
 google_analytics: UA-90549014-1
 
-# SEO settings
 name: Melissa Milloway
 title: Mel Milloway
-description: Melissa Milloway is an instructional designer at Amazon in Seattle, WA. She specializes in designing and developing learning experiences and blogging about it.
+description: >
+  Melissa Milloway is an instructional designer at Amazon in Seattle, WA. She specializes in designing and developing learning experiences and blogging about it.
 url: "http://melslearninglab.com"
 twitter_username: melmilloway
 default_img: https://source.unsplash.com/qHblAFPy2uU/2000x1200
 
 # Build settings
-exclude: ["Gemfile", "Gemfile.lock"]
 markdown: kramdown
-permalink: /:year/:month/:day/:title/
+gems:
+  - jekyll-paginate
+  - jekyll-sitemap
+compress_html:
+  clippings: all
+  comments: all
+  startings: [html, head, body]
+exclude:
+  - node_modules
+  - .DS_Store
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - gulpfile.js
+  - package.json
+  - README.md
 
-# Sass
-sass:
-  style: compressed
-
-# Gems
-gems: [jekyll-paginate, jekyll-sitemap, octopress-autoprefixer]
+# Pagination
+paginate: 999
+paginate_path: "/blog/page-:num"
