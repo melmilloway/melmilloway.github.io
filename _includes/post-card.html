@@ -1,0 +1,10 @@
+<li class="preview">
+  <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+    <a class="preview__link" href="{{ post.url | prepend: site.baseurl }}" itemprop="url">
+      <h1 class="preview__header" itemprop="name">{{ post.title }}</h1>
+      <p class="preview__subheader">
+        <span itemprop="datePublished" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</span> — <span itemprop="description">{{ post.content | strip_html | truncatewords: 30, "..." }}</span>
+      </p>
+    </a>
+  </article>
+</li>

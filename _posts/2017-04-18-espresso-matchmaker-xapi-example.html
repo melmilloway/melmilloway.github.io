@@ -1,21 +1,11 @@
 ---
 layout: post
 title: "Espresso Matchmaker: An Example Of Storyline And Customized xAPI"
-subtitle: 
 date: 2017-04-18
 description: 
 gif: /assets/images/blog/espresso-mast.gif
 image: /assets/images/blog/espresso-mast.jpg
 ---
-<div class="post-meta">
-  <ul class="post-meta__list">
-    <li><span>Share:</span></li>
-    <li><a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text={{ page.title }}+{{ page.url | prepend: site.url }}+by+@melmilloway" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
-    <li><a class="fa fa-linkedin" href="https://www.linkedin.com/shareArticle?url={{ page.url | prepend: site.url }}&title={{ page.title }}&summary={{ page.content | strip_html | truncatewords: 30 }}&source={{ site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
-    <li><a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | prepend: site.url }}" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=550');return false;"></a></li>
-  </ul>
-</div>
-
 <p class="intro">I created several videos on how to add custom xAPI to Storyline that will be on an upcoming post on <a href="https://elearningindustry.com/" target="_blank">eLearning Industry</a>. In the meantime, check out the project associated with the videos and see some live statements at the bottom of this post.</p>
 <p>I created the <a href="https://s3-us-west-2.amazonaws.com/storylinexapiexample/Espresso-Matchmaker/launcher.html" target="_blank">Espresso Matchmaker</a> in Storyline 2 and the output is HTML5. The project uses xAPI to track what users select (using Wax LRS), what their drink outcome is, and if they replay the project.</p> 
 <p>The actor or user in the project is randomized, using some JavaScript that randomized an email address and appends a number between 1 and 5000 to the email. The postive of this is you don't need SSO and users remain anonymous. The negative is that you won't get much user info and if a user returns to the project they will have a different random actor name.</p>
