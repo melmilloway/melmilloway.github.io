@@ -31,5 +31,5 @@ exclude:
   - README.md
 
 # Pagination
-paginate: 999
+paginate: 5
 paginate_path: "/blog/page-:num"

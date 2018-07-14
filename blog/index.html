@@ -4,7 +4,6 @@ title: Blog
 description: 
 gif: /assets/images/blog/mast.gif
 image: https://source.unsplash.com/cfQEO_1S0Rs/2000x1200
-permalink: /blog
 ---
 {% include mast.html %}
 
@@ -27,5 +26,34 @@ permalink: /blog
       {% endfor %}
       
     </ul>
+
+    {% if paginator.total_pages > 1 %}
+      <div class="pagination">
+        {% if paginator.previous_page %}
+          <a class="pagination__prev" href="{{ paginator.previous_page_path | prepend: site.baseurl }}">Previous</a>
+        {% else %}
+          <span></span>
+        {% endif %}
+
+        <div class="pagination__pages">
+          {% for page in (1..paginator.total_pages) %}
+            {% if page == paginator.page %}
+              <span>{{ page }}</span>
+            {% elsif page == 1 %}
+              <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}">{{ page }}</a>
+            {% else %}
+              <a href="{{ site.paginate_path | prepend: site.baseurl | replace: ':num', page }}">{{ page }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if paginator.next_page %}
+          <a class="pagination__next" href="{{ paginator.next_page_path | prepend: site.baseurl }}">Next</a>
+        {% else %}
+          <span></span>
+        {% endif %}
+      </div>
+    {% endif %}
+
   </div>
 </section>

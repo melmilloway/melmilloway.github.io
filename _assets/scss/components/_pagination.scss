@@ -1,0 +1,45 @@
+//----------------------------------------------
+// Pagination
+//---------------------------------------------- 
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4em;
+
+  border-top: 3px solid $color-black;
+
+  a {
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $color-alpha;
+      border-bottom: 1px solid $color-alpha;
+    }
+  }
+
+  &__prev,
+  &__next,
+  &__pages {
+    @extend %intro-font;
+
+    padding-top: 0.25em;
+
+    line-height: 1.2;
+  }
+
+  &__pages {
+
+    span {
+      color: $color-alpha;
+    }
+
+    & > * {
+      display: inline-block;
+
+      &:not(:last-child) {
+        margin-right: 0.25em;
+      }
+    }
+  }
+}
