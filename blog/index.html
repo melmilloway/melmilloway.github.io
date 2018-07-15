@@ -30,7 +30,9 @@ image: https://source.unsplash.com/cfQEO_1S0Rs/2000x1200
     {% if paginator.total_pages > 1 %}
       <div class="pagination">
         {% if paginator.previous_page %}
-          <a class="pagination__prev" href="{{ paginator.previous_page_path | prepend: site.baseurl }}">Previous</a>
+          <div>
+            <a class="pagination__prev" href="{{ paginator.previous_page_path | prepend: site.baseurl }}">Previous</a>
+          </div>
         {% else %}
           <span></span>
         {% endif %}
@@ -48,7 +50,9 @@ image: https://source.unsplash.com/cfQEO_1S0Rs/2000x1200
         </div>
 
         {% if paginator.next_page %}
-          <a class="pagination__next" href="{{ paginator.next_page_path | prepend: site.baseurl }}">Next</a>
+          <div>
+            <a class="pagination__next" href="{{ paginator.next_page_path | prepend: site.baseurl }}">Next</a>
+          </div>
         {% else %}
           <span></span>
         {% endif %}

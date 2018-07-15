@@ -18,17 +18,27 @@
     }
   }
 
+  & > * {
+    flex: 1;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
   &__prev,
   &__next,
   &__pages {
     @extend %intro-font;
 
+    display: inline-block;
     padding-top: 0.25em;
 
     line-height: 1.2;
   }
 
   &__pages {
+    text-align: center;
 
     span {
       color: $color-alpha;
