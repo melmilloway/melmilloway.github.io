@@ -28,6 +28,10 @@
 
     color: $color-white;
     text-align: center;
+
+    #home & {
+      animation: fade-in 800ms ease-in-out 600ms both;
+    }
   }
 
   &__time {

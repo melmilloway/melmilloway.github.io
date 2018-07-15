@@ -3,7 +3,10 @@
 //--------------------------------------------
 #home {
   color: $color-white;
-  background-color: $color-alpha;
+
+  .absolute-bg {
+    background-color: $color-alpha;
+  }
 }
 
 //-------------------------------------------- 
