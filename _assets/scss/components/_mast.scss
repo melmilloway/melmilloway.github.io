@@ -21,6 +21,17 @@
     height: 36em;
   }
 
+  &--tags {
+
+    @media (min-width: $mq-md) {
+      height: 24em;
+    }
+
+    @media (min-width: $mq-xxl) {
+      height: 30em;
+    }
+  }
+
   &__container {
     z-index: 1;
 

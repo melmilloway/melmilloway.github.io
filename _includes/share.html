@@ -1,3 +1,20 @@
+{% if page.tags.size > 0 %}
+<div class="post-tags">
+  <ul class="post-tags__list">
+    <li><span>Posted in:</span></li>
+
+    {% for tag in page.tags %}
+        
+      <li>
+        <a href="/tag/{{ tag | slugify | prepend: site.baseurl }}">{{ tag }}</a>{% unless forloop.last %},{% endunless %}
+      </li>
+
+    {% endfor %}
+
+  </ul>
+</div>
+{% endif %}
+
 <div class="post-meta">
   <ul class="post-meta__list">
     <li><span>Share:</span></li>

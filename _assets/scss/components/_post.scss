@@ -51,7 +51,7 @@
     }
   }
 
-  ol, ul:not(.post-meta__list) {
+  ol, ul:not(.post-tags__list):not(.post-meta__list) {
     margin-bottom: 1em;
     margin-left: 1.5em;
 
@@ -176,9 +176,9 @@
 }
 
 //----------------------------------------------
-// Post Meta
+// Post Tags
 //---------------------------------------------- 
-.post-meta {
+.post-tags {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -187,9 +187,37 @@
     flex-direction: row;
   }
 
-  &--repost {
-    justify-content: space-between;
+  &__list {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25em;
+
+    font-size: 1.1em;
+    list-style-type: none;
+
+    & > * {
+
+      &:first-child {
+        margin-right: 0.5em;
+      }
+
+      &:not(:first-child):not(:last-child) {
+        margin-right: 0.25em;
+      }
+    }
+
+    a {
+      border-bottom: none;
+      transition: color 0.2s ease;
+    }
   }
+}
+
+//----------------------------------------------
+// Post Meta
+//---------------------------------------------- 
+.post-meta {
+  @extend .post-tags;
 
   &__list {
     display: flex;

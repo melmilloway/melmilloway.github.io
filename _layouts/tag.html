@@ -1,0 +1,64 @@
+---
+layout: default
+---
+<header class="mast mast--tags bg-alpha rellax" data-rellax-speed="-4">
+  <div class="mast__container">
+    <h1 itemprop="name headline">
+      {% assign words = page.tag | split: ' ' %}
+      {% for word in words %}
+        {{ word | capitalize | replace: 'The', 'the' }}
+      {% endfor %}
+    </h1>
+  </div>
+</header>
+
+<section class="section-padding bg-white">
+  <div class="grid">
+    <ul itemscope itemtype="http://schema.org/Blog">
+
+      {% for post in paginator.posts %}
+        
+        {% include post-card.html %}
+
+      {% endfor %}
+      
+    </ul>
+
+    {% if paginator.total_pages > 1 %}
+      <div class="pagination">
+        {% if paginator.previous_page == 1 %}
+          <div>
+            <a class="pagination__prev" href="/tag/{{ page.tag | slugify | prepend: site.baseurl }}">Previous</a>
+          </div>
+        {% elsif paginator.previous_page %}
+          <div>
+            <a class="pagination__prev" href="/tag/{{ page.tag | slugify | append: '/page-' | append: paginator.previous_page | prepend: site.baseurl }}">Previous</a>
+          </div>
+        {% else %}
+          <span></span>
+        {% endif %}
+
+        <div class="pagination__pages">
+          {% for page_num in (1..paginator.total_pages) %}
+            {% if page_num == paginator.page %}
+              <span>{{ page_num }}</span>
+            {% elsif page_num == 1 %}
+              <a href="/tag/{{ page.tag | slugify | prepend: site.baseurl }}">{{ page_num }}</a>
+            {% else %}
+              <a href="/tag/{{ page.tag | slugify | append: site.page_path | prepend: site.baseurl | replace: ':num', page_num }}">{{ page_num }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if paginator.next_page %}
+          <div>
+            <a class="pagination__next" href="/tag/{{ page.tag | slugify | append: '/page-' | append: paginator.next_page | prepend: site.baseurl }}">Next</a>
+          </div>
+        {% else %}
+          <span></span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
