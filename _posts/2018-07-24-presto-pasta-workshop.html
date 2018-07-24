@@ -1,0 +1,103 @@
+---
+layout: post
+title: "Here's How I Created This Scenario Based xAPI Workshop"
+date: 2018-07-24
+description: 
+gif: /assets/images/blog/presto-workshop-mast.gif
+image: /assets/images/blog/presto-mast.png
+tags:
+---
+<p class="intro">Creating a workshop about xAPI has been a dream of mine. Learning about xAPI is one of my passions and I wanted to be able to share what I have learned with others and hopefully create a spark for them too. </p>
+
+<p>I put my own twist on every personal project I work on. That twist might be in the topic I cover, the visual design I create, or applying a new technical trick that I have learned. I put my own spin on an xAPI workshop for Corporate Learning Analytics this July.</p>
+
+<p>I wanted to break up my xAPI workshop into three parts. The three parts would be an introduction that is guided by talking points and Q&A, a workshop based on a scenario that aligns to meeting learning and business goals, and a demo of making that project come to life.</p>
+
+<p "class=bold">So, what does the workshop cover?</p>
+
+<h1>The presentation/Q&A</h1>
+
+<ol>
+First, I started with <a href="https://app.ludus.one/5440c097-913d-4ee9-b513-efacfb796f5e#1" target="_blank">a presentation</a> that covered:
+<li>what xAPI is and how it is different from SCORM </li>
+<li>some basic terms used in the community</li>
+<li>the benefits of using xAPI (also versus other ways of collecting data)
+</li>
+<li>how to prevent negatives</li>
+<li>things to consider when selecting an LRS</li>
+<li>general team roles and the future of teams using xAPI</li>
+<li>some examples of work I have done</li>
+<li>an overview of my big list of xAPI resources and when/how to use them</li>
+<li>ips for getting started</li>
+</ol>
+
+<ol>
+My top three tips for getting started with xAPI are:
+<li>Join the <a href="http://www.torrancelearning.com/xapi-cohort/" target="_blank">xAPI Cohort</a> and work on a project with a team (you get out of it what you put into it, so if you are lurking you may learn about xAPI but the best way to get experience is to join a team).</li>
+<li>Find a small project at work to test xAPI on where it will be impactful. There are lots of <a href="http://melslearninglab.com/2018/07/02/big-xapi-list/" target="_blank">trial and sandbox learning record stores</a> out there to use. Be sure to check with your department to see if it’s fine to do.</li>
+<li>View <a href="http://melslearninglab.com/2018/07/02/big-xapi-list/" target="_blank">case studies</a> on other companies who have started using xAPI, this can help you to make a plan to get buy in.</li>
+</ol>
+
+<p>The next part of the workshop is a scenario that teams work on at tables.</p>
+
+<h1>The scenario</h1>
+
+<p>After learning about xAPI it was time to put all of that knowledge into action. I created a scenario where learning aligns with business goals and you must measure the effectiveness.</p>
+
+<p>The scenario is accompanied by a handout that will help teams think about the data they will collect. In conjunction with the handout, the teams have access to a Rewards Program Guide that employees in the scenario have access to.</p>
+
+<p>In the scenario based workshop one person per table is to be the scribe and one is to be the answer key holder. The answer key holder receives a handout with suggested answers. The answer key holder will help the rest of the table arrive at answers if they get stuck.</p>
+
+<p>When the tables have completed the handout they will present what they came up with and why.</p>
+
+<h2><a href="https://s3.amazonaws.com/presto-pasta.melslearninglab.com/Design+for+outcomes+with+xAPI.pdf" target="_blank">Read the scenario and handout</a>.</h2>
+
+<p>TL;DR (Too Long; Didn’t Read)</p> 
+
+<p>In the scenario, you are a training manager at a pasta to go company. You need your cashiers to be able to use your POS (Point of Sale) System to enter in rewards correctly. In addition to entering in rewards correctly, the cashiers need to know when/how to present the rewards program. The rewards program is meant to bolster your company’s profits, so it must be presented and used consistently and correctly.</p>
+
+<p>In response to the issue, you create a Rewards Program Guide and video that show how to use the POS and introduce the rewards. You decide what to track with xAPI within the Guide, video, and other systems.</p>
+
+<h2>The materials</h2>
+
+<p>Finally, some of the statements that the teams created for the Rewards Program Guide would be added into the guide.</p>
+
+<p>How long did it take to create the Rewards Program Guide and video?
+~48 hours from design to development, including the video.</p> 
+
+<p>If a freelance LX designer charged $80/hr the cost of the design and dev would be $3,840, not including other costs.</p>
+
+<p "class=bold">How did you make there Program Guide and video?
+</p>
+
+<h1>Design</h1>
+
+<p>I always create mockups prior to going into development. This helps me to save time in development and also plan a consistent look/feel.</p> 
+
+<p>This is a look at <a href="http://presto-pasta.melslearninglab.com/presto-pasta.pdf" target="_blank">the mockup of the design pre-dev and the POS System</a>.</p>
+
+<figure>
+  <img src="/assets/images/blog/presto-phone.gif" alt=""/>
+</figure>
+
+<p>The Rewards Program Guide and the POS (Point of Sale) System were both designed in Adobe XD. I also created prototypes of both in Adobe XD. The pasta icon was made by Anano Miminoshvili. The intro music in the video is by Icons8.</p> 
+
+<p><a href="http://presto-pasta.melslearninglab.com/2018/07/07/simulation.html" target="_blank">The video simulation of the POS</a> is just a view of the prototype in Adobe XD that is screen recorded. I literally know nothing about POS Systems. When I was in retail we did not have one. So, full disclosure this is not accurate. I made it up from Googling some different ones.</p>
+
+<figure>
+  <img src="/assets/images/blog/presto.gif" alt=""/>
+</figure>
+
+<h1>Development</h1>
+
+<p>After the video of the POS was taken, a title was added from After Effects.</p>
+
+<p>The Rewards Program Guide was created from a <a href="https://github.com/andrewbanchich/forty-jekyll-theme" target="_blank">Jekyll template called Forty</a>. The Forty template’s CSS and HTML was edited to match the mockups.</p> 
+
+<p>You can view <a href="http://presto-pasta.melslearninglab.com/" target="_blank">the Rewards Program Guide</a> and a stream of statements. See the statement viewer below. refresh the statement feed to see your statements. The only downside about the statements is that the actor mailbox is randomized every time a page refreshes. I will probably wind up changing this in the future and caching the email of the actor.</p>
+
+<iframe class="statement-viewer" id="statement-viewer" src="http://presto-pasta.melslearninglab.com/statements-presto/index.html" height="700px"></iframe>
+
+<h2>What’s next?</h2>
+
+<p>What are some ways the scenario's handout questions could be answered? I’ll share a few thoughts in a future post.</p>
