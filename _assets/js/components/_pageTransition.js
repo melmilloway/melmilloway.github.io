@@ -60,8 +60,8 @@ const PageTransition = (() => {
     },
 
     firefox() {
-      s.window.addEventListener('unload', () => {
-        s.window.unbind('unload');
+      s.window.addEventListener('unload', function unload() {
+        s.window.removeEventListener('unload', unload);
       });
     },
 
