@@ -5,6 +5,7 @@ import Rellax from 'rellax';
 import ActiveClass from './components/_activeClass.js';
 import PageTransition from './components/_pageTransition.js';
 import PleaseDontGo from './components/_pleaseDontGo.js';
+import Popup from './components/_popup.js';
 // import ScreenSaver from './components/_screenSaver.js';
 
 // ----------------------------------------------
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
   ActiveClass.init();
   PageTransition.init();
   PleaseDontGo.init();
+  Popup.init();
   // ScreenSaver.init(120);
 
   if (document.body.id === 'about') {
