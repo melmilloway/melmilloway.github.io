@@ -9,13 +9,7 @@
   border-top: 3px solid $color-black;
 
   a {
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: $color-alpha;
-      border-bottom: 1px solid $color-alpha;
-    }
+    @extend %link-underline;
   }
 
   & > * {
