@@ -21,21 +21,6 @@
     text-align: center;
   }
 
-  &__btn {
-    display: inline-block;
-
-    input {
-      padding: {
-        right: 1em;
-        left: 1em;
-      }
-      margin-bottom: 0;
-
-      font-size: 1em;
-      border: 0;
-    }
-  }
-
   &__message {
     margin: {
       top: 1em;

@@ -11,6 +11,7 @@ const Formcarry = (() => {
         body: document.body,
         form: document.querySelector('.form'),
         formAction: document.querySelector('.form').action,
+        formSubmit: document.querySelector('.form .btn'),
         formMessage: document.querySelector('.form__message'),
         animation: 'fade-in',
         open: 'js-popup-open',
@@ -29,7 +30,7 @@ const Formcarry = (() => {
     },
 
     ajax() {
-      s.form.addEventListener('submit', e => {
+      s.formSubmit.addEventListener('click', e => {
         e.preventDefault();
 
         const request = new XMLHttpRequest();
@@ -48,8 +49,8 @@ const Formcarry = (() => {
             s.html.classList.remove(s.overflow);
 
             setTimeout(() => {
-              s.form[0].reset();
-              s.body.removeClass(s.closing);
+              s.form.reset();
+              s.body.classList.remove(s.closing);
             }, 800);
           } else {
             setTimeout(() => {
