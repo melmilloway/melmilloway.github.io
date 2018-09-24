@@ -3,24 +3,18 @@
     <div class="popup__exit"></div>
   </div>
   <div class="contact__container popup__container">
-    <div class="contact__img">
+    <div class="contact__img bg-black">
       <figure class="absolute-bg" style="background-image: url({{ site.contact_img | prepend: site.baseurl }});"></figure>
     </div>
-    <div class="contact__content">
-      <div class="contact__mast section-padding--half">
-        <div class="grid">
-          <h2>Contact</h2>
-        </div>
+    <div class="contact__content bg-white">
+      <div class="contact__mast">
+        <h2 class="contact__header">Contact</h2>
       </div>
 
-      <div class="section-padding--none">
-        <hr class="sep"/>
-      </div>
+      <hr class="sep"/>
 
-      <div class="contact__form section-padding--half">
-        <div class="grid-xlarge">
-          
-        </div>
+      <div class="contact__form">
+        {% include formcarry.html %}
       </div>
     </div>
   </div>
