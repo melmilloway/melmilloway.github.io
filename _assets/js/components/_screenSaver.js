@@ -40,7 +40,7 @@ const ScreenSaver = (() => {
       s.active = false;
       s.screensaver.classList.remove('js-active');
     }
-  }
+  };
 })();
 
 // ----------------------------------------------

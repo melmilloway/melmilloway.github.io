@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Melissa Milloway is an instructional designer at Amazon in Seattle, WA. She specializes in designing and developing learning experiences and blogging about it.",
   "scripts": {
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "lint": "eslint --ext .js _assets"
   },
   "author": [
     {
@@ -26,9 +27,13 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-eslint": "^9.0.0",
     "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
+    "eslint": "^5.6.0",
+    "eslint-config-eslint": "^5.0.1",
+    "eslint-plugin-node": "^7.0.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-clean-css": "^3.9.4",

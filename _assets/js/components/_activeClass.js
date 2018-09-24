@@ -21,14 +21,14 @@ const ActiveClass = (() => {
       const active = s.nav.querySelectorAll(`[href="/${s.page}"]`)[0];
 
       if (active) {
-        const activeLink = active.getAttribute('href').substring(1);
+        const activeLink = active.getAttribute('href').slice(1);
 
         if (activeLink === 'portfolio' || activeLink === 'blog' || activeLink === 'about') {
           active.classList.add('js-active');
         }
       }
     }
-  }
+  };
 })();
 
 // ----------------------------------------------
