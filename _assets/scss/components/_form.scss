@@ -18,7 +18,7 @@
   }
 
   &__submit {
-    // @extend %text-center;
+    text-align: center;
   }
 
   &__btn {
@@ -37,16 +37,16 @@
   }
 
   &__message {
-    // @extend %font-header;
-
     margin: {
       top: 1em;
       bottom: 0;
     }
     padding: 0.5em 1em;
 
-    // background: $color-lightgrey;
-    border-left: 2px solid $color-black;
+    font-weight: 500;
+    font-size: 1em;
+    background-color: $color-grey;
+    border-left: 4px solid $color-alpha;
     opacity: 0;
   }
 }

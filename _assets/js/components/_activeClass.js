@@ -18,7 +18,7 @@ const ActiveClass = (() => {
     },
 
     addClass() {
-      const active = s.nav.querySelectorAll('[href="/' + s.page + '"]')[0];
+      const active = s.nav.querySelectorAll(`[href="/${s.page}"]`)[0];
 
       if (active) {
         const activeLink = active.getAttribute('href').substring(1);

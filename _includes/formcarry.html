@@ -1,4 +1,5 @@
-<form id="form" class="form" action="{{ site.formcarry }}" method="POST">
+<form class="form" action="{{ site.formcarry }}" method="POST">
+  <input type="hidden" name="_gotcha">
   <div class="form__subcontainer">
     <div>
       <label for="form-first-name">First Name</label>
@@ -26,5 +27,5 @@
     </div>
   </div>
 
-  <p class="form__message"></p>
+  <p class="form__message">Something went wrong.</p>
 </form>

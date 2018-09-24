@@ -9,9 +9,9 @@ const Formcarry = (() => {
       return {
         html: document.documentElement,
         body: document.body,
-        form: $('#form'),
-        formAction: $('#form').attr('action'),
-        formMessage: $('.form__message'),
+        form: document.querySelector('.form'),
+        formAction: document.querySelector('.form').action,
+        formMessage: document.querySelector('.form__message'),
         animation: 'fade-in',
         open: 'js-popup-open',
         overflow: 'js-overflow',
@@ -29,15 +29,20 @@ const Formcarry = (() => {
     },
 
     ajax() {
-      s.form.submit(e => {
+      s.form.addEventListener('submit', e => {
         e.preventDefault();
 
-        $.ajax({
-          url: s.formAction,
-          method: 'POST',
-          data: s.form.serialize(),
-          dataType: 'json',
-          success: () => {
+        const request = new XMLHttpRequest();
+
+        request.open('POST', s.formAction, true);
+        request.setRequestHeader('accept', 'application/json');
+
+        const formData = new FormData(s.form);
+
+        request.send(formData);
+
+        request.onreadystatechange = () => {
+          if (request.readyState === 4 && request.status === 200) {
             s.body.classList.add(s.closing);
             s.body.classList.remove(s.open);
             s.html.classList.remove(s.overflow);
@@ -46,15 +51,14 @@ const Formcarry = (() => {
               s.form[0].reset();
               s.body.removeClass(s.closing);
             }, 800);
-          },
-          error: () => {
+          } else {
             setTimeout(() => {
               s.formMessage.classList.remove(s.animation);
               s.formMessage.classList.add(s.animation);
-              s.formMessage.text('Something Went Wrong');
+              s.formMessage.textContent = 'Something Went Wrong';
             }, 750);
           }
-        });
+        };
       });
     }
   };

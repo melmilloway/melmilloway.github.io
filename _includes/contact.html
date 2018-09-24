@@ -4,7 +4,7 @@
   </div>
   <div class="contact__container popup__container">
     <div class="contact__img bg-black">
-      <figure class="absolute-bg" style="background-image: url({{ site.contact_img | prepend: site.baseurl }});"></figure>
+      <figure class="absolute-bg" style="background-image: url('{{ site.contact_img | prepend: site.baseurl }}');"></figure>
     </div>
     <div class="contact__content bg-white">
       <div class="contact__mast">
@@ -14,7 +14,9 @@
       <hr class="sep"/>
 
       <div class="contact__form">
+
         {% include formcarry.html %}
+
       </div>
     </div>
   </div>

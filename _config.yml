@@ -14,6 +14,10 @@ url: http://melslearninglab.com
 twitter_username: melmilloway
 default_img: https://source.unsplash.com/qHblAFPy2uU/2000x1200
 
+# Contact settings
+contact_img: /assets/images/contact.gif
+formcarry: https://formcarry.com/s/YUg-n5k2H0D
+
 # Build settings
 markdown: kramdown
 plugins:

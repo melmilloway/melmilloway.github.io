@@ -20,7 +20,7 @@
   color: $color-black;
   background-color: rgba($color-black, 0.9);
   opacity: 0;
-  transition: opacity 600ms ease-in-out;
+  transition: opacity 400ms ease-in-out;
 
   .js-popup-open & {
     z-index: 9999;

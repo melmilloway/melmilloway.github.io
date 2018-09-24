@@ -3,7 +3,7 @@
 // ----------------------------------------------
 import Rellax from 'rellax';
 import ActiveClass from './components/_activeClass.js';
-// import Formcarry from './components/_formcarry.js';
+import Formcarry from './components/_formcarry.js';
 import PageTransition from './components/_pageTransition.js';
 import PleaseDontGo from './components/_pleaseDontGo.js';
 import Popup from './components/_popup.js';
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   ActiveClass.init();
-  // Formcarry.init();
+  Formcarry.init();
   PageTransition.init();
   PleaseDontGo.init();
   Popup.init();
