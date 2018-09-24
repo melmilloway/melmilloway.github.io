@@ -49,28 +49,15 @@
     list-style-type: none;
 
     & > *:not(:last-child) {
-      margin-right: 1.5em;
+      margin-right: 1em;
+
+      @media (min-width: $mq-sm) {
+        margin-right: 1.5em;
+      }
     }
 
     a {
-
-      &:hover,
-      &:active,
-      &:focus {
-        color: $color-alpha;
-        border-bottom: 1px solid $color-alpha;
-      }
-
-      #home & {
-        color: $color-white;
-
-        &:hover,
-        &:active,
-        &:focus {
-          color: $color-white;
-          border-bottom: 1px solid $color-white;
-        }
-      }
+      @extend %link-underline;
     }
   }
 

@@ -1,0 +1,43 @@
+<form class="form" action="{{ site.formcarry }}" method="POST">
+  <input type="hidden" name="_gotcha">
+  <div class="form__subcontainer">
+    <div>
+      <label for="form-first-name">First Name</label>
+      <input type="text" name="first-name" id="form-first-name" required>
+    </div>
+    <div>
+      <label for="form-last-name">Last Name</label>
+      <input type="text" name="last-name" id="form-last-name" required>
+    </div>
+  </div>
+
+  <div>
+    <label for="form-email">E-Mail</label>
+    <input type="email" name="email" id="form-email" required>
+  </div>
+
+  <div>
+    <label for="form-message">Message</label>
+    <textarea name="message" id="form-message" rows="3"></textarea>
+  </div>
+
+  <div class="form__submit">
+    <div class="btn">
+      <div class="btn__container">
+        <div class="btn__subcontainer">
+          <div class="btn__layer btn__layer--top">
+            <span class="btn__text">Send</span>
+            <span class="btn__border btn__border--bottom-left"></span>
+            <span class="btn__border btn__border--top-right"></span>
+          </div>
+        </div>
+        <div class="btn__layer btn__layer--bottom">
+          <span class="btn__text">Send</span>
+          <span class="btn__border btn__border--bottom-right"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="form__message">Something went wrong.</p>
+</form>

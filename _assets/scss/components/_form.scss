@@ -1,0 +1,37 @@
+//----------------------------------------------
+// Form
+//---------------------------------------------- 
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  &__subcontainer {
+    display: flex;
+    justify-content: space-between;
+
+    & > * {
+      flex-basis: 47.5%;
+      max-width: 47.5%;
+    }
+  }
+
+  &__submit {
+    text-align: center;
+  }
+
+  &__message {
+    margin: {
+      top: 1em;
+      bottom: 0;
+    }
+    padding: 0.5em 1em;
+
+    font-weight: 500;
+    font-size: 1em;
+    background-color: $color-grey;
+    border-left: 4px solid $color-alpha;
+    opacity: 0;
+  }
+}
