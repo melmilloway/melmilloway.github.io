@@ -41,9 +41,6 @@ a {
   }
 
   &__layer {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
     padding: 0.5rem 2rem;
     
     background-color: $color-white;
