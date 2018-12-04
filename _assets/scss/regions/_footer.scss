@@ -6,6 +6,8 @@
 
   padding: 1em;
 
+  background-color: $color-white;
+
   @media (min-width: $mq-sm) {
     padding: 2em;
   }
@@ -15,6 +17,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 3em 4em;
+  }
+
+  #home & {
+    background-color: transparent;
   }
 
   &__list {
@@ -80,8 +86,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
-  background-color: $color-white;
 }
 
 //----------------------------------------------
