@@ -7,41 +7,49 @@ const cleanCSS = require('gulp-clean-css');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const source = require('vinyl-source-stream');
+const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 
-gulp.task('sass', () => {
+function styles() {
   return gulp.src('./_assets/scss/app.scss')
-  .pipe(sass().on('error', sass.logError))
-  .pipe(autoprefixer({browsers: ['last 2 versions'], cascade: false}))
-  .pipe(cleanCSS())
-  .pipe(rename({suffix: '.min'}))
-  .pipe(gulp.dest('./assets/css'));
-});
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(autoprefixer({browsers: ['last 2 versions'], cascade: false}))
+    .pipe(cleanCSS())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./assets/css'));
+}
 
-gulp.task('fonts', () => {
+function fonts() {
   return gulp.src('./_assets/scss/fonts.scss')
-  .pipe(sass().on('error', sass.logError))
-  .pipe(cleanCSS())
-  .pipe(rename({suffix: '.min'}))
-  .pipe(gulp.dest('./assets/css'));
-});
+    .pipe(sass().on('error', sass.logError))
+    .pipe(cleanCSS())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('./assets/css'));
+}
 
-gulp.task('browserify', () => {
+function scripts() {
   return browserify('./_assets/js/app.js')
-  .transform('babelify', {presets: ['env']})
-  .bundle()
-  .pipe(source('app.js'))
-  .pipe(buffer())
-  .pipe(uglify())
-  .pipe(rename({suffix: '.min'}))
-  .pipe(gulp.dest('./assets/js'));
-});
+    .transform('babelify', {presets: ['@babel/preset-env']})
+    .bundle()
+    .pipe(source('app.js'))
+    .pipe(buffer())
+    .pipe(uglify())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('./assets/js'));
+}
 
-gulp.task('build', ['sass', 'browserify']);
+function watch() {
+  gulp.watch('./_assets/scss/**/*.scss', styles);
+  gulp.watch('./_assets/js/**/*.js', scripts);
+}
 
-gulp.task('watch', () => {
-  gulp.watch('./_assets/scss/**/*.scss', ['sass']);
-  gulp.watch('./_assets/js/**/*.js', ['browserify']);
-});
+const build = gulp.parallel(styles, scripts, watch);
+gulp.task(build);
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', build);
+
+exports.styles = styles;
+exports.fonts = fonts;
+exports.scripts = scripts;
