@@ -1,8 +1,5 @@
 # Site/SEO settings
 email: mmilloway87@gmail.com
-paginate: 5
-paginate_path: "/blog/page-:num"
-page_path: "/page-:num"
 permalink: /:year/:month/:day/:title/
 google_analytics: UA-90549014-1
 
@@ -36,3 +33,12 @@ exclude:
   - gulpfile.js
   - package.json
   - README.md
+
+# Pagination
+paginate: 5
+paginate_path: "/blog/page-:num"
+
+# Collections
+collections:
+  portfolio:
+    output: false
