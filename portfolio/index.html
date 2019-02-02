@@ -20,14 +20,7 @@ permalink: /portfolio
       {% assign ordered_portfolio = site.portfolio | sort: 'order' | reverse %}
       {% for portfolio in ordered_portfolio %}
 
-      <li class="preview">
-        <a class="preview__link" href="{{ portfolio.link }}" target="_blank">
-          <h1 class="preview__header">{{ portfolio.title }}</h1>
-          <p class="preview__subheader">
-            <span itemprop="description">{{ portfolio.link_description }}</span>
-          </p>
-        </a>
-      </li>
+        {% include portfolio-card.html %}
 
       {% endfor %}
     </ul>

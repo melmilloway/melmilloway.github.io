@@ -16,10 +16,11 @@
     &:hover,
     &:active,
     &:focus {
+      color: $color-alpha;
 
-      .preview__header,
-      .preview__subheader {
-        color: $color-alpha;
+      .fa-external-link {
+        visibility: visible;
+        opacity: 1;
       }
 
       .preview__subheader {
@@ -28,16 +29,10 @@
     }
   }
 
-  &__header {
-    font-size: 2.75em;
-
-    @media (min-width: $mq-md) {
-      font-size: 4em;
-    }
-
-    @media (min-width: $mq-xxl) {
-      font-size: 4em;
-    }
+  .fa-external-link {
+    font-size: 0.6em;
+    visibility: hidden;
+    opacity: 0;
   }
 
   &__subheader {
