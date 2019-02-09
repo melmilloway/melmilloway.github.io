@@ -35,6 +35,10 @@ textarea {
   &:focus {
     border-color: $color-black;
   }
+
+  &.js-error {
+    border-color: $color-alpha;
+  }
 }
 
 textarea {
