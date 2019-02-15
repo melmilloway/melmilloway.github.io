@@ -13,7 +13,6 @@ default_img: /assets/images/seo.jpg
 
 # Contact settings
 contact_img: /assets/images/contact.gif
-formcarry: https://formcarry.com/s/YUg-n5k2H0D
 
 # Build settings
 markdown: kramdown

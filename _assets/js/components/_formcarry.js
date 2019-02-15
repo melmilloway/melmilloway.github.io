@@ -10,7 +10,7 @@ const Formcarry = (() => {
         html: document.documentElement,
         body: document.body,
         form: document.querySelector('.form'),
-        formAction: document.querySelector('.form').action,
+        formAction: 'https://formcarry.com/s/YUg-n5k2H0D',
         formSubmit: document.querySelector('.form .btn'),
         formError: document.querySelector('.form__error'),
         formFirstName: document.getElementById('form-first-name'),
