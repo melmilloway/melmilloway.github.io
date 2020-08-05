@@ -26,6 +26,7 @@
     "url": "https://github.com/melmilloway/melmilloway.github.io/issues"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "rellax": "^1.7.2"
   },
   "devDependencies": {

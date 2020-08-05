@@ -1,6 +1,7 @@
 // ----------------------------------------------
 // Imports
 // ----------------------------------------------
+import axios from 'axios';
 import Rellax from 'rellax';
 import ActiveClass from './components/_activeClass.js';
 import Formcarry from './components/_formcarry.js';
@@ -26,9 +27,33 @@ document.addEventListener('DOMContentLoaded', () => {
   // ScreenSaver.init(120);
 
   if (document.body.id === 'about') {
-    instafetch.init({
-      accessToken: '30115961.1677ed0.903e99e5b4944d8aad1694d879b7d981',
-      numOfPics: 6
+    axios.get('https://instagram.com/melmilloway/?__a=1').then(response => {
+      const targetEl = document.getElementById('instafetch');
+      const photos = [];
+      let article, a, figure, img;
+
+      response.data.graphql.user.edge_owner_to_timeline_media.edges.forEach(edge => {
+        if (edge.node && edge.node) {
+          photos.push(edge.node);
+        }
+      });
+
+      for (let i = 0; i < 6; i++) {
+        article = document.createElement('article');
+        a = document.createElement('a');
+        a.href = `https://www.instagram.com/p/${photos[i].shortcode}`;
+        a.target = '_blank';
+        figure = document.createElement('figure');
+        img = document.createElement('img');
+        img.src = photos[i].display_url;
+        figure.appendChild(img);
+        a.appendChild(figure);
+        article.appendChild(a);
+
+        targetEl.appendChild(article);
+      }
+    }).catch(err => {
+      return err;
     });
   }
 

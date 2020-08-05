@@ -5,13 +5,12 @@
     "clearTimeout": true,
     "document": true,
     "FormData": true,
-    "instafetch": true,
     "setTimeout": true,
     "top": true,
     "window": true,
     "XMLHttpRequest": true
   },
-  rules: {
+  "rules": {
     "indent": ["error", 2],
     "no-unused-vars": "warn",
     "quotes": ["error", "single"]
