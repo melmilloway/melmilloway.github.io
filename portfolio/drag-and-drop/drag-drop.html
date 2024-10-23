@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <title>Drag and Drop Activity</title>
+</head>
+<body>
+    <header>
+        <h1>Misconceptions vs. Facts</h1>
+        <p><span class="bold">Instructions:</span> Drag each statement into the correct category: Misconceptions or Facts. Some statements are myths, while others are true. Your goal is to identify which is which.</p>
+    </header>
+
+    <div id="completion-message" style="display: none;">
+    <p>You've completed the activity!</p>
+    <button id="replay-button" aria-label="Replay the activity">Replay</button>
+</div>  
+    <main>
+        <section class="cards" role="region" aria-labelledby="cards-heading">
+            <h2 id="cards-heading" class="visually-hidden">Statements to Sort</h2>
+            <div class="statement" tabindex="0" draggable="true" data-feedback="Misconception: While obesity is a major risk factor, diabetes can occur in cats of any weight due to factors like genetics, age, or other health conditions." aria-label="Only overweight cats get diabetes.">Only overweight cats get diabetes.</div>
+            <div class="statement" tabindex="0" draggable="true" data-feedback="Fact: Some cats can go into remission, if caught early and treated properly. Proper management, weight loss, and insulin treatment can help with this." aria-label="Diabetes in cats is reversible.">Diabetes in cats is reversible.</div>
+            <div class="statement" tabindex="0" draggable="true" data-feedback="Misconception: With regular insulin therapy and care, most diabetic cats can live full and happy lives. The key is consistent management." aria-label="Once on insulin, a cat’s quality of life decreases.">Once on insulin, a cat’s quality of life decreases.</div>
+            <div class="statement" tabindex="0" draggable="true" data-feedback="Fact: Untreated diabetes can lead to life-threatening complications, including severe dehydration, diabetic ketoacidosis, and organ damage." aria-label="Feline diabetes can be fatal if left untreated.">Feline diabetes can be fatal if left untreated.</div>
+            <div class="statement" tabindex="0" draggable="true" data-feedback="Misconception: The symptoms of diabetes, like increased thirst or weight loss, can be subtle and may be overlooked until the condition becomes more serious." aria-label="Cats will show obvious signs when they develop diabetes.">Cats will show obvious signs when they develop diabetes.</div>
+            <div class="statement" tabindex="0" draggable="true" data-feedback="Fact: A proper diet can help manage blood sugar levels in diabetic cats, often reducing the need for insulin." aria-label="A high-protein, low-carbo diet is recommended for diabetic cats.">A high-protein, low-carb diet is recommended for diabetic cats.</div>
+            <div class="statement" tabindex="0" draggable="true" data-feedback="Misconception: Feline diabetes is relatively common, especially in older, overweight, or inactive cats." aria-label="Diabetes is a rare condition in cats.">Diabetes is a rare condition in cats.</div>
+            <div class="statement" tabindex="0" draggable="true" data-feedback="Misconception: Diabetic cats may appear healthy, but underlying symptoms like lethargy or weight loss may go unnoticed until the disease progresses." aria-label="My cat can’t have diabetes because they seem healthy otherwise.">My cat can’t have diabetes because they seem healthy otherwise.</div>
+        </section>
+
+        <div class="drop-container" role="region" aria-labelledby="drop-areas-heading">
+            <h2 id="drop-areas-heading" class="visually-hidden">Drop Areas</h2>
+            <div class="drop-area" id="misconceptions" tabindex="0" aria-label="Drop area for misconceptions." aria-dropeffect="move">Misconceptions</div>
+            <div class="drop-area" id="facts" tabindex="0" aria-label="Drop area for facts." aria-dropeffect="move">Facts</div>
+        </div>
+
+        <div id="feedback" role="dialog" aria-labelledby="feedback-title" aria-modal="true" aria-hidden="true" aria-live="polite">
+            <h3 id="feedback-title" class="visually-hidden">Feedback</h3>
+            <span id="close-feedback" aria-label="Close feedback dialog" role="button" tabindex="0">✖</span>
+            <p id="feedback-message"></p>
+        </div>
+    </main>
+
+    <div id="score-display">
+    Your score: <span id="score">☆☆☆☆☆☆☆☆</span> <!-- This will display the stars only -->
+</div>
+
+    <div id="live-region" aria-live="polite" aria-atomic="true" style="position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); border:0;"></div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
