@@ -65,6 +65,8 @@ p {
     border-radius: 10px; /* Rounded corners */
 }
 
+
+
 #feedback {
     display: none; /* Hide by default */
     position: absolute; /* Use abs positioning */
@@ -219,8 +221,10 @@ p {
     }
 
     .statement {
-        width: 100%; /* Make statement cards full width */
-        height: auto; /* Allow height to adjust */
+        width: 65%;
+        height:  auto;
+        margin: 0 auto; /* This will center the cards */
+        display: block; /* Ensure the cards take up full width */
     }
 }
 
