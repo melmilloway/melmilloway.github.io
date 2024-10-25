@@ -226,5 +226,9 @@ p {
         margin: 0 auto; /* This will center the cards */
         display: block; /* Ensure the cards take up full width */
     }
+
+    #feedback {
+        width: 80%;
+    }
 }
 
