@@ -224,157 +224,114 @@
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        let currentQuestion = 0;
-        let score = 0;
-        const questions = document.querySelectorAll(".question");
-        const completionScreen = document.querySelector(".completion-screen");
-        const scoreDisplay = document.getElementById("score");
+   document.addEventListener("DOMContentLoaded", () => {
+    let currentQuestion = 0;
+    let score = 0;
+    const questions = document.querySelectorAll(".question");
+    const completionScreen = document.querySelector(".completion-screen");
+    const scoreDisplay = document.getElementById("score");
 
-        // Function to hide next button
-        function hideNextButton() {
-            const nextButton = questions[currentQuestion].querySelector(".btn-next");
-            nextButton.style.display = "none";
+    // Function to show the next question
+    function showQuestion(index) {
+        questions.forEach((question, i) => {
+            question.classList.toggle("active", i === index);
+        });
+
+        const currentQuestionElement = questions[index];
+        const submitButton = currentQuestionElement.querySelector(".btn-submit");
+        const feedbackDiv = currentQuestionElement.querySelector(".feedback");
+
+        // Hide feedback and next button when moving to the next question
+        feedbackDiv.style.display = "none";
+        currentQuestionElement.querySelector(".btn-next").style.display = "none";
+
+        // Show the submit button only if it's a new question
+        submitButton.style.display = "inline-block";
+    }
+
+    // Function to handle submit
+    function handleSubmit(question) {
+        const selectedAnswer = question.querySelector("input[type='radio']:checked, input[type='checkbox']:checked");
+        const feedbackDiv = question.querySelector(".feedback");
+        const correctAnswers = question.querySelectorAll(".correct-answer");
+        const nextButton = question.querySelector(".btn-next");
+
+        if (!selectedAnswer) {
+            alert("Please select an answer.");
+            return;
         }
 
-        // Function to show next button
-        function showNextButton() {
-            const nextButton = questions[currentQuestion].querySelector(".btn-next");
-            nextButton.style.display = "inline-block";
+        // Check if the selected answer(s) match the correct ones
+        const isCorrect = Array.from(correctAnswers).some(
+            correctAnswer => correctAnswer === selectedAnswer
+        );
+
+        // Display feedback based on answer correctness
+        if (isCorrect) {
+            feedbackDiv.innerHTML = `
+                <p><strong>Correct:</strong> ${feedbackDiv.dataset.correctFeedback}</p>
+                <p><strong>Correct Answer:</strong> ${feedbackDiv.dataset.correctAnswer}</p>
+            `;
+            score++;
+        } else {
+            feedbackDiv.innerHTML = `
+                <p><strong>Incorrect:</strong> ${feedbackDiv.dataset.incorrectFeedback}</p>
+                <p><strong>Correct Answer:</strong> ${feedbackDiv.dataset.correctAnswer}</p>
+            `;
         }
 
-        // Function to show the active question
-        function showQuestion(index) {
-            questions.forEach((question, i) => {
-                question.classList.toggle("active", i === index);
-            });
-        }
+        feedbackDiv.style.display = "block";
+        nextButton.style.display = "inline-block";
 
-        function calculateScore() {
-            questions.forEach((question, index) => {
-                const correctAnswers = question.querySelectorAll(".correct-answer");
-                const userAnswers = question.querySelectorAll("input:checked");
+        // Disable further changes to answers for this question
+        question.querySelectorAll("input").forEach(input => (input.disabled = true));
 
-                // For question 4 (index 3), we check that the number of selected answers matches the correct ones
-                if (index === 3) {
-                    // Ensure the number of selected answers equals the number of correct answers
-                    if (userAnswers.length === correctAnswers.length) {
-                        let isCorrect = true;
+        // Hide submit button after submission
+        question.querySelector(".btn-submit").style.display = "none";
+    }
 
-                        // Ensure every selected answer is a correct one
-                        userAnswers.forEach((userAnswer) => {
-                            if (!userAnswer.classList.contains("correct-answer")) {
-                                isCorrect = false;
-                            }
-                        });
+    // Add event listeners for submit and next buttons
+    questions.forEach((question, index) => {
+        const submitButton = question.querySelector(".btn-submit");
+        const nextButton = question.querySelector(".btn-next");
 
-                        if (isCorrect) {
-                            score++;
-                        }
-                    }
-                } else {
-                    // For other questions, normal check
-                    if (correctAnswers.length === userAnswers.length) {
-                        let isCorrect = true;
-                        correctAnswers.forEach((correct) => {
-                            if (![...userAnswers].includes(correct)) {
-                                isCorrect = false;
-                            }
-                        });
-                        if (isCorrect) score++;
-                    }
-                }
-            });
-        }
+        submitButton.addEventListener("click", () => handleSubmit(question));
 
-        function showFeedback(question) {
-            const selectedAnswers = question.querySelectorAll("input:checked");
-            const feedbackDiv = question.querySelector(".feedback");
-
-            const correctAnswers = question.querySelectorAll(".correct-answer");
-            const userAnswers = question.querySelectorAll("input:checked");
-
-            // Check if selected answers are correct
-            const isCorrect = userAnswers.length === correctAnswers.length &&
-                [...userAnswers].every((answer) => answer.classList.contains("correct-answer"));
-
-            if (selectedAnswers.length > 0) {
-                if (isCorrect) {
-                    feedbackDiv.innerHTML = `<strong>That's correct!</strong><br><br>
-                        <strong>Correct answer:</strong> Kidney damage, vision loss, and increased risk of infections are all potential impacts of untreated diabetes.<br><br>
-                        <strong>Feedback:</strong>Untreated diabetes can lead to kidney damage, vision issues, and a higher risk of infections due to a weakened immune system.`;
-                } else {
-                    feedbackDiv.innerHTML = `<strong>That's incorrect!</strong><br><br>
-                        <strong>Correct answer:</strong> Kidney damage, vision loss, and increased risk of infections are all potential impacts of untreated diabetes.<br><br>
-                        <strong>Feedback:</strong> Untreated diabetes can lead to kidney damage, vision issues, and a higher risk of infections due to a weakened immune system.`;
-                }
-            }
-
-            feedbackDiv.style.display = "block";
-        }
-
-        function handleSubmit(event) {
-            const question = questions[currentQuestion];
-            const selectedAnswers = question.querySelectorAll("input:checked");
-
-            if (selectedAnswers.length === 0) {
-                alert("Please select an answer before submitting.");
-                return;
-            }
-
-            showFeedback(question);
-            event.target.style.display = "none"; // Hide submit button
-            showNextButton(); // Show next button
-        }
-
-        function handleNext() {
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
+        nextButton.addEventListener("click", () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
                 showQuestion(currentQuestion);
-                hideNextButton();
             } else {
-                calculateScore();
                 completionScreen.classList.add("active");
-                scoreDisplay.textContent = `Your final score is: ${score}/${questions.length}`;
-                hideNextButton(); // Hide next button on completion screen
+                scoreDisplay.textContent = `You scored ${score} out of ${questions.length}.`;
+                nextButton.style.display = "none"; // Hide the next button on the completion screen
             }
-        }
-
-        function handleRestart() {
-            currentQuestion = 0;
-            score = 0;
-            questions.forEach((question) => {
-                const feedback = question.querySelector(".feedback");
-                feedback.style.display = "none";
-                question.querySelectorAll("input").forEach((input) => {
-                    input.checked = false;
-                });
-
-                // Ensure submit button is visible again after reset
-                const submitButton = question.querySelector(".btn-submit");
-                submitButton.style.display = "inline-block"; // Show submit button after restart
-
-                hideNextButton();
-            });
-            completionScreen.classList.remove("active");
-            showQuestion(currentQuestion);
-        }
-
-        // Initial setup
-        hideNextButton();
-        showQuestion(currentQuestion);
-
-        // Event Listeners
-        document.querySelectorAll(".btn-submit").forEach((button) => {
-            button.addEventListener("click", handleSubmit);
         });
-
-        document.querySelectorAll(".btn-next").forEach((button) => {
-            button.addEventListener("click", handleNext);
-        });
-
-        document.querySelector(".btn-restart").addEventListener("click", handleRestart);
     });
+
+    // Restart Quiz
+    document.querySelector(".btn-restart").addEventListener("click", () => {
+        currentQuestion = 0;
+        score = 0;
+        questions.forEach(question => {
+            question.classList.remove("active");
+            question.querySelector(".feedback").style.display = "none";
+            question.querySelectorAll("input").forEach(input => {
+                input.disabled = false;
+                input.checked = false;
+            });
+            question.querySelector(".btn-next").style.display = "none";
+            question.querySelector(".btn-submit").style.display = "inline-block"; // Show submit button on restart
+        });
+        completionScreen.classList.remove("active");
+        showQuestion(0);
+    });
+
+    // Show the first question initially
+    showQuestion(currentQuestion);
+});
+
+
 </script>
 
 
