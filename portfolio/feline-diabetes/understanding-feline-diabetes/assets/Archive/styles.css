@@ -1,0 +1,234 @@
+body {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    background-color: #E0E7F1; /* Sky Blue */
+    color: #5B3B1E; /* Brown */
+    text-align: center; /* Center the text */
+}
+
+h1 {
+    color: #5B3B1E;
+}
+
+p {
+    text-align: left; /* Left align the text */
+    color: #5B3B1E; /* Optional: matching text color */
+    max-width: 600px; /* Optional: limit the width of the instructions */
+    margin: 0 auto 20px; /* Center the paragraph and add space below */
+}
+
+.cards {
+    display: grid; /* Use grid to organize cards */
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 10px; /* Space between cards */
+    max-width: 800px; /* Set a max width for the container */
+    margin: 0 auto; /* Center the cards container */
+    height: 200px; /* Set a fixed height for the container */
+}
+
+.statement {
+    margin: 10px;
+    padding: 20px; /* Increased padding for rectangle shape */
+    border: 2px solid #5B3B1E; /* Brown */
+    background-color: #EDD7A8; /* Cream */
+    cursor: move;
+    flex: 0 0 200px; /* Fixed width for cards */
+    height: 130px; /* Fixed height for rectangle */
+    box-sizing: border-box; /* Include padding in width/height */
+    
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    text-align: center; /* Center text for multiline text */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.drop-container {
+    margin-top: 20px; /* Increased space between the cards and drop areas */
+    display: flex;
+    justify-content: center; /* Center drop areas */
+}
+
+.drop-area {
+    width: 328px; /* Slightly larger for better visibility */
+    height: 90px; /* Increased height */
+    border: 2px dashed #5B3B1E; /* Brown */
+    background-color: #E68D68; /* Garfield */
+    padding: 20px;
+    margin: 0 20px; /* Space between drop areas */
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    font-weight: bold; /* Make text bold for visibility */
+    font-size: 18px; /* Adjust font size for better readability */
+    border-radius: 10px; /* Rounded corners */
+}
+
+
+
+#feedback {
+    display: none; /* Hide by default */
+    position: absolute; /* Use abs positioning */
+    margin-top: 20px; /* Space above the pop-up */
+    left: 50%; /* Center it horizontally */
+    transform: translateX(-50%); /* Adjust for the centering */
+    background-color: white; /* Background color for visibility */
+    border: 2px solid #5B3B1E; /* Brown border */
+    padding: 20px; /* Padding for space inside */
+    z-index: 1000; /* Ensure it appears on top */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
+    border-radius: 10px; /* Rounded corners */
+}
+
+
+#close-feedback {
+    cursor: pointer;
+    position: absolute; /* Position relative to the feedback box */
+    top: 10px;
+    right: 10px;
+    font-size: 16px; /* Size for close button */
+    color: #5B3B1E; /* Brown */
+}
+
+#feedback-message {
+    margin: 10px 0; /* Add margin for spacing */
+    color: #5B3B1E; /* Optional: matching color */
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+
+/* Base styles remain unchanged */
+
+.cards {
+    display: grid; /* Use grid to organize cards */
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 10px; /* Space between cards */
+    max-width: 800px; /* Set a max width for the container */
+    margin: 0 auto; /* Center the cards container */
+    height: auto; /* Allow height to adjust based on content */
+}
+
+.statement.selected {
+    border: 6px solid #6273B3; /* or any other visual indication */
+    background-color: #D9D7EB; /* change background color */
+}
+
+.statement:focus, .drop-area:focus {
+    outline: 4px solid #6273B3; /* Set a blue outline of 4 pixels when focused */
+}
+
+
+.statement:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 4px #6273B3; /* Blue outline with shadow effect */
+}
+
+
+/* Add fade-out animation */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Class to trigger the fade-out effect */
+.fade-out {
+    animation: fadeOut 0.3s forwards; /* 0.3s for the fade-out duration */
+}
+
+#score-display {
+    font-size: 20px; /* Adjust as necessary */
+    margin: 20px 0; /* Space around the score display */
+    color: #5B3B1E; /* Match your theme */
+    text-align: center; /* Center it under the modal */
+    font-weight:  bold;
+}
+
+#replay-button {
+    background-color: #E68D68; /* Brand background color */
+    color: #5B3B1E; /* Font color */
+    border: none; /* Remove default border */
+    padding: 12px 20px; /* Add some padding */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    font-family: "DM Sans", sans-serif; /* Font family */
+    font-weight: bold;
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Transition effect */
+    outline: none; /* Remove outline */
+}
+
+/* Hover effect */
+#replay-button:hover {
+    background-color: #D97F4B; /* Darker shade on hover (optional) */
+}
+
+/* Focus effect for accessibility */
+#replay-button:focus {
+    outline: 3px solid #FFD700; /* Gold outline for focus (adjust as needed) */
+}
+
+/* Accessibility: Ensure contrast ratio */
+#replay-button:focus-visible {
+    box-shadow: 0 0 0 3px rgba(230, 141, 104, 0.5); /* Add shadow on focus */
+}
+
+#completion-message p {
+    font-size:  24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1200px) {
+    .cards {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .cards {
+        grid-template-columns: 1fr; /* 1 column for very small screens */
+    }
+
+    .drop-area {
+        width: 100%; /* Make drop areas full width */
+        height: auto; /* Allow height to adjust */
+    }
+
+    .statement {
+        width: 65%;
+        height:  auto;
+        margin: 0 auto; /* This will center the cards */
+        display: block; /* Ensure the cards take up full width */
+    }
+
+    #feedback {
+        width: 80%;
+    }
+}
+

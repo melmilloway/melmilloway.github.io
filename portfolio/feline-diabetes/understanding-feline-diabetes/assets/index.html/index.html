@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes in Cats Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Tiro+Kannada:ital@0;1&display=swap" rel="stylesheet">
+   <style>
+        /* General Styles */
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #E0E7F1;
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+        }
+
+        h2 {
+            font-family: "Tiro Kannada", serif;
+            color: #5B3B1E;
+        }
+
+        .scoring {
+            font-weight: 700;
+        }
+
+        .question-number {
+        font-size:  16px;
+        font-weight:  700;
+        color: #6273B3;
+
+        }
+
+        .quest {
+        font-family: "Tiro Kannada", serif;
+        font-size:  24px;
+        color: #5B3B1E;
+        font-weight:  700;
+        text-align: center;
+        line-height: 2rem;
+        }
+
+        .quiz-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 60px;
+            background-color: #fff;
+            box-shadow: 0 .2rem 3rem rgba(0,0,0,.1);
+            border: .1rem solid #ddd;
+        }
+
+        .question {
+            display: none;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .feedback {
+            font-size: 18px;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f7f7f8;
+            border-left: 5px solid #6273B3;
+            display: none;
+            margin-bottom: 20px;
+            padding:  20px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .btn-next, .btn-submit, .btn-restart {
+            background-color: #6273B3;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 12px;
+            width: 142px;
+            height: 3rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: .04em;
+        }
+
+        .btn-next:hover, .btn-submit:hover, .btn-restart:hover {
+            background-color: #6273B3;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            padding:  25px;
+        }
+
+
+         label:hover {
+           background-color: #f7f7f8;
+        }
+
+        .completion-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .completion-screen.active {
+            display: block;
+        }
+
+    input[type="radio"], input[type="checkbox"] {
+   box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin: 6px;
+  padding: 0;
+  border: 2px solid var(--radio-border-color);
+  border-radius: 50%;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+    <div class="quiz-container">
+    <!-- Question 1 -->
+    <div class="question active">
+         <p class="question-number">Question 1 of 4</p>
+          <p class="quest">What is the most likely reason for Bella’s lethargy?</p>
+        <form>
+            <label><input type="radio" name="q1" class="correct-answer"> Bella is experiencing high blood sugar levels, which can cause fatigue.</label>
+            <label><input type="radio" name="q1"> Bella might have a thyroid condition, causing her to slow down.</label>
+            <label><input type="radio" name="q1"> Bella is dehydrated, leading to a lack of energy.</label>
+            <label><input type="radio" name="q1"> Bella is entering her senior years, and reduced energy is a natural part of aging.</label>
+        </form>
+        <div class="feedback" data-correct-answer="Bella is experiencing high blood sugar levels, which can cause fatigue."
+             data-correct-feedback="That’s right! When blood sugar levels are too high, the body cannot efficiently use glucose for energy, leading to lethargy."
+             data-incorrect-feedback="Each of these could cause lethargy, but when combined with Bella’s other symptoms, high blood sugar is the most likely cause."
+             style="display: none;">
+        </div>
+        <div class="btn-container">
+        <button class="btn-submit">Submit</button>
+        <button class="btn-next" style="display: none;">Next</button>
+    </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question">
+          <p class="question-number">Question 2 of 4</p>
+          <p class="quest">Bella has lost weight, even though she has been eating. What could be causing this?</p>
+        <form>
+            <label><input type="radio" name="q2"> Bella’s body may not be processing nutrients properly, leading to weight loss.</label>
+            <label><input type="radio" name="q2"> Stress or anxiety could be affecting Bella’s appetite and causing weight loss.</label>
+            <label><input type="radio" name="q2"> Bella could have an underlying infection affecting her digestion and metabolism.</label>
+            <label><input type="radio" name="q2" class="correct-answer"> Bella has a condition where her body is breaking down fat instead of food.</label>
+        </form>
+        <div class="feedback" data-correct-answer="Bella has a condition where her body is breaking down fat instead of food."
+             data-correct-feedback="That’s right! In some conditions, the body cannot use glucose for energy, so it starts breaking down fat and muscle, leading to weight loss even when the cat isn’t eating much."
+             data-incorrect-feedback="While nutrient absorption, stress, or an infection could cause weight loss, given Bella’s other symptoms, the most likely explanation involves the body breaking down fat and muscle for energy."
+             style="display: none;">
+        </div>
+        <div class="btn-container">
+        <button class="btn-submit">Submit</button>
+        <button class="btn-next" style="display: none;">Next</button>
+    </div></div>
+
+    <!-- Question 3 -->
+    <div class="question">
+          <p class="question-number">Question 3 of 4</p>
+          <p class="quest">Bella has been drinking more water and urinating more often. What is the most likely explanation for these symptoms?</p>
+        <form>
+            <label><input type="radio" name="q3"> Bella may be experiencing kidney disease, which can cause excessive thirst and urination.</label>
+            <label><input type="radio" name="q3"> Bella could be dehydrated from a lack of food, leading to more frequent drinking and urination.</label>
+            <label><input type="radio" name="q3"> Bella might be overheating, drinking more water to cool down.</label>
+            <label><input type="radio" name="q3" class="correct-answer"> Bella’s body may be trying to flush out excess substances in the blood, leading to increased thirst and urination.</label>
+        </form>
+        <div class="feedback" data-correct-answer="Bella’s body may be trying to flush out excess substances in the blood, leading to increased thirst and urination."
+             data-correct-feedback="When certain substances build up in the blood, the body compensates by increasing thirst and urination to flush them out."
+             data-incorrect-feedback="While kidney disease or dehydration could cause similar symptoms, Bella’s pattern of increased drinking and urination is more likely due to her body trying to balance certain internal imbalances."
+             style="display: none;">
+        </div>
+        <div class="btn-container">
+        <button class="btn-submit">Submit</button>
+        <button class="btn-next" style="display: none;">Next</button>
+    </div></div>
+
+    <!-- Question 4 -->
+    <div class="question">
+          <p class="question-number">Question 4 of 4</p>
+          <p class="quest">Considering Bella’s symptoms, what are the potential long-term health impacts if her condition goes untreated? Select 3 of the 4 impacts that Bella could experience.</p>
+        <form>
+            <label><input type="checkbox" name="q4" class="correct-answer"> Kidney damage or kidney disease – High blood sugar levels can strain the kidneys, potentially leading to kidney damage over time.</label>
+            <label><input type="checkbox" name="q4" class="correct-answer"> Vision loss or blindness – Prolonged high blood sugar can lead to complications affecting Bella’s eyes.</label>
+            <label><input type="checkbox" name="q4" class="correct-answer"> Increased risk of infections – Diabetes can weaken Bella’s immune system, making her more susceptible to infections.</label>
+            <label><input type="checkbox" name="q4"> Reduced mobility due to joint pain – Diabetes in cats can lead to joint issues and reduced mobility.</label>
+        </form>
+        <div class="feedback" data-correct-answer="Kidney damage, vision loss, and increased risk of infections are all potential impacts of untreated diabetes."
+             data-correct-feedback="Untreated diabetes can lead to kidney damage, vision issues, and a higher risk of infections due to a weakened immune system."
+             data-incorrect-feedback="Not quite. While joint pain can impact mobility, it’s not directly caused by diabetes. Diabetes complications primarily affect the kidneys, eyes, and immune system."
+             style="display: none;">
+        </div>
+        <div class="btn-container">
+        <button class="btn-submit">Submit</button>
+        <button class="btn-next" style="display: none;">Next</button>
+    </div></div>
+
+    <!-- Completion Screen -->
+    <div class="completion-screen">
+        <h2>You've completed the quiz!</h2>
+          <p style="text-align: left;">Based on Bella’s symptoms—lethargy, weight loss, and increased thirst—Janice is seeing signs that could point to a serious health condition. Recognizing these early can make all the difference in ensuring a cat like Bella gets the care she needs.</p>
+        <p class="scoring"><span id="score"></span></p>
+        <button class="btn-restart">Restart Quiz</button>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let currentQuestion = 0;
+        let score = 0;
+        const questions = document.querySelectorAll(".question");
+        const completionScreen = document.querySelector(".completion-screen");
+        const scoreDisplay = document.getElementById("score");
+
+        // Function to hide next button
+        function hideNextButton() {
+            const nextButton = questions[currentQuestion].querySelector(".btn-next");
+            nextButton.style.display = "none";
+        }
+
+        // Function to show next button
+        function showNextButton() {
+            const nextButton = questions[currentQuestion].querySelector(".btn-next");
+            nextButton.style.display = "inline-block";
+        }
+
+        // Function to show the active question
+        function showQuestion(index) {
+            questions.forEach((question, i) => {
+                question.classList.toggle("active", i === index);
+            });
+        }
+
+        function calculateScore() {
+            questions.forEach((question, index) => {
+                const correctAnswers = question.querySelectorAll(".correct-answer");
+                const userAnswers = question.querySelectorAll("input:checked");
+
+                // For question 4 (index 3), we check that the number of selected answers matches the correct ones
+                if (index === 3) {
+                    // Ensure the number of selected answers equals the number of correct answers
+                    if (userAnswers.length === correctAnswers.length) {
+                        let isCorrect = true;
+
+                        // Ensure every selected answer is a correct one
+                        userAnswers.forEach((userAnswer) => {
+                            if (!userAnswer.classList.contains("correct-answer")) {
+                                isCorrect = false;
+                            }
+                        });
+
+                        if (isCorrect) {
+                            score++;
+                        }
+                    }
+                } else {
+                    // For other questions, normal check
+                    if (correctAnswers.length === userAnswers.length) {
+                        let isCorrect = true;
+                        correctAnswers.forEach((correct) => {
+                            if (![...userAnswers].includes(correct)) {
+                                isCorrect = false;
+                            }
+                        });
+                        if (isCorrect) score++;
+                    }
+                }
+            });
+        }
+
+        function showFeedback(question) {
+            const selectedAnswers = question.querySelectorAll("input:checked");
+            const feedbackDiv = question.querySelector(".feedback");
+
+            const correctAnswers = question.querySelectorAll(".correct-answer");
+            const userAnswers = question.querySelectorAll("input:checked");
+
+            // Check if selected answers are correct
+            const isCorrect = userAnswers.length === correctAnswers.length &&
+                [...userAnswers].every((answer) => answer.classList.contains("correct-answer"));
+
+            if (selectedAnswers.length > 0) {
+                if (isCorrect) {
+                    feedbackDiv.innerHTML = `<strong>That's correct!</strong><br><br>
+                        <strong>Correct answer:</strong> Kidney damage, vision loss, and increased risk of infections are all potential impacts of untreated diabetes.<br><br>
+                        <strong>Feedback:</strong>Untreated diabetes can lead to kidney damage, vision issues, and a higher risk of infections due to a weakened immune system.`;
+                } else {
+                    feedbackDiv.innerHTML = `<strong>That's incorrect!</strong><br><br>
+                        <strong>Correct answer:</strong> Kidney damage, vision loss, and increased risk of infections are all potential impacts of untreated diabetes.<br><br>
+                        <strong>Feedback:</strong> Untreated diabetes can lead to kidney damage, vision issues, and a higher risk of infections due to a weakened immune system.`;
+                }
+            }
+
+            feedbackDiv.style.display = "block";
+        }
+
+        function handleSubmit(event) {
+            const question = questions[currentQuestion];
+            const selectedAnswers = question.querySelectorAll("input:checked");
+
+            if (selectedAnswers.length === 0) {
+                alert("Please select an answer before submitting.");
+                return;
+            }
+
+            showFeedback(question);
+            event.target.style.display = "none"; // Hide submit button
+            showNextButton(); // Show next button
+        }
+
+        function handleNext() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                hideNextButton();
+            } else {
+                calculateScore();
+                completionScreen.classList.add("active");
+                scoreDisplay.textContent = `Your final score is: ${score}/${questions.length}`;
+                hideNextButton(); // Hide next button on completion screen
+            }
+        }
+
+        function handleRestart() {
+            currentQuestion = 0;
+            score = 0;
+            questions.forEach((question) => {
+                const feedback = question.querySelector(".feedback");
+                feedback.style.display = "none";
+                question.querySelectorAll("input").forEach((input) => {
+                    input.checked = false;
+                });
+
+                // Ensure submit button is visible again after reset
+                const submitButton = question.querySelector(".btn-submit");
+                submitButton.style.display = "inline-block"; // Show submit button after restart
+
+                hideNextButton();
+            });
+            completionScreen.classList.remove("active");
+            showQuestion(currentQuestion);
+        }
+
+        // Initial setup
+        hideNextButton();
+        showQuestion(currentQuestion);
+
+        // Event Listeners
+        document.querySelectorAll(".btn-submit").forEach((button) => {
+            button.addEventListener("click", handleSubmit);
+        });
+
+        document.querySelectorAll(".btn-next").forEach((button) => {
+            button.addEventListener("click", handleNext);
+        });
+
+        document.querySelector(".btn-restart").addEventListener("click", handleRestart);
+    });
+</script>
+
+
+
+                                    <script>
+                                        var InjectMightyInteractiveJavascript = (options) => {
+  options.document = options.document ?? document;
+  if (options.injectCss || options.injectJavascript) {
+    options.document.querySelector("#mightyInteractiveOverrideCss")?.remove();
+    options.document.querySelector("#mightyInteractiveOverrideJavascript")?.remove();
+    const style = options.document.createElement("style");
+    style.id = "mightyInteractiveOverrideCss";
+    style.innerHTML = options.injectCss ?? "";
+    options.document.body.appendChild(style);
+    const script2 = options.document.createElement("script");
+    script2.id = "mightyInteractiveOverrideJavascript";
+    script2.innerHTML = `${options.injectJavascript ?? ""}`;
+    options.document.body.appendChild(script2);
+  }
+  const script = options.document.createElement("script");
+  script.innerHTML = `
+        window.parent.postMessage({ type: 'MIGHTY_INTERACTIVE_LOAD', data: {key: '${options.key}'} }, '*');
+
+        function initResizeObserver() {
+            window.parent.postMessage(
+                {
+                    type: 'MIGHTY_INTERACTIVE',
+                    data: {
+                        key: '${options.key}',
+                        height: document
+                            .documentElement.offsetHeight,
+                    },
+                },
+                '*'
+            );
+            new ResizeObserver(() => {
+                window.parent.postMessage(
+                    {
+                        type: 'MIGHTY_INTERACTIVE',
+                        data: {
+                            key: '${options.key}',
+                            height: document
+                                .documentElement.offsetHeight,
+                        },
+                    },
+                    '*'
+                );
+            }).observe(document.documentElement);
+        }
+        if (document.readyState === 'complete') {
+            initResizeObserver();
+        } else {
+            document.onreadystatechange = () => {
+                if (document.readyState === 'complete') {
+                    initResizeObserver();
+                }
+            };
+        }
+
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'MIGHTY_INTERACTIVE_SCREENCAP') {
+                const html = event.data.data.html;
+                const domParser = new window.DOMParser();
+                const snapshot = domParser.parseFromString(html, 'text/html');
+                document.replaceChild(snapshot.documentElement, document.documentElement);
+            }
+        });
+    `;
+  options.document.body.appendChild(script);
+};
+                                        InjectMightyInteractiveJavascript({
+                                            key: '5aeff626-0356-402d-bbc7-669a8f873af0'
+                                        })
+                                    </script>
+                                    <script>
+                                        
+                                    </script>
+                                    <style>
+                                        
+                                    </style>
+                                    </body>
+
+</html>
