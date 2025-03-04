@@ -14,6 +14,30 @@
     <!-- Resize Hack -->
     <script type="text/javascript">
       window.resizeTo(screen.width, screen.height);
+
+      (function () {
+    let desiredTitle = "Galaxia Analytics Training";
+    
+    function lockTabTitle() {
+        let currentTitle = document.title;
+
+        // ✅ Only update if the title is different (prevents flickering)
+        if (currentTitle !== desiredTitle) {
+            document.title = desiredTitle;
+        }
+    }
+
+    // ✅ Set title immediately and continuously monitor changes
+    document.title = desiredTitle;
+    let observer = new MutationObserver(lockTabTitle);
+
+    // ✅ Watch for title changes in the document head
+    observer.observe(document.querySelector("title"), { childList: true });
+
+    // ✅ Also check periodically to catch any changes missed by the observer
+    setInterval(lockTabTitle, 2000);
+})();
+
     </script>
     
     <!--[if lt IE 9]>
