@@ -1,0 +1,29 @@
+---
+layout: default
+title: Portfolio
+description: 
+gif: /assets/images/portfolio/mast.gif
+image: 
+permalink: /portfolio
+---
+{% include mast.html %}
+
+<section class="post section-padding bg-white">
+  <div class="grid">
+    <p class="intro">Welcome to my portfolio! I’m a Learning Experience Designer with a passion for creating impactful, engaging learning solutions. Skilled in a wide range of tools, including Adobe Creative Suite, Camtasia, Figma, Adapt Authoring Tool and Framework, Evolve Authoring, Articulate 360, and HTML/CSS/JS. I combine technical expertise with creative vision to design content that drives understanding and enhances performance. Explore my work to see how I transform ideas into meaningful learning experiences that deliver results for both learners and organizations.</p> 
+    <p class="intro">More samples available upon request.</p>
+  </div>
+</section>
+
+<section class="section-padding--no-top bg-white">
+  <div class="grid">
+    <ul>
+      {% assign ordered_portfolio = site.portfolio | sort: 'order' | reverse %}
+      {% for portfolio in ordered_portfolio %}
+
+        {% include portfolio-card.html %}
+
+      {% endfor %}
+    </ul>
+  </div>
+</section>
