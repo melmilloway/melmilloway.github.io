@@ -47,28 +47,6 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="0"
-          height="0"
-          style={{ position: "absolute" }}
-          aria-hidden="true"
-        >
-          <filter id="noiseFilter">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.62"
-              numOctaves={4}
-              stitchTiles="stitch"
-            />
-            <feColorMatrix
-              type="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"
-            />
-            <feComposite operator="in" in2="SourceGraphic" result="monoNoise" />
-            <feBlend in="SourceGraphic" in2="monoNoise" mode="screen" />
-          </filter>
-        </svg>
         <CursorDot />
         {children}
         <footer className="py-8 border-t border-ink/8">
