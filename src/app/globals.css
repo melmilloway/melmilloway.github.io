@@ -64,63 +64,63 @@ html {
   scroll-behavior: smooth;
 }
 
-*, *::before, *::after,
-*:hover, *:focus, *:active, *:visited,
-a, a:hover, a:visited,
-button, button:hover,
-input, textarea, select,
-[role="button"], [role="link"] {
+* {
   cursor: none !important;
 }
 
-#circularcursor {
-  background-color: transparent;
-  border: 1.5px solid var(--color-ink);
-  width: 30px;
-  height: 30px;
+#cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-ink);
   border-radius: 50%;
   position: fixed;
-  top: -100px;
-  left: -100px;
-  opacity: 0;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%, -50%);
-  transition: opacity 0.15s ease;
+  opacity: 0;
+  transition: opacity 0.15s ease,
+              width 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-#circularcursor::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  width: 5px;
-  height: 5px;
+#cursor-dot.visible { opacity: 1; }
+#cursor-dot.is-hovering { width: 0; height: 0; opacity: 0; }
+
+#cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--color-ink);
   border-radius: 50%;
-  background-color: var(--color-ink);
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  background: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.15s ease,
+              width 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.2s ease;
 }
 
-#circularcursor.is-hovering::after {
-  transform: translate(-50%, -50%) scale(6);
-}
+#cursor-ring.visible { opacity: 0.8; }
+#cursor-ring.is-hovering { width: 20px; height: 20px; background: var(--color-ink); opacity: 0.12; }
 
 @media (hover: none) and (pointer: coarse) {
   html {
     cursor: auto !important;
   }
 
-  *, *::before, *::after,
-  *:hover, *:focus, *:active, *:visited,
-  a, a:hover, a:visited,
-  button, button:hover,
-  input, textarea, select,
-  [role="button"], [role="link"] {
+  * {
     cursor: auto !important;
   }
 
-  #circularcursor {
+  #cursor-dot,
+  #cursor-ring {
     display: none;
   }
 }
