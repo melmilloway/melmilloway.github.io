@@ -83,7 +83,7 @@ export default function CaseStudyHeader({
             className="inline-block mt-6 font-sans font-semibold text-[14px] text-white bg-purple px-6 py-3 rounded-none hover:bg-purple-medium transition-colors"
             style={{ animation: `fadeIn 0.5s ${easing} 0.35s both` }}
           >
-            {liveLink.label} ↗
+            {liveLink.label} {"\u2197\uFE0E"}
           </a>
         )}
       </div>

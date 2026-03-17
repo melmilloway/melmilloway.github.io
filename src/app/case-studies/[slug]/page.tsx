@@ -39,7 +39,7 @@ export default async function CaseStudyPage({ params }: Props) {
           className="group inline-flex items-center gap-2 font-sans text-[14px] font-medium text-muted hover:text-purple transition-colors mb-10"
           style={{ animation: "fadeIn 0.4s cubic-bezier(0.22,1,0.36,1) both" }}
         >
-          <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
+          <span className="transition-transform duration-200 group-hover:-translate-x-1">{"\u2190\uFE0E"}</span>
           Case Studies
         </Link>
 
@@ -68,7 +68,7 @@ export default async function CaseStudyPage({ params }: Props) {
                 >
                   {Icon && <Icon size={16} className="text-muted shrink-0" />}
                   <div>
-                    <p style={{ fontFamily: "var(--font-comme)", fontSize: "11px", letterSpacing: "0.1em", color: "#6b6760", textTransform: "uppercase", marginBottom: "2px" }}>
+                    <p style={{ fontFamily: "var(--font-comme)", fontSize: "11px", letterSpacing: "0.1em", color: "#4a4845", textTransform: "uppercase", marginBottom: "2px" }}>
                       {item.label}
                     </p>
                     <p style={{ fontFamily: "var(--font-comme)", fontSize: "14px", fontWeight: 500, color: "#1a1814" }}>
@@ -102,7 +102,7 @@ export default async function CaseStudyPage({ params }: Props) {
               rel="noopener noreferrer"
               className="font-sans font-semibold text-[14px] text-white bg-purple px-6 py-3 rounded-none hover:bg-purple-medium transition-colors inline-block"
             >
-              {cs.liveLink.label} ↗
+              {cs.liveLink.label} {"\u2197\uFE0E"}
             </a>
           </div>
         )}

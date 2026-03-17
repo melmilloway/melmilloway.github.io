@@ -8,7 +8,7 @@
   --color-teal: #2d6e6e;
   --color-cream: #faf8f4;
   --color-ink: #1a1814;
-  --color-muted: #6b6760;
+  --color-muted: #4a4845;
 
   --font-serif: var(--font-instrument-serif), "Instrument Serif", "Georgia", serif;
   --font-sans: var(--font-comme), "Helvetica Neue", Arial, sans-serif;
@@ -104,6 +104,25 @@ input, textarea, select,
 
 #circularcursor.is-hovering::after {
   transform: translate(-50%, -50%) scale(6);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  html {
+    cursor: auto !important;
+  }
+
+  *, *::before, *::after,
+  *:hover, *:focus, *:active, *:visited,
+  a, a:hover, a:visited,
+  button, button:hover,
+  input, textarea, select,
+  [role="button"], [role="link"] {
+    cursor: auto !important;
+  }
+
+  #circularcursor {
+    display: none;
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -252,6 +271,14 @@ body::before {
 }
 
 @media (max-width: 767px) {
+  .hero-headline {
+    font-size: clamp(36px, 9.5vw, 52px);
+  }
+
+  .hero-headline-line {
+    white-space: normal;
+  }
+
   .blob-cont {
     position: absolute;
     inset: 0;
@@ -264,26 +291,35 @@ body::before {
   }
 
   .blob-2 {
-    width: 260px;
-    height: 220px;
-    top: -40px;
-    right: -60px;
+    width: 300px;
+    height: 280px;
+    top: -20px;
+    right: -20px;
     left: auto;
   }
 
   .blob-1 {
-    width: 220px;
-    height: 220px;
-    top: 260px;
+    width: 270px;
+    height: 270px;
+    top: 210px;
     left: auto;
-    right: -30px;
+    right: -10px;
   }
 
   .blob-3 {
-    width: 200px;
-    height: 180px;
-    top: 520px;
-    right: -60px;
+    width: 250px;
+    height: 220px;
+    top: 430px;
+    right: -30px;
+  }
+
+  @keyframes cardIn-mobile {
+    from { opacity: 0; transform: translateY(14px); filter: blur(3px); }
+    to   { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+  }
+
+  .card-animate.in-view {
+    animation: cardIn-mobile 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 }
 

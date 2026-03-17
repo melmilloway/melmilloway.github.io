@@ -69,7 +69,7 @@ export default function Hero() {
           <HeroBlob />
           <div
             className="absolute inset-0 md:hidden"
-            style={{ background: "linear-gradient(to right, #faf8f4 0%, transparent 55%), linear-gradient(to bottom, transparent 45%, #faf8f4 60%)" }}
+            style={{ background: "linear-gradient(to right, #faf8f4 0%, transparent 65%), linear-gradient(to bottom, transparent 55%, #faf8f4 72%)" }}
           />
         </div>
       </div>

@@ -33,6 +33,9 @@ export default function CaseStudyCard({
 
     card.classList.remove("in-view");
 
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    if (isMobile) card.style.animationDelay = "0ms";
+
     let observer: IntersectionObserver;
     const timer = setTimeout(() => {
       observer = new IntersectionObserver(
@@ -42,7 +45,10 @@ export default function CaseStudyCard({
             observer.disconnect();
           }
         },
-        { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+        {
+          threshold: isMobile ? 0.05 : 0.15,
+          rootMargin: isMobile ? "0px 0px -20px 0px" : "0px 0px -80px 0px",
+        }
       );
       observer.observe(card);
     }, 100);
@@ -95,7 +101,7 @@ export default function CaseStudyCard({
           className="font-sans font-medium text-[15px] text-purple mt-2 self-start view-case-link"
           aria-hidden="true"
         >
-          View Case Study →
+          View Case Study {"\u2192\uFE0E"}
         </span>
       </div>
     </article>
