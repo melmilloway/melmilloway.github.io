@@ -323,6 +323,16 @@ body::before {
 }
 
 /* ------------------------------------------------------------------ */
+/* Hero — reduce padding on short viewports (laptops ~768px height)   */
+/* ------------------------------------------------------------------ */
+@media (max-height: 800px) {
+  .hero-section {
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* Image reveal — clip-path wipe from left                            */
 /* ------------------------------------------------------------------ */
 @keyframes imageReveal {

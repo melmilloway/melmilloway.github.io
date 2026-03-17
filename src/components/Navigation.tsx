@@ -68,13 +68,13 @@ export default function Navigation() {
           aria-expanded={menuOpen}
         >
           <span
-            className={`block w-5 h-[2px] bg-ink transition-all duration-200 origin-center ${menuOpen ? "rotate-45 translate-y-[6.5px]" : ""}`}
+            className={`block w-5 h-[2px] bg-ink transition-all duration-200 origin-center ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`}
           />
           <span
             className={`block w-5 h-[2px] bg-ink transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`}
           />
           <span
-            className={`block w-5 h-[2px] bg-ink transition-all duration-200 origin-center ${menuOpen ? "-rotate-45 -translate-y-[6.5px]" : ""}`}
+            className={`block w-5 h-[2px] bg-ink transition-all duration-200 origin-center ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`}
           />
         </button>
       </div>
