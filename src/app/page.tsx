@@ -4,6 +4,7 @@ import CaseStudies from "@/components/CaseStudies";
 import SpeakingWriting from "@/components/SpeakingWriting";
 import About from "@/components/About";
 import LetsTalk from "@/components/LetsTalk";
+import QuoteTicker from "@/components/QuoteTicker";
 
 export default function Home() {
   return (
@@ -11,13 +12,13 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
-        <hr className="section-divider-purple-teal" />
+        <div className="section-divider-purple-teal" aria-hidden="true" />
         <CaseStudies />
-        <hr className="section-divider-teal-terracotta" />
+        <div className="section-divider-teal-terracotta" aria-hidden="true" />
         <SpeakingWriting />
-        <hr className="section-divider-terracotta-purple" />
+        <QuoteTicker variant="terracotta-purple" />
         <About />
-        <hr className="section-divider-purple-teal" />
+        <QuoteTicker variant="purple-teal" />
         <LetsTalk />
       </main>
     </>

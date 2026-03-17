@@ -77,7 +77,7 @@ export default function SpeakingWriting() {
               {speakingEvents.map((event) => (
                 <li
                   key={event}
-                  className="font-sans text-ink/80 text-[15px] leading-snug pl-3 border-l border-teal/40"
+                  className="font-sans text-ink/80 text-[15px] leading-snug pl-3 border-l border-teal/30"
                 >
                   {event}
                 </li>
@@ -95,7 +95,8 @@ export default function SpeakingWriting() {
           </div>
 
           {/* Community & Recognition */}
-          <div className="pl-4 border-l-2 border-teal/40">
+          <div className="pl-4 relative">
+            <div className="absolute left-0 inset-y-0 w-[1px]" style={{ background: 'linear-gradient(180deg, rgba(45, 110, 110, 0.3) 0%, rgba(66, 49, 169, 0.3) 100%)' }} />
             <h3 className="font-serif text-ink text-[24px] tracking-[-0.01em] mb-4">
               Community &amp; Recognition
             </h3>
