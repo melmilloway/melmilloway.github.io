@@ -34,8 +34,8 @@ export default function CursorDot() {
       mouseY = e.clientY;
       dot.style.left = `${mouseX}px`;
       dot.style.top = `${mouseY}px`;
-      dot.classList.add("visible");
-      ring.classList.add("visible");
+      dot.classList.add("cursor-active");
+      ring.classList.add("cursor-active");
     };
 
     const onOver = (e: MouseEvent) => {

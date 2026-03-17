@@ -85,7 +85,7 @@ html {
               height 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-#cursor-dot.visible { opacity: 1; }
+#cursor-dot.cursor-active { opacity: 1; }
 #cursor-dot.is-hovering { width: 0; height: 0; opacity: 0; }
 
 #cursor-ring {
@@ -107,7 +107,7 @@ html {
               background 0.2s ease;
 }
 
-#cursor-ring.visible { opacity: 0.8; }
+#cursor-ring.cursor-active { opacity: 0.8; }
 #cursor-ring.is-hovering { width: 20px; height: 20px; background: var(--color-ink); opacity: 0.12; }
 
 @media (hover: none) and (pointer: coarse) {
