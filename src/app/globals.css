@@ -163,6 +163,7 @@ body {
   color: #1a1814;
   font-family: var(--font-comme), "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 /* ------------------------------------------------------------------ */
