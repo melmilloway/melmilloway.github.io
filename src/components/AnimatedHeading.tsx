@@ -33,7 +33,7 @@ export default function AnimatedHeading({
             observer.disconnect();
           }
         },
-        { threshold: 0.5, rootMargin: "0px 0px -40px 0px" }
+        { threshold: 0.2, rootMargin: "0px 0px -20px 0px" }
       );
       observer.observe(el);
     }, 100);

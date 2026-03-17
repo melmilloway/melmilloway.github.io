@@ -28,6 +28,14 @@ export const metadata: Metadata = {
     siteName: "Mel Milloway",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://melmilloway.github.io/images/case-studies/interview-sim.png",
+        width: 800,
+        height: 450,
+        alt: "AI Interview Simulation — a case study by Mel Milloway",
+      },
+    ],
   },
 };
 
