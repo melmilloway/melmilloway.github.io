@@ -7,6 +7,9 @@ export default function CursorDot() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Skip on touch devices
+    if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
+
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
@@ -21,10 +24,9 @@ export default function CursorDot() {
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
     const animate = () => {
-      ringX = lerp(ringX, mouseX, 0.1);
-      ringY = lerp(ringY, mouseY, 0.1);
-      ring.style.left = `${ringX}px`;
-      ring.style.top = `${ringY}px`;
+      ringX = lerp(ringX, mouseX, 0.15);
+      ringY = lerp(ringY, mouseY, 0.15);
+      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
       rafId = requestAnimationFrame(animate);
     };
     rafId = requestAnimationFrame(animate);
@@ -32,8 +34,7 @@ export default function CursorDot() {
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      dot.style.left = `${mouseX}px`;
-      dot.style.top = `${mouseY}px`;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
       dot.classList.add("cursor-active");
       ring.classList.add("cursor-active");
     };

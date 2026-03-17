@@ -72,6 +72,8 @@ html {
 #cursor-dot {
   width: 6px;
   height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
   background: var(--color-ink);
   border-radius: 50%;
   position: fixed;
@@ -90,6 +92,8 @@ html {
 #cursor-ring {
   width: 36px;
   height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
   border: 1.5px solid var(--color-ink);
   border-radius: 50%;
   background: transparent;
@@ -103,11 +107,12 @@ html {
   transition: opacity 0.15s ease,
               width 0.25s cubic-bezier(0.22, 1, 0.36, 1),
               height 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              margin 0.25s cubic-bezier(0.22, 1, 0.36, 1),
               background 0.2s ease;
 }
 
 #cursor-ring.cursor-active { opacity: 0.8; }
-#cursor-ring.is-hovering { width: 20px; height: 20px; background: var(--color-ink); opacity: 0.12; }
+#cursor-ring.is-hovering { width: 20px; height: 20px; margin-left: -10px; margin-top: -10px; background: var(--color-ink); opacity: 0.12; }
 
 @media (hover: none) and (pointer: coarse) {
   html {
