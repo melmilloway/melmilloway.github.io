@@ -1,26 +1,353 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-purple: #4231a9;
+  --color-purple-medium: #5a47c4;
+  --color-purple-light: #9d92e0;
+  --color-terracotta: #c4673a;
+  --color-teal: #2d6e6e;
+  --color-cream: #faf8f4;
+  --color-ink: #1a1814;
+  --color-muted: #6b6760;
+
+  --font-serif: var(--font-instrument-serif), "Instrument Serif", "Georgia", serif;
+  --font-sans: var(--font-comme), "Helvetica Neue", Arial, sans-serif;
+
+  --radius: 0px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ------------------------------------------------------------------ */
+/* Blob keyframe animations — 9s cycles, independent paths             */
+/* ------------------------------------------------------------------ */
+@keyframes blob-one {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(8px, -6px) scale(1.03); }
+  50%  { transform: translate(-5px, 7px) scale(0.97); }
+  75%  { transform: translate(4px, 3px) scale(1.01); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes blob-two {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(-7px, 6px) scale(1.03); }
+  50%  { transform: translate(6px, -5px) scale(0.97); }
+  75%  { transform: translate(-3px, -6px) scale(1.02); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes blob-three {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(5px, 7px) scale(0.98); }
+  50%  { transform: translate(-8px, -3px) scale(1.03); }
+  75%  { transform: translate(6px, -5px) scale(0.99); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Fade-in for hero                                                     */
+/* ------------------------------------------------------------------ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+}
+
+@keyframes wordIn {
+  from { opacity: 0; transform: translateY(14px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Base styles                                                          */
+/* ------------------------------------------------------------------ */
+html {
+  cursor: none !important;
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after,
+*:hover, *:focus, *:active, *:visited,
+a, a:hover, a:visited,
+button, button:hover,
+input, textarea, select,
+[role="button"], [role="link"] {
+  cursor: none !important;
+}
+
+#circularcursor {
+  background-color: transparent;
+  border: 1.5px solid var(--color-ink);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: fixed;
+  top: -100px;
+  left: -100px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.15s ease;
+}
+
+#circularcursor::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-ink);
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#circularcursor.is-hovering::after {
+  transform: translate(-50%, -50%) scale(6);
+}
+
+/* ------------------------------------------------------------------ */
+/* Animated underline on links — draws in from left on hover          */
+/* ------------------------------------------------------------------ */
+@layer base {
+  a,
+  .link-underline,
+  .view-case-link {
+    text-decoration: none;
+    position: relative;
   }
 }
 
+a:not(.no-underline)::after,
+.link-underline::after,
+.view-case-link::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+a:not(.no-underline):hover::after,
+.link-underline:hover::after,
+article:hover .view-case-link::after {
+  transform: scaleX(1);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: #1a1814;
+  font-family: var(--font-comme), "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------------------------------------------------------ */
+/* Wiggle hover — decorative images                                    */
+/* ------------------------------------------------------------------ */
+.wiggle-hover:hover {
+  animation: wiggle 0.5s ease-in-out infinite;
+  cursor: pointer;
+}
+
+@keyframes wiggle {
+  0%  { rotate: 0deg;  translate: 0 0; }
+  25% { rotate: -2deg; translate: -5px 0; }
+  80% { rotate: 2deg;  translate: 5px 0; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Grain overlay — body::before referencing inline SVG filter          */
+/* ------------------------------------------------------------------ */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 25%;
+  background: #8C8C8C;
+  filter: url(#noiseFilter);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero headline — responsive, locked to 3 lines                      */
+/* font-size tracks the text column width (3fr of a 3fr+2fr grid)     */
+/* ------------------------------------------------------------------ */
+.hero-headline {
+  font-size: clamp(28px, 5.5vw, 88px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.hero-headline-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero-word {
+  display: inline-block;
+}
+
+/* Instrument Serif italic — used for "any scale." accent */
+.instrument-serif-italic {
+  font-family: "Instrument Serif", serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------------ */
+/* Blob container + blobs                                              */
+/* ------------------------------------------------------------------ */
+.blob-cont {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  background: transparent;
+  border: none;
+  overflow: visible;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 100px;
+  filter: blur(112px);
+  mix-blend-mode: multiply;
+  will-change: transform;
+}
+
+.blob-1 {
+  background: #6e5fd4;
+  top: 320px;
+  left: 130px;
+  width: 350px;
+  height: 350px;
+  animation: blob-one 9s ease infinite;
+}
+
+.blob-2 {
+  background: #4a9e9e;
+  top: 96px;
+  right: 16px;
+  width: 415px;
+  height: 335px;
+  animation: blob-two 9s ease infinite;
+}
+
+.blob-3 {
+  background: #d4895a;
+  right: 32px;
+  top: 450px;
+  width: 335px;
+  height: 385px;
+  animation: blob-three 9s ease infinite;
+}
+
+@media (max-width: 767px) {
+  .blob-cont {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .blob {
+    filter: blur(90px);
+  }
+
+  .blob-2 {
+    width: 260px;
+    height: 220px;
+    top: -40px;
+    right: -60px;
+    left: auto;
+  }
+
+  .blob-1 {
+    width: 220px;
+    height: 220px;
+    top: 260px;
+    left: auto;
+    right: -30px;
+  }
+
+  .blob-3 {
+    width: 200px;
+    height: 180px;
+    top: 520px;
+    right: -60px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Image reveal — clip-path wipe from left                            */
+/* ------------------------------------------------------------------ */
+@keyframes imageReveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0%   0 0); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Card scroll-in animation                                           */
+/* ------------------------------------------------------------------ */
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
+}
+
+.card-animate {
+  opacity: 0;
+}
+
+.card-animate.in-view {
+  animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ------------------------------------------------------------------ */
+/* Section dividers — 1px gradient lines between sections             */
+/* ------------------------------------------------------------------ */
+.section-divider-purple-teal {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, rgba(66, 49, 169, 0.3) 0%, rgba(45, 110, 110, 0.3) 100%);
+}
+
+.section-divider-teal-terracotta {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, rgba(45, 110, 110, 0.3) 0%, rgba(196, 103, 58, 0.3) 100%);
+}
+
+.section-divider-terracotta-purple {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, rgba(196, 103, 58, 0.3) 0%, rgba(66, 49, 169, 0.3) 100%);
+}
+
+/* ------------------------------------------------------------------ */
+/* Accessibility — respect OS-level "Reduce Motion" preference         */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
