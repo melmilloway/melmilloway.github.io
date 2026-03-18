@@ -332,7 +332,7 @@ html::before {
 /* ------------------------------------------------------------------ */
 /* Hero — reduce padding on short viewports (laptops ~768px height)   */
 /* ------------------------------------------------------------------ */
-@media (max-height: 800px) and (min-width: 768px) {
+@media (max-height: 1000px) and (min-width: 768px) {
   .hero-section {
     padding-top: 5rem;
     padding-bottom: 2rem;
