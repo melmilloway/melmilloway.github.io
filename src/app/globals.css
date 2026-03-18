@@ -329,16 +329,6 @@ html::before {
   }
 }
 
-/* ------------------------------------------------------------------ */
-/* Hero — reduce padding on short viewports (laptops ~768px height)   */
-/* ------------------------------------------------------------------ */
-@media (max-height: 1000px) and (min-width: 768px) {
-  .hero-section {
-    padding-top: 5rem;
-    padding-bottom: 2rem;
-    align-items: start;
-  }
-}
 
 /* ------------------------------------------------------------------ */
 /* Image reveal — clip-path wipe from left                            */
