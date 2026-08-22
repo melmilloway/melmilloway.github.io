@@ -109,11 +109,7 @@ export const caseStudies: CaseStudy[] = [
     subtitle:
       "To give learning designers back the hours spent on repetitive code and open up what they could build.",
     description:
-      "A suite of six free tools built for Articulate Rise creators, turning hours of manual technical work into minutes.",
-    liveLink: {
-      label: "View the live xAPI Code Generator",
-      href: "https://xapi-code-generator-for-rise.replit.app/",
-    },
+      "A suite of six free tools built for Articulate Rise creators that turned hours of manual technical work into minutes.",
     sections: [
       {
         heading: "Business Goal",
@@ -125,12 +121,12 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         heading: "Solution",
-        body: "Built a publicly available suite of six tools for Articulate Rise creators, removing the most time-consuming technical tasks from the design process entirely. Designers type plain language describing what they want to track. The tool generates the code. The SCORM Packager converts HTML files in minutes with no manual setup. The tools are free, live, and used by the broader learning community.\n\nAs an estimation: across an organization of 1K learning designers, each packaging roughly five HTML modules a year, SCORM packaging at four hours per file and $50 an hour adds up to approximately $1 million annually. With the SCORM Packager, that same work takes under five minutes per file, dropping the cost to around $16,000.",
+        body: "Built a suite of six free tools for Articulate Rise creators, removing the most time-consuming technical tasks from the design process entirely. Designers typed plain language describing what they wanted to track. The tool generated the code. The SCORM Packager converted HTML files in minutes with no manual setup. The tools were free, publicly available, and used by the broader learning community.\n\nAs an estimation: across an organization of 1K learning designers, each packaging roughly five HTML modules a year, SCORM packaging at four hours per file and $50 an hour adds up to approximately $1 million annually. With the SCORM Packager, that same work took under five minutes per file, dropping the cost to around $16,000.",
       },
     ],
     metaItems: [
       { iconName: "User", label: "ROLE", value: "Solo project" },
-      { iconName: "Clock", label: "TIMELINE", value: "2 weeks · ongoing" },
+      { iconName: "Clock", label: "TIMELINE", value: "2 weeks" },
       { iconName: "TrendingUp", label: "IMPACT", value: "Estimated $1M annual savings for 1K designers" },
     ],
   },
