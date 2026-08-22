@@ -17,7 +17,7 @@ export default function SpeakingWriting() {
   return (
     <section
       id="speaking"
-      className="py-24 bg-white/40"
+      className="py-24"
       aria-labelledby="speaking-heading"
     >
       <div className="max-w-[1400px] mx-auto px-6">
@@ -41,7 +41,7 @@ export default function SpeakingWriting() {
               Publishing with ATD.
             </p>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
-              Learning designers don't get a playbook. This book is the next
+              Learning designers don&apos;t get a playbook. This book is the next
               best thing. A practical guide for the gray areas, unclear
               direction, changing priorities, and figuring out what to build
               when everyone tells you what they want but not what they need.

@@ -34,7 +34,7 @@ export default function CaseStudyCard({
     card.classList.remove("in-view");
 
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    if (isMobile) card.style.animationDelay = "0ms";
+    if (isMobile) card.style.animationDelay = `${index * 50}ms`;
 
     let observer: IntersectionObserver;
     const timer = setTimeout(() => {
@@ -58,7 +58,7 @@ export default function CaseStudyCard({
       observer?.disconnect();
       card.classList.remove("in-view");
     };
-  }, []);
+  }, [index]);
 
   return (
     <article

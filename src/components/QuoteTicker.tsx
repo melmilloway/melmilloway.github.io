@@ -5,6 +5,8 @@ const gradients = {
 
 type Variant = keyof typeof gradients;
 
+const quoteText = 'Artists who seek perfection in everything are those who cannot attain it in anything. \u2015 Eugene Delacroix';
+
 export default function QuoteTicker({ variant }: { variant: Variant }) {
   const border = gradients[variant];
   return (
@@ -13,14 +15,15 @@ export default function QuoteTicker({ variant }: { variant: Variant }) {
       <div
         className="overflow-hidden py-4"
         style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}
-        aria-label="Quote"
+        role="marquee"
+        aria-label={quoteText}
       >
-        <div className="marquee-track">
+        <div className="marquee-track" aria-hidden="true">
           <span className="font-serif italic text-ink/70 text-[28px] leading-none select-none whitespace-nowrap">
-            Artists who seek perfection in everything are those who cannot attain it in anything. ― Eugene Delacroix &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {quoteText} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span>
-          <span className="font-serif italic text-ink/70 text-[28px] leading-none select-none whitespace-nowrap" aria-hidden="true">
-            Artists who seek perfection in everything are those who cannot attain it in anything. ― Eugene Delacroix &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span className="font-serif italic text-ink/70 text-[28px] leading-none select-none whitespace-nowrap">
+            {quoteText} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span>
         </div>
       </div>

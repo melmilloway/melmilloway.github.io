@@ -36,7 +36,7 @@ export default function LetsTalk() {
   return (
     <section
       id="contact"
-      className="py-24 bg-white/40"
+      className="py-24"
       aria-labelledby="contact-heading"
     >
       <div className="max-w-[1400px] mx-auto px-6">
@@ -66,7 +66,7 @@ export default function LetsTalk() {
                   name="name"
                   type="text"
                   required
-                  className="w-full font-sans text-[16px] text-ink bg-white border border-ink/15 rounded-none px-4 py-3 outline-none focus:border-purple focus:ring-1 focus:ring-purple transition"
+                  className="w-full font-sans text-[16px] text-ink bg-white border border-ink/15 rounded-none px-4 py-3 outline-none focus:border-purple focus:ring-2 focus:ring-purple transition"
                 />
               </div>
 
@@ -82,7 +82,7 @@ export default function LetsTalk() {
                   name="email"
                   type="email"
                   required
-                  className="w-full font-sans text-[16px] text-ink bg-white border border-ink/15 rounded-none px-4 py-3 outline-none focus:border-purple focus:ring-1 focus:ring-purple transition"
+                  className="w-full font-sans text-[16px] text-ink bg-white border border-ink/15 rounded-none px-4 py-3 outline-none focus:border-purple focus:ring-2 focus:ring-purple transition"
                 />
               </div>
 
@@ -98,7 +98,7 @@ export default function LetsTalk() {
                   name="message"
                   rows={5}
                   required
-                  className="w-full font-sans text-[16px] text-ink bg-white border border-ink/15 rounded-none px-4 py-3 outline-none focus:border-purple focus:ring-1 focus:ring-purple transition resize-none"
+                  className="w-full font-sans text-[16px] text-ink bg-white border border-ink/15 rounded-none px-4 py-3 outline-none focus:border-purple focus:ring-2 focus:ring-purple transition resize-none"
                 />
               </div>
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 const navLinks = [
   { label: "Case Studies", href: "#case-studies" },
@@ -81,8 +80,8 @@ export default function Navigation() {
 
       {/* Mobile menu */}
       <div
-        className={`md:hidden overflow-hidden bg-cream transition-[max-height,opacity] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          menuOpen ? "max-h-[500px] opacity-100 border-t border-ink/10" : "max-h-0 opacity-0"
+        className={`md:hidden overflow-hidden bg-cream transition-[max-height,opacity,visibility] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          menuOpen ? "max-h-[500px] opacity-100 visible border-t border-ink/10" : "max-h-0 opacity-0 invisible"
         }`}
       >
         <ul className="flex flex-col px-6 py-4 gap-5" role="list">
