@@ -35,7 +35,7 @@ export default function SpeakingWriting() {
               My Book
             </h3>
             <p className="font-serif italic text-ink text-[17px] mb-3 leading-snug">
-              Title coming soon
+              Getting Unstuck in Learning Design
             </p>
             <p className="font-sans text-muted text-[15px] mb-2">
               Publishing with ATD.
@@ -59,7 +59,16 @@ export default function SpeakingWriting() {
               >
                 LinkedIn
               </a>{" "}
-              for updates on the release.
+              for updates on the release, or{" "}
+              <a
+                href="https://www.amazon.com/Getting-Unstuck-Learning-Design-Clarity/dp/1963392949"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="no-underline text-purple underline decoration-purple underline-offset-4 hover:text-purple-medium transition-colors not-italic"
+              >
+                preorder on Amazon
+              </a>
+              .
             </p>
           </div>
 
