@@ -223,7 +223,7 @@ html::before {
 
 /* Instrument Serif italic — used for "any scale." accent */
 .instrument-serif-italic {
-  font-family: "Instrument Serif", serif !important;
+  font-family: var(--font-instrument-serif), "Instrument Serif", serif !important;
   font-weight: 400 !important;
   font-style: italic !important;
   color: var(--color-ink);

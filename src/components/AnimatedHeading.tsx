@@ -22,8 +22,6 @@ export default function AnimatedHeading({
     const el = ref.current;
     if (!el) return;
 
-    setInView(false);
-
     let observer: IntersectionObserver;
     const timer = setTimeout(() => {
       observer = new IntersectionObserver(
