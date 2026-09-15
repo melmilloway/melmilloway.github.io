@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # npm packages for the Next.js site
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      # Bundle routine minor/patch bumps into one PR to keep noise down.
+      # Security updates still open their own PRs immediately.
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Actions used by .github/workflows/deploy.yml
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "main"
+    schedule:
+      interval: "monthly"
