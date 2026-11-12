@@ -201,7 +201,11 @@
   function render(focusSel) {
     document.body.setAttribute("data-screen", S.screen);
     var html = SCREENS[S.screen]();
-    main.innerHTML = html;
+    var isSplash = S.screen === "welcome" || S.screen === "welcomeBack";
+    // Inner screens carry the same mark as the splash, with progress on the right.
+    // The statement screen draws its own bar inside its teal band.
+    var bar = (isSplash || S.screen === "statement") ? "" : appbar("");
+    main.innerHTML = bar + html;
     renderFooter();
     bind[S.screen] && bind[S.screen]();
     applyVars(main);
@@ -233,7 +237,7 @@
   function renderFooter() {
     var show = S.screen === "welcome" || S.screen === "welcomeBack" || S.screen === "results" || S.screen === "cleared";
     foot.hidden = !show;
-    foot.innerHTML = '<span>' + esc(C.sessionTitle) + '</span><span aria-hidden="true">·</span><span>Mel Milloway</span><span aria-hidden="true">·</span><a href="' + esc(C.linkedIn) + '" rel="noopener noreferrer" data-leave>LinkedIn</a>';
+    foot.innerHTML = '<span>Mel Milloway</span><span aria-hidden="true">·</span><a href="' + esc(C.linkedIn) + '" rel="noopener noreferrer" data-leave>LinkedIn</a>';
   }
 
   foot.addEventListener("click", function (e) {
@@ -257,28 +261,61 @@
   var SCREENS = {};
   var bind = {};
 
-  /* 1. Welcome (first time) */
-  SCREENS.welcome = function () {
-    var w = C.welcome;
-    return '<section class="screen wrap wrap--wide">' +
-      '<div class="split">' +
-        '<div class="stack">' +
-          '<p class="eyebrow">Trust Check</p>' +
-          '<h1 class="h1">' + esc(w.headlineLead) + '<span class="accent">' + esc(w.headlineAccent) + '</span></h1>' +
-          '<p class="lead">' + esc(w.hook) + '</p>' +
-        '</div>' +
-        '<div class="stack">' +
-          '<hr class="divider">' +
-          '<p class="measure">' + esc(w.body) + '</p>' +
-          '<p class="cap">' + esc(w.details) + '</p>' +
-          '<p class="note">' + esc(w.pdf) + '</p>' +
-          '<div class="actions foot-gap">' +
-            '<button type="button" class="btn" data-start>' + esc(w.start) + '</button>' +
-            '<button type="button" class="btn btn--secondary" data-coming>' + esc(w.comingBack) + '</button>' +
-          '</div>' +
-        '</div>' +
+  /* 1. Welcome (first time): full-screen teal splash */
+  var ICON_CLOCK = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+  var ICON_LOCK = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  var ICON_SCREEN = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/></svg>';
+
+  function appbar(right) {
+    return '<header class="appbar wrap wrap--wide">' + mark() + (right || "") + '</header>';
+  }
+
+  function mark() {
+    return '<p class="mark"><span class="mark-sq" aria-hidden="true"><i></i><i></i><i></i></span>Trust Check</p>';
+  }
+  // Puts the closing "speak up?" (or the last two words) in the accent style.
+  function accentEnd(text) {
+    var m = String(text).match(/^(.*\s)(\S+\s\S+)$/);
+    return m ? esc(m[1]) + '<em>' + esc(m[2]) + '</em>' : esc(text);
+  }
+  // Sets a headline one phrase per line (phrase ragging). Falls back to plain
+  // text if the phrases don't add up to the headline exactly.
+  function phraseLines(text, lines) {
+    if (!Array.isArray(lines) || lines.join(" ") !== text) return accentEnd(text);
+    return lines.map(function (ln, i) {
+      // Outer span is the mask; the inner span rises into it.
+      return '<span class="ph"><span class="ph-in">' + (i === lines.length - 1 ? accentEnd(ln) : esc(ln)) + '</span></span>' + (i < lines.length - 1 ? " " : "");
+    }).join("");
+  }
+  function splash(title, body) {
+    return '<section class="splash">' +
+      '<div class="splash-inner wrap wrap--wide">' +
+        '<div class="splash-title">' + mark() + title + '</div>' +
+        '<div class="splash-body">' + body + '</div>' +
       '</div>' +
     '</section>';
+  }
+
+  SCREENS.welcome = function () {
+    var w = C.welcome;
+    // Pick each detail's icon by what it says, so the list can be edited freely.
+    var facts = w.details.split(" · ").map(function (f) {
+      var icon = /minute/i.test(f) ? ICON_CLOCK : /browser|saved/i.test(f) ? ICON_SCREEN : ICON_LOCK;
+      return '<li>' + icon + esc(f) + '</li>';
+    }).join("");
+    return splash(
+      '<h1 class="splash-h">' + phraseLines(w.hook, w.hookLines) + '</h1>',
+      // Lede sits right on top of the paragraph it introduces.
+      '<div class="splash-intro">' +
+        '<p class="splash-lede">' + esc(w.headlineLead + w.headlineAccent) + '</p>' +
+        '<p>' + esc(w.body + " " + w.pdf) + '</p>' +
+      '</div>' +
+      '<ul class="facts">' + facts + '</ul>' +
+      '<div class="actions">' +
+        '<button type="button" class="btn btn--light" data-start>' + esc(w.start) + '</button>' +
+        '<button type="button" class="btn btn--outline-light" data-coming>' + esc(w.comingBack) + '</button>' +
+      '</div>'
+    );
   };
   bind.welcome = function () {
     $("[data-start]", main).addEventListener("click", function () {
@@ -288,28 +325,21 @@
     $("[data-coming]", main).addEventListener("click", function () { go("cleared"); });
   };
 
-  /* 2. Welcome back */
+  /* 2. Welcome back: same splash */
   SCREENS.welcomeBack = function () {
     var last = S.saved[S.saved.length - 1];
     var askLine = last.ask ? " You were working toward: " + last.ask : "";
-    return '<section class="screen wrap wrap--wide">' +
-      '<div class="split">' +
-        '<div class="stack">' +
-          '<p class="eyebrow">Trust Check</p>' +
-          '<h1 class="h1">Welcome <span class="accent">back.</span></h1>' +
-        '</div>' +
-        '<div class="stack">' +
-          '<hr class="divider">' +
-          '<p class="lead">' + esc("Last time, on " + longDate(last.date) + ", you landed in ") +
-            '<span class="swatch ' + zClass(last.zone) + '" aria-hidden="true"></span>\u00a0' + esc(last.zone + ".") +
-            esc(askLine) + '</p>' +
-          '<div class="actions foot-gap">' +
-            '<button type="button" class="btn" data-retake>' + esc(C.welcomeBack.retake) + '</button>' +
-            '<button type="button" class="btn btn--secondary" data-fresh>' + esc(C.welcomeBack.startFresh) + '</button>' +
-          '</div>' +
-        '</div>' +
+    return splash(
+      '<h1 class="splash-h splash-h--short">Welcome <em>back.</em></h1>',
+      '<div class="splash-intro">' +
+        '<p class="splash-lede">' + esc("Last time, on " + longDate(last.date) + ", you landed in " + last.zone + ".") + '</p>' +
+        (askLine ? '<p>' + esc(askLine.trim()) + '</p>' : "") +
       '</div>' +
-    '</section>';
+      '<div class="actions">' +
+        '<button type="button" class="btn btn--light" data-retake>' + esc(C.welcomeBack.retake) + '</button>' +
+        '<button type="button" class="btn btn--outline-light" data-fresh>' + esc(C.welcomeBack.startFresh) + '</button>' +
+      '</div>'
+    );
   };
   bind.welcomeBack = function () {
     $("[data-retake]", main).addEventListener("click", function () {
@@ -338,11 +368,15 @@
     });
   };
 
-  function field(id, value, max, labelledby, describedby, placeholder) {
+  // Hints sit above the field, never inside it as placeholder text, so they
+  // stay visible while someone types.
+  function field(id, value, max, labelledby, describedby, hint) {
+    var hintId = id + "-hint";
+    var described = [describedby, hint ? hintId : ""].filter(Boolean).join(" ");
     return '<div class="field">' +
+      (hint ? '<p class="field-hint" id="' + hintId + '">' + esc(hint) + '</p>' : "") +
       '<textarea id="' + id + '" maxlength="' + max + '" rows="4" aria-labelledby="' + labelledby + '"' +
-        (describedby ? ' aria-describedby="' + describedby + '"' : "") +
-        (placeholder ? ' placeholder="' + esc(placeholder) + '"' : "") + '>' + esc(value) + '</textarea>' +
+        (described ? ' aria-describedby="' + described + '"' : "") + '>' + esc(value) + '</textarea>' +
       '<span class="counter" aria-hidden="true"><span data-count>' + value.length + '</span> / ' + max + '</span>' +
     '</div>';
   }
@@ -360,7 +394,7 @@
       '<div class="topbar">' + backBtn() + '</div>' +
       '<h1 class="h2" id="ask-h">' + esc(a.headline) + '</h1>' +
       '<p class="measure" id="ask-d">' + esc(a.body) + '</p>' +
-      '<div class="stack stack--tight"><p class="eyebrow" id="ask-ex">For example</p>' +
+      '<div class="titleblock"><p class="eyebrow" id="ask-ex">For example</p>' +
       '<ul class="examples" aria-labelledby="ask-ex">' + a.examples.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
       field("ask-input", S.ask, a.max, "ask-h", "ask-d", a.placeholder) +
       '<div class="actions actions--start"><button type="submit" class="btn">' + esc(C.card.next) + '</button></div>' +
@@ -398,22 +432,28 @@
     });
   };
 
-  /* 5. Three stages */
+  /* 5. Three stages: full-bleed color fields */
   SCREENS.stages = function () {
     var st = C.stages;
-    return '<section class="screen wrap wrap--wide">' +
-      '<div class="topbar">' + backBtn() + '</div>' +
-      '<h1 class="h1">' + esc(st.headlineLead) + '<span class="accent">' + esc(st.headlineAccent) + '</span></h1>' +
-      '<ol class="stages">' + st.list.map(function (s, i) {
-        return '<li class="panel stage ' + zClass(s.zone) + '">' +
-          '<div class="stage-head"><span class="swatch" aria-hidden="true"></span>' +
-          '<h2 class="h3">' + esc(s.zone) + '</h2><span class="eyebrow">Stage ' + (i + 1) + '</span></div>' +
-          '<p><strong>' + esc(s.where) + '</strong></p>' +
-          '<p class="small">' + esc(s.what) + '</p>' +
+    return '<section class="screen stages-screen">' +
+      '<div class="wrap wrap--wide stack">' +
+        '<div class="topbar">' + backBtn() + '</div>' +
+        '<h1 class="h1">' + esc(st.headlineLead) + '<span class="accent">' + esc(st.headlineAccent) + '</span></h1>' +
+      '</div>' +
+      '<ol class="fields">' + st.list.map(function (s, i) {
+        return '<li class="field-block f-' + s.zone.toLowerCase() + '">' +
+          '<p class="field-n">Stage ' + (i + 1) + '</p>' +
+          '<div class="field-body">' +
+            '<h2 class="field-word">' + esc(s.zone) + '</h2>' +
+            '<p class="field-where">' + esc(s.where) + '</p>' +
+            '<p class="field-what">' + esc(s.what) + '</p>' +
+          '</div>' +
         '</li>';
       }).join("") + '</ol>' +
-      '<p class="muted">' + esc(st.footer) + '</p>' +
-      '<div class="actions actions--start"><button type="button" class="btn" data-begin>' + esc(st.button) + '</button></div>' +
+      '<div class="wrap wrap--wide stack">' +
+        '<p class="lead">' + esc(st.footer) + '</p>' +
+        '<div class="actions actions--start"><button type="button" class="btn" data-begin>' + esc(st.button) + '</button></div>' +
+      '</div>' +
     '</section>';
   };
   bind.stages = function () {
@@ -430,7 +470,6 @@
     var impact = v >= 4 ? there : v <= 2 ? missing : there + missing;
     return '<h2 class="h3" id="why-h" tabindex="-1">' + esc(k.heading) + '</h2>' +
       '<p>' + esc(s.why) + '</p>' +
-      '<hr class="divider">' +
       '<div data-impact class="stack">' + impact + '</div>' +
       '<div class="actions actions--start"><button type="submit" class="btn">' + esc(i === N - 1 ? k.last : k.next) + '</button></div>';
   }
@@ -438,14 +477,20 @@
   SCREENS.statement = function () {
     var i = S.index, s = C.statements[i];
     var pct = ((i + 1) / N * 100).toFixed(1) + "%";
-    return '<form class="screen wrap" data-form novalidate>' +
-      '<div class="topbar">' + backBtn() +
-        '<span class="count" aria-hidden="true">' + (i + 1) + ' of ' + N + '</span></div>' +
-      '<div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="1" aria-valuemax="' + N + '" aria-valuenow="' + (i + 1) + '" aria-valuetext="' + (i + 1) + ' of ' + N + '"><span data-p="' + pct + '"></span></div>' +
-      '<div class="stack stack--tight">' +
-        '<p class="eyebrow" id="grp-' + i + '">' + esc(s.group) + '</p>' +
-        '<h1 class="statement" id="stmt-h" tabindex="-1"><span class="sr-only">' + (i + 1) + ' of ' + N + '. </span>' + esc(s.text) + '</h1>' +
-      '</div>' +
+    // Teal band: mark, progress and the statement, sized as a statement (not a hero).
+    return '<form class="statement-screen" data-form novalidate>' +
+      '<section class="band">' +
+        appbar('<span class="count" aria-hidden="true">' + (i + 1) + ' of ' + N + '</span>') +
+        '<div class="wrap wrap--wide band-inner">' +
+          '<div class="topbar">' + backBtn() + '</div>' +
+          '<div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="1" aria-valuemax="' + N + '" aria-valuenow="' + (i + 1) + '" aria-valuetext="' + (i + 1) + ' of ' + N + '"><span data-p="' + pct + '"></span></div>' +
+          '<div class="titleblock">' +
+            '<p class="eyebrow" id="grp-' + i + '">' + esc(s.group) + '</p>' +
+            '<h1 class="statement" id="stmt-h" tabindex="-1"><span class="sr-only">' + (i + 1) + ' of ' + N + '. </span>' + esc(s.text) + '</h1>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+      '<div class="wrap wrap--wide below">' +
       '<fieldset class="rating">' +
         '<legend>How often is this true?</legend>' +
         '<div class="rating-options">' + C.ratings.map(function (label, r) {
@@ -455,6 +500,7 @@
         }).join("") + '</div>' +
       '</fieldset>' +
       '<section class="panel panel--white why" data-why aria-labelledby="why-h"' + (S.scores[i] ? "" : " hidden") + '>' + whyCard(i) + '</section>' +
+      '</div>' +
     '</form>';
   };
   bind.statement = function () {
@@ -559,10 +605,10 @@
 
   function gridTable(zone, size) {
     var g = C.grid;
-    var cls = { "Go": "c-go", "Start smaller": "c-smaller", "Build first": "c-first" };
+    var cls = { "Go ahead": "c-go", "Start smaller": "c-smaller", "Build trust first": "c-first" };
     return '<table class="grid-table' + (size ? " has-pick" : "") + '">' +
-      '<caption class="sr-only">Decision grid: trust stage by ask size</caption>' +
-      '<thead><tr><td class="corner"></td>' + g.sizes.map(function (s) { return '<th scope="col">' + esc(s.label) + ' ask</th>'; }).join("") + '</tr></thead>' +
+      '<caption class="sr-only">Decision grid: trust stage by how much the change affects your team</caption>' +
+      '<thead><tr><td class="corner"></td>' + g.sizes.map(function (s) { return '<th scope="col">' + esc(s.label) + ' change</th>'; }).join("") + '</tr></thead>' +
       '<tbody>' + ZONES.map(function (z) {
         return '<tr><th scope="row"><span class="row"><span class="swatch ' + zClass(z) + '" aria-hidden="true"></span>' + z + '</span></th>' +
           SIZES.map(function (s) {
@@ -574,10 +620,15 @@
       }).join("") + '</tbody></table>';
   }
 
+  function sizeLabel(id) {
+    for (var i = 0; i < C.grid.sizes.length; i++) if (C.grid.sizes[i].id === id) return C.grid.sizes[i].label;
+    return cap(id);
+  }
+
   function verdict(zone, size) {
     if (!size) return "";
     var r = C.grid.cells[zone][size];
-    return '<p><strong>' + esc(zone + " + " + cap(size) + " ask → " + r) + '</strong></p><p>' + esc(C.grid.lines[r]) + '</p>';
+    return '<p><strong>' + esc(zone + " + " + sizeLabel(size) + " change → " + r) + '</strong></p><p>' + esc(C.grid.lines[r]) + '</p>';
   }
 
   function cueRows(takes) {
@@ -628,9 +679,10 @@
 
     var summary =
       '<div class="stack">' +
-        '<p class="eyebrow">Trust Check · ' + esc(dateStr) + '</p>' +
         (S.mode === "cleared" ? '<p class="note note--alert">' + esc(r.comparePdf) + '</p>' : "") +
-        '<h1 class="h1">You’re in <span class="zone-word">' + esc(t.zone) + '.</span></h1>' +
+        // Eyebrow and heading form one title block (label sits tight to its heading).
+        '<div class="titleblock"><p class="eyebrow">' + esc(dateStr) + '</p>' +
+        '<h1 class="h1">You’re in <span class="zone-word">' + esc(t.zone) + '.</span></h1></div>' +
         (compare ? '<p class="zone-change">' + esc(zoneChange) + '</p>' : "") +
         '<p class="measure">' + esc(z.meaning) + '</p>' +
         '<div class="stack stack--tight">' +
@@ -654,6 +706,7 @@
           }).join("") +
         '</fieldset>' +
         '<div data-grid>' + gridTable(t.zone, t.askSize) + '</div>' +
+        (C.grid.note ? '<p class="small muted">' + esc(C.grid.note) + '</p>' : "") +
         '<div class="verdict panel panel--white" data-verdict aria-live="polite">' + verdict(t.zone, t.askSize) + '</div>' +
       '</section>';
 
@@ -668,8 +721,8 @@
 
     var tips =
       '<section class="stack" aria-labelledby="tips-h">' +
-        '<p class="eyebrow">Focus</p>' +
-        '<h2 class="h2" id="tips-h">' + focusHtml + '</h2>' +
+        '<div class="titleblock"><p class="eyebrow">Focus</p>' +
+        '<h2 class="h2" id="tips-h">' + focusHtml + '</h2></div>' +
         '<div class="tips-layout"><ol class="tips">' + z.tips.map(function (tp, k) {
           return '<li class="tip"><span class="tip-n" aria-hidden="true">' + (k + 1) + '</span><p><strong>' + esc(tp[0]) + '</strong> ' + esc(tp[1]) + '</p></li>';
         }).join("") + '</ol>' +
@@ -694,10 +747,8 @@
 
     return '<div class="screen wrap wrap--wide results ' + zClass(t.zone) + '">' +
       '<div class="overview">' + summary + decide + '</div>' +
-      '<hr class="divider">' +
       chart +
       '<p class="reason">' + esc(r.bigReason) + '</p>' +
-      '<hr class="divider divider--warm">' +
       tips +
       download +
       after +
@@ -860,7 +911,7 @@
 
     // 1. Title, date, session
     para("Trust Check", 28, { font: "times", color: RGB.purple, after: 2, lh: 1.2 });
-    para(longDate(t.date) + "  |  " + C.sessionTitle, 11, { color: RGB.muted, after: 10 });
+    para(longDate(t.date), 11, { color: RGB.muted, after: 10 });
     rule();
 
     // 2. Reflections
@@ -873,7 +924,7 @@
       para(t.tried, 13, { font: "times", after: 10 });
     }
 
-    // 3. Zone, score, ask size, grid result
+    // 3. Zone, score, size of change, grid result
     ensure(40);
     var zc = RGB[t.zone];
     doc.setFillColor(zc[0], zc[1], zc[2]);
@@ -883,7 +934,7 @@
     var facts = ["Total score: " + t.total + " out of 55"];
     if (compare) facts.push("First take, " + longDate(first.date) + ": " + first.zone + " -> Today: " + t.zone);
     if (t.askSize) {
-      facts.push("Ask size: " + cap(t.askSize));
+      facts.push("Size of change: " + sizeLabel(t.askSize));
       facts.push("Grid result: " + t.gridResult + " - " + C.grid.lines[t.gridResult]);
     }
     facts.forEach(function (f) { para(f, 11, { after: 1 }); });
