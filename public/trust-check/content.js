@@ -1,0 +1,264 @@
+/*
+ * Trust Check content. All learner-facing copy lives here, word for word
+ * from SPEC.md. Mel can edit any string below.
+ */
+window.TC_CONTENT = {
+  /* Open items: replace these two placeholders before the session. */
+  sessionTitle: "[SESSION TITLE]",
+  shortLink: "[SHORT LINK]",
+  linkedIn: "https://linkedin.com/in/melmilloway",
+
+  welcome: {
+    headlineLead: "Your team's performance starts with ",
+    headlineAccent: "trusting you.",
+    hook: "If you were getting something wrong and your team knew it, would they speak up?",
+    body: "This check looks at 11 everyday cues to show where you are with a team: Build, Grow, or Sustain. Then it gives you tips for what to do next. Use it for a team you lead, a team you used to lead, or any group you work with.",
+    details: "About 4 minutes · Private · Saved only in this browser",
+    pdf: "At the end, download your results as a PDF so you can compare when you take it again.",
+    start: "Start",
+    comingBack: "Coming back to retake it?"
+  },
+
+  welcomeBack: {
+    headline: "Welcome back.",
+    retake: "Retake",
+    startFresh: "Start fresh"
+  },
+
+  ask: {
+    headline: "What do you want people to start doing?",
+    body: "Keep one thing in mind as you answer. It could be a new process, a habit, or a way of working together.",
+    examples: [
+      "Using a standard process anyone on the team can follow",
+      "Writing content out for review before building"
+    ],
+    placeholder: "Type it here, or just keep it in mind",
+    max: 150
+  },
+
+  tried: {
+    headline: "What have you tried since last time?",
+    max: 250
+  },
+
+  stages: {
+    headlineLead: "Trust happens in ",
+    headlineAccent: "three stages.",
+    footer: "Next, rate 11 statements about the people you have in mind.",
+    button: "Begin",
+    list: [
+      {
+        zone: "Build",
+        where: "You don't have their trust yet.",
+        what: "Show up for people before you need anything from them. Learn what matters to them, help with their work, and keep small promises. This takes time, and it can't be rushed."
+      },
+      {
+        zone: "Grow",
+        where: "You've started to earn their trust, but you don't fully have it yet.",
+        what: "Make bigger investments in them. Get them the tools they need, bring them into real problems, and follow through on the commitments you make together."
+      },
+      {
+        zone: "Sustain",
+        where: "You have their trust.",
+        what: "Keep watching how people act with you. Notice when someone changes, check in, and own your mistakes quickly."
+      }
+    ]
+  },
+
+  ratings: ["Rarely", "Sometimes", "About half the time", "Often", "Almost always"],
+
+  groups: [
+    { name: "How I show up", items: [0, 1, 2] },
+    { name: "Speaking up", items: [3, 4, 5] },
+    { name: "Leaning in", items: [6, 7, 8] },
+    { name: "Being human", items: [9, 10] }
+  ],
+
+  statements: [
+    {
+      group: "How I show up",
+      text: "I know what matters to people outside of work.",
+      why: "People share personal things with people they feel safe with. If you know what matters to them, it's usually because they chose to tell you. Some people prefer to keep their lives private, and that's okay. What matters is whether they'd feel comfortable telling you.",
+      there: "A teammate mentions their dad's surgery is next month. You plan ahead together so someone can cover the client deliverable due that week, and it ships on schedule.",
+      missing: "The same teammate goes quiet and misses the deadline. You find out why only after the client escalates."
+    },
+    {
+      group: "How I show up",
+      text: "I know what people want from their careers.",
+      why: "Telling you where they want to go means trusting you won't hold it against them and might help them get there.",
+      there: "You know a colleague wants to facilitate, so you bring them in to co-lead the next workshop. They get the experience they wanted, and the team gains another facilitator.",
+      missing: "Your team's strongest designer leaves for a job with \"more growth.\" Three in-flight projects lose the person who knew them best, and the team spends months hiring and onboarding a replacement."
+    },
+    {
+      group: "How I show up",
+      text: "When a problem comes up, I ask others how they'd solve it before offering my own answer.",
+      why: "When you lead with your answer, people learn their job is to carry it out, not to think it through. Asking first shows you trust their judgment and gives them a chance to prove it.",
+      there: "Course completion rates drop, so you ask the people working on it what's going on. A designer who talks to learners says the module is broken on mobile, and it's fixed in a day.",
+      missing: "You decide the course is too long and push for a redesign. Two months later, completion is still low, because the real problem was the mobile bug nobody brought up."
+    },
+    {
+      group: "Speaking up",
+      text: "People bring problems to me early.",
+      why: "Raising a problem early means risking being the one with bad news. People only do it when they expect help, not blame.",
+      there: "A vendor delay gets flagged three weeks before launch. You move the date once, and stakeholders barely notice.",
+      missing: "The same delay comes out two days before launch. You cancel a rollout people cleared their calendars for, and leadership starts questioning your team's timelines."
+    },
+    {
+      group: "Speaking up",
+      text: "People tell me when they disagree with me.",
+      why: "Telling you they disagree is a risk, whether they say it in a meeting or one-on-one. People take it when they trust the relationship can handle it.",
+      there: "In planning, someone says the new tool won't integrate with your LMS. You catch it before signing the contract.",
+      missing: "Everyone nods. Six weeks into rollout, the integration problem surfaces, and the budget is already spent."
+    },
+    {
+      group: "Speaking up",
+      text: "When I ask for feedback, I get specific answers.",
+      why: "Vague feedback is safe feedback. Specific answers mean people believe you really want to hear them.",
+      there: "Someone tells you your last-minute requests are breaking up their focus time. You start batching requests, and deadlines stop slipping.",
+      missing: "Everyone says \"all good.\" The frustration shows up in an exit interview, when it's too late to fix."
+    },
+    {
+      group: "Leaning in",
+      text: "When I try to engage people, they respond in their own way, even the quieter ones.",
+      why: "Trust doesn't look the same for everyone. Quieter people often show it through other channels.",
+      there: "Your quietest team member messages you after a meeting about a flaw in the rollout plan nobody else caught. You fix it before launch.",
+      missing: "They see the same flaw and keep it to themselves. It shows up after launch as rework."
+    },
+    {
+      group: "Leaning in",
+      text: "When I suggest something new, people share their questions or concerns, in the moment or afterward.",
+      why: "Questions and concerns, whether they come right away or a day later, mean people are working out how to make it succeed. When none come at all, they may have decided it won't.",
+      there: "You introduce a new intake process, and people ask how it handles rush requests. You adjust it, and the team actually uses it.",
+      missing: "People say \"sounds good,\" then keep emailing you requests directly. Three months later, you're managing two systems."
+    },
+    {
+      group: "Leaning in",
+      text: "People offer ideas I didn't ask for.",
+      why: "Sharing an unrequested idea risks having it dismissed. People do it when they believe their input changes things.",
+      there: "A teammate suggests templating the onboarding module they rebuild every quarter. It saves the team a week each time.",
+      missing: "They keep rebuilding it by hand, and you never learn where that week went."
+    },
+    {
+      group: "Being human",
+      text: "People admit mistakes to me.",
+      why: "Admitting a mistake means trusting that you'll focus on the fix, not the blame.",
+      there: "Someone tells you they sent the wrong course version to the pilot group. You send a correction that afternoon.",
+      missing: "The wrong version goes out to every learner, and you hear about it from a VP."
+    },
+    {
+      group: "Being human",
+      text: "People come to me for help when they're stuck.",
+      why: "Asking for help means admitting you're stuck. People do it when they trust you won't think less of them for it.",
+      there: "A new hire asks for help with the authoring tool on day two. Ten minutes with a teammate, and they're productive that week.",
+      missing: "They figure it out alone for a week, miss their first deadline, and start wondering whether they made the right call joining."
+    }
+  ],
+
+  card: {
+    heading: "Why this matters",
+    there: "When it's there",
+    missing: "When it's missing",
+    next: "Next",
+    last: "See my results"
+  },
+
+  zones: {
+    Build: {
+      range: "11–25",
+      meaning: "Your team doesn't know yet whether it's safe to be honest with you. That's normal for new teams, new managers, and teams that have been burned before.",
+      focus: "Be consistent, not fast.",
+      tips: [
+        ["Repeat small things.", "Follow up on something someone mentioned last week, like asking how their kid's first week of college went. Weeks of small follow-ups do more than one great conversation."],
+        ["Keep small promises where people can see it.", "If you say you'll check on a tool license by Friday, come back on Friday, even if the answer is no."],
+        ["Ask before you answer.", "When a problem comes up, ask \"What would you try?\" even if you already know what you'd do."],
+        ["Hold off on big asks.", "If a change adds oversight or takes away control, wait until trust has grown, or bring the team the problem instead of your solution."]
+      ],
+      watchTitle: "Watch out for rushing",
+      watch: "Getting to know people quickly and then making a big ask can feel like a setup. People wonder whether the friendliness was the point or the prep.",
+      note: "You don't need a title for this. Trust can start building before you're anyone's manager, as a peer, a teammate, or a project lead."
+    },
+    Grow: {
+      range: "26–40",
+      meaning: "People are starting to open up, but they're still testing what happens when they take a risk with you.",
+      focus: "Make speaking up worth it.",
+      tips: [
+        ["Remove what's in their way.", "Ask \"What's slowing you down?\" and fix one thing, like getting the right tool or dropping a report nobody reads."],
+        ["Give concerns a regular place.", "Set up a recurring time when anything can be raised, including concerns about how you lead. Act on at least one thing each time, so people see it leads somewhere."],
+        ["Respond well to the first risk.", "The first time someone disagrees with you or admits a mistake, your reaction decides whether they'll do it again. Thank them before you respond to what they said."],
+        ["Hand over a real decision.", "Let the team fully own one decision, like how to structure the next project kickoff, and don't override it."]
+      ],
+      watchTitle: "Watch out for asking and then going silent",
+      watch: "You ask the team, \"What should we change about how requests come in?\" They give you five ideas. Weeks go by, nothing changes, and you never mention it again. The next time you ask, the room is quiet. Close the loop, even when the answer is no: tell the team what you'll do, what you won't, and why.",
+      note: ""
+    },
+    Sustain: {
+      range: "41–55",
+      meaning: "People bring you problems, ideas, and disagreement. You have trust, and the work now is keeping it, which starts with watching yourself as closely as you watch the team.",
+      focus: "Keep reading the room, including how you show up.",
+      tips: [
+        ["Watch yourself, not just the team.", "Small missteps still happen at high trust, like thanking one person publicly for a project and leaving out someone else who helped. You may not notice it, but they will."],
+        ["Notice when someone is quieter than usual for them.", "Compare each person to their own normal, not to the rest of the team. A usually chatty person giving short answers in a 1:1 is a cue."],
+        ["Check in directly.", "Ask, \"You seem a bit quieter today. Is something on your mind?\" When trust is high, people will tell you, and that's how you know it's still there."],
+        ["Own it quickly.", "Apologize for the specific thing, and fix what you can, like recognizing them publicly too. How you handle a misstep can strengthen trust more than never making one."],
+        ["Use the trust, and keep checking it.", "This is when practices that need trust actually work, like open forums or full ownership of an initiative. Retake this check every quarter and after big changes. New team members start at Build, even if the rest of the team is at Sustain."]
+      ],
+      watchTitle: "Watch out for assuming trust is permanent",
+      watch: "The higher the trust, the more people notice when you slip. And they'll only tell you if you ask.",
+      note: ""
+    }
+  },
+
+  grid: {
+    question: "How big is what you're asking for?",
+    sizes: [
+      { id: "small", label: "Small", desc: "Low risk, little changes for them. For example, sharing what's slowing them down." },
+      { id: "medium", label: "Medium", desc: "Changes how they work, and they help shape it. For example, a standard process the team decides together." },
+      { id: "big", label: "Big", desc: "Takes away control or adds oversight. For example, a required review step before building." }
+    ],
+    cells: {
+      Build: { small: "Go", medium: "Start smaller", big: "Build first" },
+      Grow: { small: "Go", medium: "Go", big: "Start smaller" },
+      Sustain: { small: "Go", medium: "Go", big: "Go" }
+    },
+    lines: {
+      "Go": "You have the trust for this. Ask.",
+      "Start smaller": "Make a smaller version of the ask first, while trust grows.",
+      "Build first": "Focus on building trust before asking. Start with the tips below."
+    }
+  },
+
+  results: {
+    bigReason: "Every one of these cues affects whether your team can do what you're asking. When trust is there, people bring you problems, ideas, and effort. When it isn't, you're working without the information and energy your team already has.",
+    download: "Download my results (PDF)",
+    downloadNote: "Your results are saved only in this browser, and they can be cleared. Download your PDF so you can compare next time.",
+    noStorage: "Your browser isn't saving results, so download your PDF to compare later.",
+    comparePdf: "Compare these results with your PDF from last time.",
+    howToRead: "A statement you cared about went up: what you're doing is working. No change: keep going, since trust builds slowly. Your zone went up: you may be ready for a bigger ask.",
+    askLabel: "What I want people to start doing",
+    triedLabel: "What I've tried since last time",
+    startFresh: "Start fresh",
+    retakeLater: "Retake later at "
+  },
+
+  startFresh: {
+    heading: "Start fresh?",
+    body: "This clears all your saved results from this browser, including your comparison history. You can't undo this.",
+    note: "Download your PDF first if you want to keep them.",
+    download: "Download PDF",
+    clear: "Clear and start fresh",
+    cancel: "Cancel"
+  },
+
+  cleared: {
+    heading: "We couldn't find your results from last time.",
+    body: "Your browser's local storage may have been cleared, or you may be on a different device or browser. Open the PDF you downloaded last time, take the check again, and compare your new results with it side by side.",
+    button: "Take it again",
+    back: "Back"
+  },
+
+  leave: {
+    heading: "Download your results before you go?",
+    download: "Download PDF",
+    leave: "Leave without downloading"
+  }
+};

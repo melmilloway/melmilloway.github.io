@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>Trust Check</title>
+<meta name="description" content="Rate 11 everyday trust cues, see whether you're in Build, Grow, or Sustain, and get tips for what to do next.">
+<meta name="theme-color" content="#faf8f4">
+<link rel="preload" href="fonts/comme-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"><div class="blob"></div></div>
+<a class="skip" href="#main">Skip to content</a>
+<main id="main" class="app" tabindex="-1">
+  <noscript><p class="wrap">The Trust Check needs JavaScript to run.</p></noscript>
+</main>
+<footer class="site-foot wrap wrap--wide" id="site-foot"></footer>
+<div class="sr-only" aria-live="polite" aria-atomic="true" id="announce"></div>
+<dialog class="dialog" id="dialog" aria-labelledby="dialog-h"></dialog>
+<script src="content.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
