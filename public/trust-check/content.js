@@ -175,11 +175,11 @@ window.TC_CONTENT = {
     Build: {
       range: "11–25",
       meaning: "Your team doesn't know yet whether it's safe to be honest with you. That's normal for new teams, new managers, and teams that were treated badly by a past leader.",
-      focus: "Do small things reliably, again and again. Trust grows from steady actions, and rushing won't speed it up.",
+      focus: "Follow up and follow through, again and again. Trust grows from steady actions, and rushing won't speed it up.",
       tips: [
-        ["Repeat small things.", "Follow up on something someone mentioned last week, like asking how something they mentioned turned out. Many small follow-ups do more than one great conversation."],
-        ["Keep small promises where people can see it.", "If you say you'll check on a tool license by Friday, come back on Friday, even if the answer is no."],
-        ["Ask before you answer.", "When a problem comes up, ask \"What would you try?\" before sharing your idea, and be open to theirs being better."],
+        ["Follow up on what people tell you.", "If someone mentions something that matters to them, ask later how it turned out. Many small follow-ups do more than one great conversation."],
+        ["Do what you said you'd do.", "If you say you'll check on a tool license by Friday, come back on Friday, even if the answer is no."],
+        ["Ask for their ideas before sharing yours.", "When a problem comes up, ask \"What would you try?\" before sharing your idea, and be open to theirs being better."],
         ["Wait before introducing major changes.", "If a change adds oversight or takes away control, wait until trust has grown, or bring the team the problem instead of your solution."]
       ],
       watchTitle: "Watch out for rushing",
@@ -192,9 +192,9 @@ window.TC_CONTENT = {
       focus: "When someone takes a risk with you, like raising a problem or disagreeing, make sure it goes well for them.",
       tips: [
         ["Make their work easier.", "Ask, \"What's one thing I could do to make your work easier?\" Then do it, like getting them the right tool or stopping a report nobody reads."],
-        ["Give concerns a regular place.", "Set up a recurring time when anything can be raised, including concerns about how you lead. Act on at least one thing each time, so people see it leads somewhere."],
-        ["Respond well the first time someone takes a risk.", "The first time someone disagrees with you or admits a mistake, your reaction decides whether they'll do it again. Thank them before you respond to what they said."],
-        ["Hand over a real decision.", "Let the team fully own one decision, like how to structure the next project kickoff, and don't override it."]
+        ["Set a regular time to hear concerns.", "Set up a recurring time when anything can be raised, including concerns about how you lead. Act on at least one thing each time, so people see it leads somewhere."],
+        ["Thank people when they disagree or admit a mistake.", "The first time someone disagrees with you or admits a mistake, your reaction decides whether they'll do it again. Thank them before you respond to what they said."],
+        ["Let the team make a real decision on their own.", "Let the team fully own one decision, like how to structure the next project kickoff, and don't override it."]
       ],
       watchTitle: "Watch out for asking for ideas and then doing nothing",
       watch: "You ask the team, \"What should we change about how requests come in?\" They give you five ideas. Weeks go by, nothing changes, and you never mention it again. The next time you ask, no one answers. Always follow up, even when the answer is no: tell the team what you'll do, what you won't, and why.",
@@ -205,11 +205,11 @@ window.TC_CONTENT = {
       meaning: "People bring you problems, ideas, and disagreement. You have trust, and the work now is keeping it, which starts with watching yourself as closely as you watch the team.",
       focus: "Keep noticing how people respond to you and how you treat them, so you catch it early if trust starts to slip.",
       tips: [
-        ["Watch yourself, not just the team.", "Small missteps still happen at high trust, like thanking one person publicly for a project and leaving out someone else who helped. You may not notice it, but they will."],
-        ["Notice when someone is quieter than usual for them.", "Compare each person to their own normal, not to the rest of the team. A usually talkative person giving short answers in a 1:1 is a sign."],
-        ["Check in directly.", "Ask privately, \"How are things going for you lately?\" Leave room for them to share, or not. When trust is high, people will tell you, and that's how you know it's still there."],
+        ["Notice your own small missteps.", "Small missteps still happen at high trust, like thanking one person publicly for a project and leaving out someone else who helped. You may not notice it, but they will."],
+        ["Notice when someone acts differently than usual.", "Compare each person to their own normal, not to the rest of the team. A usually talkative person giving short answers in a 1:1 is a sign."],
+        ["Check in privately when something seems off.", "Ask privately, \"How are things going for you lately?\" Leave room for them to share, or not. When trust is high, people will tell you, and that's how you know it's still there."],
         ["Admit your own mistakes quickly.", "Apologize for the specific thing, and fix what you can, like recognizing their work too, in a way they're comfortable with. How you handle a misstep can strengthen trust more than never making one."],
-        ["Use the trust you've built, and keep checking that it's still there.", "This is when practices that need trust actually work, like open forums or full ownership of an initiative. Retake this check regularly and after major changes. New team members start at Build, even if the rest of the team is at Sustain."]
+        ["Give the team more ownership, and keep checking trust.", "This is when practices that need trust actually work, like open forums or full ownership of an initiative. Retake this check regularly and after major changes. New team members start at Build, even if the rest of the team is at Sustain."]
       ],
       watchTitle: "Watch out for assuming trust is permanent",
       watch: "The higher the trust, the more people notice when you make a mistake. Asking how you're doing makes it easier for them to tell you.",
@@ -218,6 +218,7 @@ window.TC_CONTENT = {
   },
 
   grid: {
+    planTitle: "Planning a change with your team?",
     yourChange: "The change you typed earlier",
     skipped: "You skipped this earlier",
     reflect: "Think about one change you want people to make, like a new process, a habit, or a way of working together.",
@@ -237,13 +238,13 @@ window.TC_CONTENT = {
     lines: {
       "Go ahead": "You have the trust to introduce this change.",
       "Create it together": "Create the change with your team before it starts, while trust grows.",
-      "Build trust first": "Build trust before you introduce this change. Start with the tips below."
+      "Build trust first": "Build trust before you introduce this change."
     },
     /* One concrete action for each result, shown in the result box and the PDF. */
     actions: {
       "Go ahead": "Introduce the change, explain why it matters, and check in with the team to see how it's going.",
       "Create it together": "Share the problem with your team and ask how they would solve it before you decide on the change.",
-      "Build trust first": "Hold off on this change for now. Use the ways to build trust below, then retake this check before you introduce it."
+      "Build trust first": "Hold off on this change for now. Use the ways to build trust above, then retake this check before you introduce it."
     }
   },
 

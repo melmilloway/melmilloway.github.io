@@ -334,7 +334,7 @@ strong, b { font-weight: 650; }
 .appbar + .stages-screen .wrap:first-child { padding-top: 0; }
 
 .mark-btn { display: inline-flex; align-items: center; gap: inherit; padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; cursor: pointer; min-height: 2.75rem; }
-.mark-btn:hover { text-decoration: underline; text-underline-offset: 0.25em; text-decoration-thickness: 2px; }
+.mark-btn:hover { opacity: 0.8; } /* no underline; a slight fade shows it's clickable */
 
 /* ---------- Steps menu ---------- */
 .appbar-right { display: inline-flex; align-items: center; gap: var(--s-s); }
@@ -501,14 +501,16 @@ strong, b { font-weight: 650; }
 
 /* ---------- Results ---------- */
 
-.results { --zone: var(--zone-grow); --zone-text: var(--teal); gap: var(--s-xl); }
+.results { --zone: var(--zone-grow); --zone-text: var(--ink); gap: var(--s-xl); }
 .results.z-build { --zone: var(--zone-build); --zone-text: var(--ink); }
-.results.z-sustain { --zone: var(--zone-sustain); --zone-text: var(--purple); }
+.results.z-sustain { --zone: var(--zone-sustain); --zone-text: var(--ink); }
 
 .zone-word { font-style: normal; color: var(--zone-text); }
-.z-build .zone-word {
+/* Every zone word: ink text (readable) with a thick underline in the zone's
+   light color (the light trio is too pale for text on cream). */
+.zone-word {
   text-decoration: underline;
-  text-decoration-color: var(--terracotta);
+  text-decoration-color: var(--zone);
   text-decoration-thickness: 0.09em;
   text-underline-offset: 0.12em;
 }
@@ -720,6 +722,8 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
 .save-card .after { margin-top: var(--s-xs); }
 
 /* Tips panel: the next step after the result, tied to it by the zone color. */
+/* Part 1 reads as one unit: the tips sit close under the score. */
+.results > .tips-card { margin-top: calc(var(--gap-group) - var(--s-xl)); }
 .tips-card .watch { background: var(--cream); padding: var(--s-s); }
 
 /* Tips flow into columns as space allows. */

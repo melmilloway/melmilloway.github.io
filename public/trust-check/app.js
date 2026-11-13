@@ -911,15 +911,16 @@
           '</div>' +
           zoneBar(t.total, t.zone) +
         '</div>' +
-        (t.tried ? '<div class="why-head"><h2 class="subhead">' + esc(r.triedLabel) + '</h2><p class="reflect-quote">' + esc(t.tried) + '</p></div>' : "") +
-        cues +
       '</div>';
+    var tried = t.tried ? '<div class="why-head"><h2 class="subhead">' + esc(r.triedLabel) + '</h2><p class="reflect-quote">' + esc(t.tried) + '</p></div>' : "";
 
     var decide =
       '<section class="card decide" aria-labelledby="change-h">' +
         // Start from their own change; if they skipped it, ask them to picture one.
         // Their change is the panel's main heading; the size question sits under it.
-        '<div class="why-head"><h2 class="card-title" id="change-h">' + esc(t.ask ? C.grid.yourChange : C.grid.skipped) + '</h2>' +
+        // Part 2: optional planning. Title says what it's for; their change sits under it.
+        '<h2 class="card-title" id="change-h">' + esc(C.grid.planTitle) + '</h2>' +
+        '<div class="why-head"><h3 class="subhead">' + esc(t.ask ? C.grid.yourChange : C.grid.skipped) + '</h3>' +
           (t.ask ? '<p class="reflect-quote">' + esc(t.ask) + '</p>' : '<p>' + esc(C.grid.reflect) + '</p>') + '</div>' +
         '<div class="why-head"><h3 class="subhead" id="grid-h">' + esc(C.grid.question) + '</h3>' +
         // Why the size matters, then the instruction, right under the question.
@@ -966,9 +967,14 @@
       '</section>';
 
 
-    return '<div class="screen wrap wrap--wide results ' + zClass(t.zone) + '">' +
-      '<div class="overview">' + summary + decide + '</div>' +
+    // Part 1, your results: zone and score, what to do (tips), then cue details.
+    // Part 2, planning a change (optional). Then save.
+    return '<div class="screen wrap wrap--mid results ' + zClass(t.zone) + '">' +
+      summary +
       tips +
+      cues +
+      tried +
+      decide +
       download +
     '</div>';
   };
