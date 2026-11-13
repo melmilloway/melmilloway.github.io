@@ -1116,21 +1116,20 @@ details.table-alt > p { margin-top: var(--s-xs); }
 @media (prefers-reduced-motion: reduce) { .scroll-hint { animation: none; } }
 @media print { .scroll-hint { display: none !important; } }
 
-/* Statement screens: slim sticky copy of the statement once the band scrolls away */
-.stmt-mini {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 20;
-  background: var(--teal-deep); color: var(--cream);
-  box-shadow: 0 4px 14px rgba(26, 24, 20, 0.18);
-  padding-block: var(--s-2xs);
-  transform: translateY(-110%); visibility: hidden;
-  transition: transform 260ms var(--ease), visibility 0s linear 260ms;
-}
-.stmt-mini.is-on { transform: none; visibility: visible; transition: transform 260ms var(--ease), visibility 0s; }
-.stmt-mini-inner { display: flex; align-items: baseline; gap: var(--s-s); }
-.stmt-mini-n { flex: none; font-size: var(--t-cap); font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--peach); }
-.stmt-mini-t { font-weight: 650; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-@media (prefers-reduced-motion: reduce) { .stmt-mini, .stmt-mini.is-on { transition: none; } }
-@media print { .stmt-mini { display: none !important; } }
-/* Keep focused or scrolled-to content clear of the slim bar */
-html:has(.statement-screen) { scroll-padding-top: 5.5rem; }
-.statement-screen [data-why] { scroll-margin-top: 5.5rem; }
+
+/* Stages: closing teal band around Begin, mirroring the band at the top */
+.stages-close { background: var(--teal-deep); color: var(--cream); }
+.stages-close :focus-visible { outline-color: var(--cream); }
+.stages-ready { font-size: var(--t-body); font-weight: 650; } /* paragraph size, bold so it reads as the lead-in to Begin */
+/* On tall screens the teal band fills to the bottom, so there's never a cream strip under it */
+.stages-screen { min-height: 100svh; }
+.stages-close { flex: 1 0 auto; }
+
+
+/* Statement screens: collapsing band. Sticky with a negative top (set in JS) so
+   only its bottom strip stays pinned; the strip shows the statement small. */
+.band--collapse { position: sticky; top: var(--band-top, 0px); z-index: 10; transition: box-shadow 200ms var(--ease); }
+.band--collapse.is-collapsed { box-shadow: 0 6px 18px rgba(26, 24, 20, 0.16); }
+html:has(.band--collapse) { scroll-padding-top: calc(var(--pin-h, 4.5rem) + 1rem); } /* focused content stays clear of the pinned statement */
+/* Collapsing band: the statement shrinks into the strip (transform set in JS);
+   the rest of the band fades out early; "n of 11" fades into the strip. */

@@ -54,6 +54,7 @@ window.TC_CONTENT = {
     /* Intro under the heading: what you'll do (with the four areas), then what the score means. */
     rateLead: "You'll rate 11 statements about the people you have in mind, in four areas:",
     intro: "Your answers add up to a score that places you in one of these stages. At the end, your results show which stage you're in and give you tips for what to do next.",
+    ready: "Ready? It takes about 4 minutes.",
     button: "Begin",
     list: [
       {

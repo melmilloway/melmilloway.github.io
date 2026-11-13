@@ -389,7 +389,10 @@
   // Deep teal band shared by the question screens: mark, Back, optional progress,
   // then the eyebrow and heading as one title block.
   function band(o) {
-    return '<section class="band">' +
+    // o.stripTitle: the band collapses as you scroll to a slim pinned strip,
+    // and the statement shrinks to fit it (see collapseBand).
+    var strip = "";
+    return '<section class="band' + (o.stripTitle ? " band--collapse" : "") + '"' + (o.stripTitle ? " data-collapse" : "") + '>' +
       appbar(o.count || "") +
       '<div class="wrap wrap--wide band-inner">' +
         '<div class="topbar">' + backBtn() + '</div>' +
@@ -400,6 +403,7 @@
         '</div>' +
         (o.after || "") +
       '</div>' +
+      strip +
     '</section>';
   }
 
@@ -702,9 +706,11 @@
           '</div>' +
         '</li>';
       }).join("") + '</ol>' +
-      '<div class="wrap wrap--wide stages-foot">' +
+      // Closing teal band: mirrors the band at the top, so Begin has a home.
+      '<div class="stages-close"><div class="wrap wrap--wide stages-foot">' +
+        '<p class="stages-ready">' + esc(st.ready) + '</p>' +
         '<div class="actions actions--start"><button type="button" class="btn" data-begin>' + esc(st.button) + '</button></div>' +
-      '</div>' +
+      '</div></div>' +
       // A quiet hint that there's more below; a picture, not a control.
       '<div class="scroll-hint" data-scroll-hint aria-hidden="true" hidden>' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div>' +
@@ -752,7 +758,7 @@
       band({
         count: '<span class="count" aria-hidden="true">' + (i + 1) + ' of ' + N + '</span>',
         progress: '<div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="1" aria-valuemax="' + N + '" aria-valuenow="' + (i + 1) + '" aria-valuetext="' + (i + 1) + ' of ' + N + '"><span data-p="' + pct + '"></span></div>',
-        eyebrow: s.group, eyebrowId: "grp-" + i,
+        eyebrow: s.group, eyebrowId: "grp-" + i, stripTitle: s.text,
         title: '<h1 class="statement" id="stmt-h" tabindex="-1"><span class="sr-only">' + (i + 1) + ' of ' + N + '. </span>' + esc(s.text) + '</h1>'
       }) +
       '<div class="wrap wrap--wide below">' +
@@ -766,28 +772,40 @@
       '</fieldset>' +
       '<section class="panel panel--white why" data-why aria-labelledby="why-h"' + (S.scores[i] ? "" : " hidden") + '>' + whyCard(i) + '</section>' +
       '</div>' +
-      // Slim copy of the statement that slides in once the band scrolls away, so
-      // people keep the statement in view while reading the card. Visual only:
-      // screen readers already have the heading.
-      '<div class="stmt-mini" data-mini aria-hidden="true"><div class="wrap wrap--wide stmt-mini-inner">' +
-        '<span class="stmt-mini-n">' + (i + 1) + ' of ' + N + '</span>' +
-        '<p class="stmt-mini-t">' + esc(s.text) + '</p>' +
-      '</div></div>' +
     '</form>';
   };
-  var miniObserver = null;
+  // Statement screens, collapsing-band pattern: the band is sticky with a
+  // negative top, so it scrolls up naturally (the big statement leaves off the
+  // top, never under anything) until only its bottom strip is left pinned. The
+  // strip fades in a small copy of the statement. The band never changes size,
+  // so nothing on the page reflows.
+  // Statement screens: once the progress meter scrolls off, the area name and
+  // statement stick to the top at their normal size (no shrinking). The band is
+  // sticky with a negative top, so the logo, Back and progress scroll away first.
+  var bandScroll = null;
+  function collapseBand() {
+    if (bandScroll) { window.removeEventListener("scroll", bandScroll); window.removeEventListener("resize", bandScroll.measure); bandScroll = null; }
+    var band = $("[data-collapse]", main), eb = band && $(".titleblock .eyebrow", band);
+    if (!band || !eb) return;
+    var travel = 1;
+    bandScroll = function () {
+      if (!document.contains(band)) { window.removeEventListener("scroll", bandScroll); return; }
+      band.classList.toggle("is-collapsed", window.scrollY >= travel - 1);
+    };
+    bandScroll.measure = function () {
+      var P = Math.min(28, Math.max(16, window.innerWidth * 0.018));   // room above the area name
+      travel = Math.max(0, eb.getBoundingClientRect().top - band.getBoundingClientRect().top - P);
+      band.style.setProperty("--band-top", (-travel) + "px");
+      document.documentElement.style.setProperty("--pin-h", (band.offsetHeight - travel) + "px");
+      bandScroll();
+    };
+    window.addEventListener("scroll", bandScroll, { passive: true });
+    window.addEventListener("resize", bandScroll.measure);
+    bandScroll.measure();
+  }
   bind.statement = function () {
     var i = S.index;
-    var mini = $("[data-mini]", main), head = $("#stmt-h", main);
-    if (miniObserver) miniObserver.disconnect();
-    if (mini && head && "IntersectionObserver" in window) {
-      miniObserver = new IntersectionObserver(function (entries) {
-        var e = entries[0];
-        // Show only once the statement has scrolled up out of view (not below it).
-        mini.classList.toggle("is-on", !e.isIntersecting && e.boundingClientRect.top < 0);
-      });
-      miniObserver.observe(head);
-    }
+    collapseBand();
     var form = $("[data-form]", main);
     var why = $("[data-why]", main);
     bindBack(function () { history.back(); });
@@ -800,9 +818,8 @@
           why.innerHTML = whyCard(i);
           why.hidden = false;
           S.cardShown[i] = true;
-          // Bring the whole card (and its Next button) into view, then focus its heading.
-          var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-          why.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+          // No jump: the page stays where it is and the card appears below the
+          // ratings. Focus moves to the card for screen readers without scrolling.
           $("#why-h", why).focus({ preventScroll: true });
         } else {
           // Keep focus in the group; just update the impact shown.
