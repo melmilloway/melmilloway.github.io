@@ -23,9 +23,9 @@ window.TC_CONTENT = {
   /* Start, when results are already saved in this browser. */
   saved: {
     heading: "You have saved results",
-    body: "Your results from {date} are saved in this browser. Keep them to compare with this take, or clear them and start fresh.",
-    keep: "Keep and compare",
+    body: "Your results from {date} are saved in this browser. To take the check again, clear them and start fresh. You can download your PDF first.",
     clear: "Clear and start fresh",
+    view: "View previous results",
     cancel: "Cancel"
   },
 

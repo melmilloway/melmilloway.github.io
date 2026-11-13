@@ -266,7 +266,7 @@
         mask, then the rest of the screen rises once as a group.
      3. Things that appear on tap (Why card, dialogs) rise briefly (CSS).
      Same easing everywhere; reduced motion turns all of it off (CSS). */
-  var MOTION = { start: 120, word: 65, line: 110, settle: 180, item: 140 };
+  var MOTION = { start: 120, word: 65, line: 110, settle: 180, item: 140, stage: 220 };
 
   // Wrap each word of a heading in a mask, keeping any inline styling (accent
   // words, the zone word). Returns the inner spans in reading order.
@@ -310,15 +310,26 @@
     // The brush stroke under the accent word draws in once its words have risen.
     h.style.setProperty("--brush-delay", (last + 450) + "ms");
     if (isSplash) {
-      $all(".splash-lede, .splash-intro > p:not(.splash-lede), .facts li, .splash-body .actions .btn", main)
-        .forEach(function (el, k) { el.classList.add("enter"); el.style.setProperty("--d", (after + k * MOTION.item) + "ms"); });
+      var items = $all(".splash-lede, .splash-intro > p:not(.splash-lede), .facts li, .splash-body .actions .btn", main);
+      items.forEach(function (el, k) { el.classList.add("enter"); el.style.setProperty("--d", (after + k * MOTION.item) + "ms"); });
+      // On the welcome, the brush under "tell you?" is the last thing: it draws
+      // once every detail has risen, as the final beat.
+      h.style.setProperty("--brush-delay", (after + items.length * MOTION.item + 400) + "ms");
     } else {
       // Everything after the title block rises once, together.
-      $all(".band-text, .below, .fields, .stages-foot, .screen > :not(.topbar):not(h1):not(.titleblock), .overview > :not(.stack), .overview > .stack > :not(.titleblock)", main)
+      $all(".band-text, .below, .screen > :not(.topbar):not(h1):not(.titleblock), .overview > :not(.stack), .overview > .stack > :not(.titleblock)", main)
         .forEach(function (el) {
           if (el.closest(".enter") || el.querySelector("h1")) return;
           el.classList.add("enter"); el.style.setProperty("--d", after + "ms");
         });
+      // Stages: Build, then Grow, then Sustain rise one after another, then the rest.
+      var blocks = $all(".field-block", main), next = after + 120;
+      blocks.forEach(function (el, k) {
+        next = after + 120 + k * MOTION.stage;
+        el.classList.add("enter"); el.style.setProperty("--d", next + "ms");
+      });
+      var foot = $(".stages-foot", main);
+      if (foot) { foot.classList.add("enter"); foot.style.setProperty("--d", (next + MOTION.stage) + "ms"); }
     }
   }
 
@@ -334,6 +345,9 @@
       case "statement": return (S.index + 1) + " of " + N;
       case "results": return "Results";
       case "welcomeBack": return C.welcomeBack.headline.replace(/\.$/, "");
+      case "stages": return "Three stages";
+      case "cleared": return "No saved results";
+      case "tried": return "What you've tried";
       default: return "Welcome";
     }
   }
@@ -418,8 +432,8 @@
         '<span class="step-meta">' + (enabled ? (extra || "") : ICON_LOCK_SM + '<span class="sr-only">' + esc(k.locked) + '</span>') + '</span>' +
       '</button></li>';
     }
-    if (S.mode === "first") items.push(item(esc(C.stages.headlineLead + C.stages.headlineAccent), !!S.visited.stages, "stages", "", S.screen === "stages"));
-    else items.push(item(esc(C.tried.headline), !!S.visited.tried, "tried", "", S.screen === "tried"));
+    // The stages intro only shows up in the menu if they saw it this time (retakes skip it).
+    if (S.visited.stages) items.push(item(esc(C.stages.headlineLead + C.stages.headlineAccent), true, "stages", "", S.screen === "stages"));
     C.statements.forEach(function (st, i) {
       var v = S.scores[i];
       items.push(item((i + 1) + '. ' + esc(st.text), i <= S.reached, "statement:" + i,
@@ -539,14 +553,8 @@
       go("stages");
     });
     $("[data-previous]", main).addEventListener("click", function () {
-      if (S.saved) {
-        // Show the latest saved results as they were.
-        S.takes = S.saved; S.scores = S.saved[S.saved.length - 1].scores.slice();
-        S.reached = N - 1; S.finished = true; S.editing = false; S.saveOk = true; // these came from storage
-        go("results");
-      } else {
-        go("cleared");
-      }
+      if (S.saved) showPrevious();
+      else go("cleared");
     });
   };
 
@@ -570,7 +578,7 @@
     $("[data-retake]", main).addEventListener("click", function () {
       var last = S.saved[S.saved.length - 1];
       S.mode = "retake"; S.ask = last.ask || ""; S.tried = "";
-      go("tried");
+      go("statement", { index: 0 });
     });
     $("[data-fresh]", main).addEventListener("click", function () { openStartFresh(); });
   };
@@ -589,7 +597,7 @@
     bindBack();
     $("[data-again]", main).addEventListener("click", function () {
       S.mode = "cleared"; S.ask = ""; S.tried = "";
-      go("tried");
+      go("statement", { index: 0 });
     });
   };
 
@@ -751,7 +759,10 @@
           why.innerHTML = whyCard(i);
           why.hidden = false;
           S.cardShown[i] = true;
-          $("#why-h", why).focus();
+          // Bring the whole card (and its Next button) into view, then focus its heading.
+          var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          why.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+          $("#why-h", why).focus({ preventScroll: true });
         } else {
           // Keep focus in the group; just update the impact shown.
           var tmp = document.createElement("div");
@@ -910,7 +921,16 @@
           footer = '<div class="cue-foot"><span class="change"><span class="sr-only">Change: </span>' + signed(v - f) + '</span>' +
           '</div>';
         }
-        return '<li class="cue"><p class="cue-text">' + (i + 1) + '. ' + esc(s.text) + '</p>' + bars + footer + '</li>';
+        // The same "Why this matters" and both stories as the statement screen and the
+        // PDF, so this page holds everything the PDF does (the accessible version).
+        var k = C.card;
+        var more = '<details class="cue-more"><summary>' + esc(k.heading) + '<span class="sr-only">: ' + esc(s.text) + '</span></summary>' +
+          '<div class="cue-more-body">' +
+            '<p>' + rich(s.why) + '</p>' +
+            '<div class="impact"><p class="eyebrow there">' + esc(k.there) + '</p><p>' + rich(s.there) + '</p></div>' +
+            '<div class="impact"><p class="eyebrow">' + esc(k.missing) + '</p><p>' + rich(s.missing) + '</p></div>' +
+          '</div></details>';
+        return '<li class="cue"><p class="cue-text">' + (i + 1) + '. ' + esc(s.text) + '</p>' + bars + footer + more + '</li>';
       }).join("") + '</ul></div>';
     }).join("") + '</div>';
   }
@@ -967,6 +987,7 @@
             // No on-screen table (the bars carry the numbers for screen readers too);
             // the same data downloads as a spreadsheet.
             '<p><button type="button" class="icon-link" data-csv>' + ICON_DOWN + esc(C.results.tableDownload) + '</button></p>' +
+            '<p class="small" role="status" data-csv-status></p>' +
           '</div>' +
         '</details>' +
       '</section>';
@@ -1034,7 +1055,7 @@
         '<div class="tips-layout"><ol class="tips">' + z.tips.map(function (tp, k) {
           return '<li class="tip"><span class="tip-n" aria-hidden="true">' + (k + 1) + '</span><p><strong>' + esc(tp[0]) + '</strong> ' + rich(tp[1]) + '</p></li>';
         }).join("") + '</ol>' +
-        '<aside class="watch stack stack--tight" aria-labelledby="watch-h"><h3 id="watch-h" class="row-icon">' + ICON_EYE + esc(z.watchTitle) + '</h3><p>' + rich(z.watch) + '</p></aside></div>' +
+        '<div class="watch stack stack--tight"><h3 id="watch-h" class="row-icon">' + ICON_EYE + esc(z.watchTitle) + '</h3><p>' + rich(z.watch) + '</p></div></div>' +
         (z.note ? '<p class="measure">' + esc(z.note) + '</p>' : "") +
       '</section>';
 
@@ -1069,7 +1090,11 @@
 
   bind.results = function () {
     $all("[data-csv]", main).forEach(function (b) {
-      b.addEventListener("click", function () { downloadCsv(current()); });
+      b.addEventListener("click", function () {
+        downloadCsv(current());
+        var st = $("[data-csv-status]", main);
+        if (st) st.textContent = "Spreadsheet downloaded.";
+      });
     });
     // Save the planned change as they type (it goes in the PDF too).
     var plan = document.getElementById("plan-input");
@@ -1152,7 +1177,14 @@
     if (e.target === dialog) closeDialog(); // click on backdrop
   });
 
-  // Start with results already saved: keep them for comparison, or clear them.
+  // Show the latest saved results as they were.
+  function showPrevious() {
+    S.takes = S.saved; S.scores = S.saved[S.saved.length - 1].scores.slice();
+    S.reached = N - 1; S.finished = true; S.editing = false; S.saveOk = true; // these came from storage
+    go("results");
+  }
+
+  // Start with results already saved: clear them and start fresh, or look at them.
   function openKeepOrClear() {
     var k = C.saved, last = S.saved[S.saved.length - 1];
     openDialog(
@@ -1160,16 +1192,15 @@
         '<h2 class="h2" id="dialog-h">' + esc(k.heading) + '</h2>' +
         '<p>' + esc(k.body.replace("{date}", longDate(last.date))) + '</p>' +
         '<div class="actions">' +
-          '<button type="button" class="btn" data-d-keep>' + esc(k.keep) + '</button>' +
-          '<button type="button" class="btn btn--secondary" data-d-clear>' + esc(k.clear) + '</button>' +
+          '<button type="button" class="btn" data-d-clear>' + esc(k.clear) + '</button>' +
+          '<button type="button" class="btn btn--secondary" data-d-view>' + esc(k.view) + '</button>' +
         '</div>' +
         '<div><button type="button" class="linkbtn" data-d-cancel>' + esc(k.cancel) + '</button></div>' +
       '</div>',
       function (d) {
-        $("[data-d-keep]", d).addEventListener("click", function () {
-          S.mode = "retake"; S.ask = last.ask || ""; S.tried = "";
+        $("[data-d-view]", d).addEventListener("click", function () {
           closeDialog();
-          go("tried");
+          showPrevious();
         });
         // Clearing can't be undone, so it goes through the usual confirm (with a PDF option).
         $("[data-d-clear]", d).addEventListener("click", function () {
@@ -1264,6 +1295,11 @@
     if (!window.jspdf || !window.jspdf.jsPDF) return;
     var t = takes[idx], first = takes[0], compare = idx > 0;
     var doc = new window.jspdf.jsPDF({ unit: "pt", format: "letter" });
+    // Accessibility basics jsPDF supports: a real title shown in the window,
+    // the document language, and real (selectable) text in reading order.
+    doc.setProperties({ title: "Trust Check results, " + longDate(t.date), subject: "You're in " + t.zone + ". Score " + t.total + " out of 55.", author: "Trust Check by Mel Milloway", creator: "Trust Check" });
+    if (doc.setLanguage) doc.setLanguage("en-US");
+    if (doc.viewerPreferences) doc.viewerPreferences({ DisplayDocTitle: true });
     var W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
     var M = 56, CW = W - 2 * M, y = M, BOTTOM = H - M - 10;
     var zc = RGB[t.zone], tint = RGB_TINT[t.zone], r = C.results, z = C.zones[t.zone];
@@ -1442,7 +1478,7 @@
     z.tips.forEach(function (tp, k) {
       var need = write(tp[0], ST.h3, { x: M + 20, dry: true }) + write(tp[1], ST.body, { x: M + 20, dry: true });
       ensure(need);
-      setStyle(ST.h3, false, zc); doc.text(String(k + 1), M, y + ST.h3.size, { charSpace: 0 });
+      setStyle(ST.h3); doc.text(String(k + 1), M, y + ST.h3.size, { charSpace: 0 }); // ink, not zone color: zone colors are too light for text
       write(tp[0], ST.h3, { x: M + 20, after: 2 });
       write(tp[1], ST.body, { x: M + 20, after: 12 });
     });

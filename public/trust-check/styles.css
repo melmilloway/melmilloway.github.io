@@ -47,7 +47,7 @@
   --orange-on-dark: #d4895a;  /* terracotta on deep teal for large text and icons: 3.2:1 */
   --lilac: #9d92e0;
   --line: rgba(26, 24, 20, 0.1);
-  --line-strong: rgba(26, 24, 20, 0.22);
+  --line-strong: rgba(26, 24, 20, 0.5); /* borders of fields and options: 3.3:1 on cream (WCAG 1.4.11) */
   --surface: rgba(255, 255, 255, 0.62);
 
   /* Zones: Build is a colour block only, never text on cream. */
@@ -296,7 +296,7 @@ strong, b { font-weight: 650; }
 .btn--secondary { background: transparent; border: 2px solid var(--terracotta-deep); color: var(--ink); }
 .btn--secondary:hover { background: rgba(212, 137, 90, 0.18); border-color: var(--terracotta-deep); color: var(--ink); }
 .btn--green { background: var(--zone-grow); border-color: var(--zone-grow); color: var(--ink); } /* download: brand teal with ink text (5.8:1), apart from the terracotta Done below */
-.btn--green:hover { background: #3f8a8a; border-color: #3f8a8a; color: var(--ink); }
+.btn--green:hover { background: #5aabab; border-color: #5aabab; color: var(--ink); } /* lighter on hover keeps ink text at 6.6:1 */
 .btn--danger { background: var(--danger); border-color: var(--danger); color: var(--white); }
 .btn--danger:hover { background: #a3481d; border-color: #a3481d; color: var(--white); }
 .btn--big { min-height: 3.5rem; font-size: var(--t-lead); font-family: var(--sans); }
@@ -887,19 +887,19 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
-  padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(2rem, 1rem + 4vw, 5rem);
+  padding-block: clamp(1.75rem, 6svh, 6rem) clamp(1.75rem, 6svh, 6.5rem); /* breathing room that scales with screen height, so it fits above the fold */
 }
 .splash-inner {
   position: relative; z-index: 1;
   display: flex; flex-direction: column;
-  gap: var(--s-l); /* space, not a line, splits headline from details */
+  gap: clamp(1.5rem, 5svh, 3.5rem); /* space, not a line, splits headline from details; shrinks on short screens */
   container-type: inline-size;
 }
-.splash-title { margin-top: auto; display: flex; flex-direction: column; gap: clamp(0.9rem, 0.6rem + 1vw, 1.5rem); }
+.splash-title { margin-top: auto; display: flex; flex-direction: column; gap: clamp(0.75rem, 2.5svh, 1.5rem); }
 .splash-h {
   /* Sized to its container so the longest line (about 9.5em) always fits on
      one line; the three lines then keep their shape, shortest last. */
-  font: 400 clamp(1.75rem, min(10cqi, 12svh), 8.5rem)/1.02 var(--serif);
+  font: 400 clamp(1.75rem, min(8cqi, 8.5svh), 6.5rem)/1.02 var(--serif); /* sized to width and height, so the whole welcome fits above the fold */
   letter-spacing: -0.025em;
 }
 /* Phrase per line: each phrase starts a new line; a phrase too long for the
@@ -912,14 +912,15 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 /* Splash entrance: each word rises from behind its own mask, one at a time,
    then each detail rises on its own. Transform and opacity only. */
 .splash .mark { animation: fade-in 600ms var(--ease) both; }
+.splash .mark { font-weight: 600; font-size: clamp(0.95rem, 0.8rem + 0.7vw, 1.4rem); } /* lighter and a step smaller, so the headline is what the eye lands on first */
 @keyframes line-up { from { transform: translateY(135%); } to { transform: none; } } /* start fully below the mask, padding included */
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 .splash-h--short { font-size: clamp(3rem, 14cqi, 10rem); }
 .splash-h em { font-style: normal; color: inherit; --brush-color: var(--orange-on-dark); }
-.splash-body { display: flex; flex-direction: column; gap: var(--s-m); max-width: 40rem; }
+.splash-body { display: flex; flex-direction: column; gap: clamp(0.75rem, 3.5svh, var(--s-m)); max-width: 46rem; } /* tighter on short screens so it fits above the fold */
 /* Proximity: the lede and its paragraph are one unit, so they sit close. */
 .splash-intro { display: flex; flex-direction: column; gap: var(--s-2xs); }
-.splash-intro > p:not(.splash-lede) { max-width: 52ch; color: rgba(250, 248, 244, 0.92); }
+.splash-intro > p:not(.splash-lede) { max-width: 62ch; color: rgba(250, 248, 244, 0.92); }
 .splash-lede { font: 650 clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem)/1.4 var(--sans); text-wrap: pretty; }
 .splash-body > .actions { margin-top: var(--s-2xs); }
 
@@ -927,11 +928,11 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
   list-style: none;
   display: flex; flex-wrap: wrap;
   gap: 0.5rem clamp(1rem, 0.7rem + 1vw, 1.75rem);
-  font-size: var(--t-small);
+  font-size: var(--t-body); /* same size as the paragraph above */
   color: rgba(250, 248, 244, 0.88);
 }
-.facts li { display: inline-flex; align-items: center; gap: 0.45em; }
-.facts svg { width: 1.15em; height: 1.15em; flex: none; stroke: var(--orange-on-dark); }
+.facts li { display: inline-flex; align-items: center; gap: 0.5em; }
+.facts svg { width: 1.4em; height: 1.4em; flex: none; stroke: var(--orange-on-dark); }
 
 .btn--outline-light { background: transparent; border-color: var(--cream); color: var(--cream); }
 .btn--outline-light:hover { background: rgba(250, 248, 244, 0.12); border-color: var(--cream); color: var(--cream); }
@@ -1073,4 +1074,17 @@ details.table-alt > p { margin-top: var(--s-xs); }
 .data-table td.n, .data-table th.n { padding-left: var(--s-l); width: 1%; }
 
 /* Welcome: two body paragraphs get normal paragraph spacing (the lede stays tight) */
-.splash-intro > p:not(.splash-lede) + p { margin-top: calc(var(--gap-text) - var(--s-2xs)); }
+.splash-intro > p:not(.splash-lede) + p { margin-top: clamp(0px, calc(2.5svh - var(--s-2xs)), calc(var(--gap-text) - var(--s-2xs))); }
+
+/* Per-cue "Why this matters": a small link-style toggle under each bar */
+.cue-more > summary {
+  display: inline-flex; align-items: center; gap: 0.35em; min-height: 1.75rem; margin-top: calc(-1 * var(--s-3xs)); cursor: pointer; list-style: none; /* sits close under its bar; 28px tall still clears the 24px target minimum */
+  color: var(--action); font-weight: 650; font-size: var(--t-small);
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em;
+}
+.cue-more > summary::-webkit-details-marker { display: none; }
+.cue-more > summary::after { content: ""; width: 0.45em; height: 0.45em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-0.15em); }
+.cue-more[open] > summary::after { transform: rotate(-135deg) translateY(-0.1em); }
+.cue-more > summary:hover { color: var(--action-hover); }
+.cue-more-body { display: flex; flex-direction: column; gap: var(--s-xs); padding: var(--s-2xs) 0 var(--s-xs); font-size: var(--t-small); }
+.cue-more-body .impact { display: flex; flex-direction: column; gap: var(--s-3xs); }
