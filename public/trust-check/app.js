@@ -384,7 +384,6 @@
         '<span class="step-meta">' + (enabled ? (extra || "") : ICON_LOCK_SM + '<span class="sr-only">' + esc(k.locked) + '</span>') + '</span>' +
       '</button></li>';
     }
-    items.push(item(esc(C.ask.headline), !!S.visited.ask, "ask", "", S.screen === "ask"));
     if (S.mode === "first") items.push(item(esc(C.stages.headlineLead + C.stages.headlineAccent), !!S.visited.stages, "stages", "", S.screen === "stages"));
     else items.push(item(esc(C.tried.headline), !!S.visited.tried, "tried", "", S.screen === "tried"));
     C.statements.forEach(function (st, i) {
@@ -501,14 +500,14 @@
   bind.welcome = function () {
     $("[data-start]", main).addEventListener("click", function () {
       S.mode = "first"; S.ask = ""; S.tried = "";
-      go("ask");
+      go("stages"); // the change question now lives on results (Part 2)
     });
     $("[data-coming]", main).addEventListener("click", function () {
       if (S.saved) {
         // Saved results on this browser: go straight into the retake.
         var last = S.saved[S.saved.length - 1];
         S.mode = "retake"; S.ask = last.ask || ""; S.tried = "";
-        go("ask");
+        go("tried");
       } else {
         go("cleared");
       }
@@ -535,7 +534,7 @@
     $("[data-retake]", main).addEventListener("click", function () {
       var last = S.saved[S.saved.length - 1];
       S.mode = "retake"; S.ask = last.ask || ""; S.tried = "";
-      go("ask");
+      go("tried");
     });
     $("[data-fresh]", main).addEventListener("click", function () { openStartFresh(); });
   };
@@ -554,7 +553,7 @@
     bindBack();
     $("[data-again]", main).addEventListener("click", function () {
       S.mode = "cleared"; S.ask = ""; S.tried = "";
-      go("ask");
+      go("tried");
     });
   };
 
@@ -649,7 +648,8 @@
         '</li>';
       }).join("") + '</ol>' +
       '<div class="wrap wrap--wide stages-foot">' +
-        '<p>' + esc(st.footer) + '</p>' +
+        '<div class="why-head"><p>' + esc(st.footer) + '</p>' +
+          '<ul class="areas">' + C.groups.map(function (g) { return '<li>' + esc(g.name) + '</li>'; }).join("") + '</ul></div>' +
         '<div class="actions actions--start"><button type="button" class="btn" data-begin>' + esc(st.button) + '</button></div>' +
       '</div>' +
     '</section>';
@@ -935,8 +935,10 @@
         // Part 2: optional planning. Title says what it's for; their change sits under it.
         '<div class="titleblock"><p class="eyebrow">' + esc(r.part2) + '</p>' +
         '<h2 class="card-title" id="change-h" tabindex="-1">' + esc(C.grid.planTitle) + '</h2></div>' +
-        '<div class="why-head"><h3 class="subhead">' + esc(t.ask ? C.grid.yourChange : C.grid.skipped) + '</h3>' +
-          (t.ask ? '<p class="reflect-quote">' + esc(t.ask) + '</p>' : '<p>' + esc(C.grid.reflect) + '</p>') + '</div>' +
+        // The change box lives here now: optional, saved with the results and in the PDF.
+        '<div class="why-head"><h3 class="subhead" id="plan-h">' + esc(C.grid.changeQuestion) + '</h3>' +
+          '<p id="plan-d">' + esc(C.grid.reflect) + '</p></div>' +
+        field("plan-input", t.ask || "", C.ask.max, "plan-h", "plan-d", C.grid.changeHint) +
         '<div class="why-head"><h3 class="subhead" id="grid-h">' + esc(C.grid.question) + '</h3>' +
         // Why the size matters, then the instruction, right under the question.
         '<p>' + esc((C.grid.note ? C.grid.note + " " : "") + C.grid.choose) + '</p></div>' +
@@ -996,6 +998,19 @@
   };
 
   bind.results = function () {
+    // Save the planned change as they type (it goes in the PDF too).
+    var plan = document.getElementById("plan-input");
+    if (plan) {
+      bindCounter("plan-input");
+      var saveTimer = null;
+      plan.addEventListener("input", function () {
+        var cur = current();
+        cur.ask = plan.value.trim();
+        S.ask = cur.ask;
+        window.clearTimeout(saveTimer);
+        saveTimer = window.setTimeout(persist, 400);
+      });
+    }
     $all("[data-jump]", main).forEach(function (b) {
       b.addEventListener("click", function () {
         var target = document.getElementById(b.getAttribute("data-jump"));

@@ -53,7 +53,7 @@ window.TC_CONTENT = {
     headlineLead: "Trust happens in ",
     headlineAccent: "three stages.",
     intro: "Your answers to the 11 statements add up to a score that places you in one of these stages. At the end, your results show which stage you're in and give you tips for what to do next.",
-    footer: "Next, rate 11 statements about the people you have in mind.",
+    footer: "Next, you'll rate 11 statements about the people you have in mind, in four areas:",
     button: "Begin",
     list: [
       {
@@ -219,6 +219,8 @@ window.TC_CONTENT = {
 
   grid: {
     planTitle: "Planning a change with your team?",
+    changeQuestion: "What change are you planning?",
+    changeHint: "Optional. If you type it, it will show in your PDF.",
     yourChange: "The change you typed earlier",
     skipped: "You skipped this earlier",
     reflect: "Think about one change you want people to make, like a new process, a habit, or a way of working together.",

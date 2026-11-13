@@ -914,6 +914,11 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 .btn--outline-light:hover { background: rgba(250, 248, 244, 0.12); border-color: var(--cream); color: var(--cream); }
 
 /* ---------- Stages: full-bleed color fields ---------- */
+/* The four areas, listed before Begin. */
+.areas { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-3xs) var(--s-2xs); }
+.areas li { font-weight: 650; } /* plain bold names, not boxes (boxes read as buttons) */
+.areas li:not(:last-child)::after { content: "\00b7"; margin-left: var(--s-2xs); font-weight: 400; color: var(--muted); }
+
 
 .stages-screen { display: flex; flex-direction: column; container-type: inline-size; }
 .stages-foot { display: flex; flex-direction: column; gap: var(--gap-text); padding-block: var(--gap-group) var(--s-xl); }
