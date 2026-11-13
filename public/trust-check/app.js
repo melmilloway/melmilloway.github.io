@@ -145,11 +145,14 @@
       finished: false,
       downloaded: false,
       screen: null,
-      index: 0
+      index: 0,
+      visited: {},              // screens seen this take (for the Steps menu)
+      reached: -1,              // furthest statement reached
+      editing: false            // changing answers after results: update the same take
     };
   }
 
-  function homeScreen() { return S.saved ? "welcomeBack" : "welcome"; }
+  function homeScreen() { return "welcome"; } // one front door; returning people use "Coming back to retake it?"
 
   /* ---------------- Navigation ---------------- */
 
@@ -200,6 +203,8 @@
 
   function render(focusSel) {
     document.body.setAttribute("data-screen", S.screen);
+    S.visited[S.screen] = true;
+    if (S.screen === "statement") S.reached = Math.max(S.reached, S.index);
     var html = SCREENS[S.screen]();
     var isSplash = S.screen === "welcome" || S.screen === "welcomeBack";
     // Inner screens carry the same mark as the splash, with progress on the right.
@@ -210,7 +215,7 @@
     renderFooter();
     bind[S.screen] && bind[S.screen]();
     applyVars(main);
-    if (isSplash) sequenceSplash();
+    animateScreen(isSplash);
     window.scrollTo(0, 0);
     var target = (focusSel && $(focusSel, main)) || $("h1", main);
     if (target) {
@@ -220,16 +225,19 @@
     document.title = titleFor() + " · Trust Check";
   }
 
-  // Splash entrance: the headline's words rise one at a time from behind a mask,
-  // then each detail appears on its own: lede, paragraph, each fact, each button.
-  // Timing is set through CSS variables; reduced motion turns it all off in CSS.
-  var WORD_GAP = 65, ITEM_GAP = 140;
-  function sequenceSplash() {
-    var splashEl = $(".splash", main), h = $(".splash-h", main);
-    if (!splashEl || !h) return;
-    var n = 0;
-    var walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
-    var nodes = [], node;
+  /* ---------------- Motion: one system for every screen ----------------
+     1. Splash headline: words rise one at a time from behind a mask, then each
+        detail rises in sequence (the opening moment).
+     2. Every other screen: the main heading rises line by line from behind a
+        mask, then the rest of the screen rises once as a group.
+     3. Things that appear on tap (Why card, dialogs) rise briefly (CSS).
+     Same easing everywhere; reduced motion turns all of it off (CSS). */
+  var MOTION = { start: 120, word: 65, line: 110, settle: 180, item: 140 };
+
+  // Wrap each word of a heading in a mask, keeping any inline styling (accent
+  // words, the zone word). Returns the inner spans in reading order.
+  function maskWords(h) {
+    var walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT), nodes = [], node, out = [];
     while ((node = walker.nextNode())) { if (!node.parentNode.closest(".sr-only")) nodes.push(node); }
     nodes.forEach(function (t) {
       var frag = document.createDocumentFragment();
@@ -237,41 +245,45 @@
         if (!part) return;
         if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
         var mask = document.createElement("span"), inner = document.createElement("span");
-        mask.className = "w"; inner.className = "w-in";
+        mask.className = "mw"; inner.className = "mw-in";
         inner.textContent = part;
-        inner.style.setProperty("--i", n++);
-        mask.appendChild(inner); frag.appendChild(mask);
+        mask.appendChild(inner); frag.appendChild(mask); out.push(inner);
       });
       t.parentNode.replaceChild(frag, t);
     });
-    // Details start just after the last word begins to rise.
-    splashEl.style.setProperty("--seq-start", (150 + Math.max(n - 1, 0) * WORD_GAP + 250) + "ms");
-    $all(".splash-lede, .splash-intro > p:not(.splash-lede), .facts li, .splash-body .actions .btn", splashEl)
-      .forEach(function (el, k) { el.classList.add("seq"); el.style.setProperty("--seq", k); });
+    return out;
   }
 
-  // Masked line-by-line reveal for a heading whose line breaks depend on the
-  // screen width: measure where lines break, wrap each line in a mask, animate,
-  // then put the original markup back so the text reflows normally on resize.
-  function revealLines(h) {
-    if (!h || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
-    var original = h.innerHTML;
-    var srText = $(".sr-only", h);
-    var srHTML = srText ? srText.outerHTML : "";
-    if (srText) srText.remove();
-    var words = h.textContent.trim().split(/\s+/);
-    h.innerHTML = words.map(function (w) { return '<span class="lw">' + esc(w) + '</span>'; }).join(" ");
-    var lines = [], lastTop = null;
-    $all(".lw", h).forEach(function (sp) {
-      var top = sp.offsetTop;
-      if (lastTop === null || Math.abs(top - lastTop) > 4) { lines.push([]); lastTop = top; }
-      lines[lines.length - 1].push(sp.textContent);
-    });
-    h.innerHTML = srHTML + lines.map(function (ln) {
-      return '<span class="line-mask" aria-hidden="true"><span class="line-in">' + esc(ln.join(" ")) + '</span></span>';
-    }).join("") + '<span class="sr-only">' + esc(words.join(" ")) + '</span>';
-    $all(".line-in", h).forEach(function (el, k) { el.style.setProperty("--l", k); });
-    window.setTimeout(function () { if (document.contains(h)) h.innerHTML = original; }, 80 + lines.length * 110 + 800);
+  function animateScreen(isSplash) {
+    var h = isSplash ? $(".splash-h", main) : $("h1", main);
+    if (!h) return;
+    // Reduced motion: no masks, no delays, nothing to wait for.
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var words = maskWords(h), last = 0;
+    if (isSplash) {
+      words.forEach(function (w, k) { last = MOTION.start + k * MOTION.word; w.style.setProperty("--d", last + "ms"); });
+    } else {
+      // Words on the same line share a delay, so each line rises as one.
+      var line = -1, top = null;
+      words.forEach(function (w) {
+        var t = w.parentNode.offsetTop;
+        if (top === null || Math.abs(t - top) > 4) { line++; top = t; }
+        last = MOTION.start + line * MOTION.line;
+        w.style.setProperty("--d", last + "ms");
+      });
+    }
+    var after = last + MOTION.settle;
+    if (isSplash) {
+      $all(".splash-lede, .splash-intro > p:not(.splash-lede), .facts li, .splash-body .actions .btn", main)
+        .forEach(function (el, k) { el.classList.add("enter"); el.style.setProperty("--d", (after + k * MOTION.item) + "ms"); });
+    } else {
+      // Everything after the title block rises once, together.
+      $all(".band-text, .below, .fields, .stages-foot, .screen > :not(.topbar):not(h1):not(.titleblock), .overview > :not(.stack), .overview > .stack > :not(.titleblock)", main)
+        .forEach(function (el) {
+          if (el.closest(".enter") || el.querySelector("h1")) return;
+          el.classList.add("enter"); el.style.setProperty("--d", after + "ms");
+        });
+    }
   }
 
   // CSP blocks inline style attributes, so sizes are set through the CSSOM.
@@ -348,9 +360,67 @@
     sync();
   }
 
+  var STEP_SCREENS = { ask: true, tried: true, stages: true, statement: true, results: true };
+  var ICON_LIST = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>';
+  var ICON_LOCK_SM = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
   function appbar(right) {
-    return '<header class="appbar wrap wrap--wide">' + mark() + (right || "") + '</header>';
+    var steps = STEP_SCREENS[S.screen]
+      ? '<button type="button" class="steps-btn" data-steps aria-haspopup="dialog">' + ICON_LIST + '<span>' + esc(C.steps.button) + '</span></button>'
+      : "";
+    return '<header class="appbar wrap wrap--wide">' + mark() +
+      '<span class="appbar-right">' + (right || "") + steps + '</span></header>';
   }
+
+  // Steps menu: jump to anything already seen; later statements stay locked.
+  function openSteps() {
+    var k = C.steps, items = [];
+    function item(label, enabled, target, extra, current) {
+      return '<li><button type="button" class="step' + (current ? " is-current" : "") + '"' +
+        (enabled ? ' data-go="' + target + '"' : ' disabled') + (current ? ' aria-current="step"' : "") + '>' +
+        '<span class="step-label">' + label + '</span>' +
+        '<span class="step-meta">' + (enabled ? (extra || "") : ICON_LOCK_SM + '<span class="sr-only">' + esc(k.locked) + '</span>') + '</span>' +
+      '</button></li>';
+    }
+    items.push(item(esc(C.ask.headline), !!S.visited.ask, "ask", "", S.screen === "ask"));
+    if (S.mode === "first") items.push(item(esc(C.stages.headlineLead + C.stages.headlineAccent), !!S.visited.stages, "stages", "", S.screen === "stages"));
+    else items.push(item(esc(C.tried.headline), !!S.visited.tried, "tried", "", S.screen === "tried"));
+    C.statements.forEach(function (st, i) {
+      var v = S.scores[i];
+      items.push(item((i + 1) + '. ' + esc(st.text), i <= S.reached, "statement:" + i,
+        v ? esc(C.ratings[v - 1]) : "", S.screen === "statement" && S.index === i));
+    });
+    items.push(item(esc(k.results), !!S.takes && (S.finished || S.editing), "results", "", S.screen === "results"));
+    openDialog(
+      '<div class="stack">' +
+        '<div class="drawer-head"><h2 class="h3" id="dialog-h">' + esc(k.heading) + '</h2>' +
+          '<button type="button" class="drawer-close" data-d-cancel aria-label="' + esc(k.close) + '">' +
+            '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' +
+        '<p class="small muted">' + esc(k.intro) + '</p>' +
+        '<ol class="steps-list">' + items.join("") + '</ol>' +
+      '</div>',
+      function (d) {
+        $("[data-d-cancel]", d).addEventListener("click", closeDialog);
+        $all("[data-go]", d).forEach(function (b) {
+          b.addEventListener("click", function () {
+            var t = b.getAttribute("data-go");
+            closeDialog();
+            if (t === "results") {
+              if (S.editing) { finish(); return; }
+              go("results"); return;
+            }
+            if (S.finished) { S.finished = false; S.editing = true; } // reopen the take to change answers
+            if (t.indexOf("statement:") === 0) go("statement", { index: Number(t.split(":")[1]) });
+            else go(t);
+          });
+        });
+      },
+      { drawer: true }
+    );
+  }
+  main.addEventListener("click", function (e) {
+    if (e.target.closest("[data-steps]")) openSteps();
+  });
 
   function mark() {
     return '<p class="mark"><span class="mark-sq" aria-hidden="true"><i></i><i></i><i></i></span>Trust Check</p>';
@@ -394,7 +464,7 @@
       '</div>' +
       '<ul class="facts">' + facts + '</ul>' +
       '<div class="actions">' +
-        '<button type="button" class="btn btn--light" data-start>' + esc(w.start) + '</button>' +
+        '<button type="button" class="btn" data-start>' + esc(w.start) + '</button>' +
         '<button type="button" class="btn btn--outline-light" data-coming>' + esc(w.comingBack) + '</button>' +
       '</div>'
     );
@@ -404,7 +474,16 @@
       S.mode = "first"; S.ask = ""; S.tried = "";
       go("ask");
     });
-    $("[data-coming]", main).addEventListener("click", function () { go("cleared"); });
+    $("[data-coming]", main).addEventListener("click", function () {
+      if (S.saved) {
+        // Saved results on this browser: go straight into the retake.
+        var last = S.saved[S.saved.length - 1];
+        S.mode = "retake"; S.ask = last.ask || ""; S.tried = "";
+        go("ask");
+      } else {
+        go("cleared");
+      }
+    });
   };
 
   /* 2. Welcome back: same splash */
@@ -418,7 +497,7 @@
         (askLine ? '<p>' + esc(askLine.trim()) + '</p>' : "") +
       '</div>' +
       '<div class="actions">' +
-        '<button type="button" class="btn btn--light" data-retake>' + esc(C.welcomeBack.retake) + '</button>' +
+        '<button type="button" class="btn" data-retake>' + esc(C.welcomeBack.retake) + '</button>' +
         '<button type="button" class="btn btn--outline-light" data-fresh>' + esc(C.welcomeBack.startFresh) + '</button>' +
       '</div>'
     );
@@ -482,7 +561,7 @@
           '<ul class="examples" aria-labelledby="ask-ex">' + a.examples.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
         '</div>' +
         '<div class="answer">' + field("ask-input", S.ask, a.max, "ask-h", "ask-d", a.hint) +
-        '<div class="actions actions--start"><button type="submit" class="btn btn--next" data-next>' + esc(C.card.next) + '</button></div></div>' +
+        '<div class="actions actions--start"><button type="submit" class="btn" data-next>' + esc(C.card.next) + '</button></div></div>' +
       '</div>' +
     '</form>';
   };
@@ -506,7 +585,7 @@
       band({ eyebrow: t.optional, title: '<h1 class="statement" id="tried-h">' + esc(t.headline) + '</h1>' }) +
       '<div class="wrap wrap--wide below">' +
         '<div class="answer">' + field("tried-input", S.tried, t.max, "tried-h", "", t.hint) +
-        '<div class="actions actions--start"><button type="submit" class="btn btn--next" data-next>' + esc(C.card.next) + '</button></div></div>' +
+        '<div class="actions actions--start"><button type="submit" class="btn" data-next>' + esc(C.card.next) + '</button></div></div>' +
       '</div>' +
     '</form>';
   };
@@ -542,7 +621,7 @@
       }).join("") + '</ol>' +
       '<div class="wrap wrap--wide stages-foot">' +
         '<p>' + esc(st.footer) + '</p>' +
-        '<div class="actions actions--start"><button type="button" class="btn btn--next" data-begin>' + esc(st.button) + '</button></div>' +
+        '<div class="actions actions--start"><button type="button" class="btn" data-begin>' + esc(st.button) + '</button></div>' +
       '</div>' +
     '</section>';
   };
@@ -562,7 +641,7 @@
     return '<div class="why-head"><h2 class="h3" id="why-h" tabindex="-1">' + esc(k.heading) + '</h2>' +
       '<p>' + esc(s.why) + '</p></div>' +
       '<div data-impact class="stack">' + impact + '</div>' +
-      '<div class="actions actions--start"><button type="submit" class="btn btn--next">' + esc(i === N - 1 ? k.last : k.next) + '</button></div>';
+      '<div class="actions actions--start"><button type="submit" class="btn">' + esc(i === N - 1 ? k.last : k.next) + '</button></div>';
   }
 
   SCREENS.statement = function () {
@@ -591,7 +670,6 @@
   };
   bind.statement = function () {
     var i = S.index;
-    revealLines($("#stmt-h", main));
     var form = $("[data-form]", main);
     var why = $("[data-why]", main);
     bindBack(function () { history.back(); });
@@ -627,8 +705,15 @@
   function finish() {
     var total = sum(S.scores);
     var zone = zoneFor(total);
-    var prev = S.saved && S.mode === "retake" ? S.saved : [];
-    var lastSize = prev.length ? prev[prev.length - 1].askSize : null;
+    var prev, lastSize;
+    if (S.editing && S.takes) {
+      // Changed answers after seeing results: replace this take, don't add another.
+      prev = S.takes.slice(0, -1);
+      lastSize = S.takes[S.takes.length - 1].askSize;
+    } else {
+      prev = S.saved || [];
+      lastSize = prev.length ? prev[prev.length - 1].askSize : null;
+    }
     var take = {
       date: isoLocal(new Date()),
       ask: S.ask,
@@ -641,6 +726,8 @@
       pdfDownloaded: false
     };
     S.takes = prev.concat([take]);
+    S.editing = false;
+    S.downloaded = false; // any earlier PDF no longer matches these answers
     S.saveOk = S.canSave && writeStore(S.takes);
     if (S.saveOk) S.saved = S.takes;
     S.finished = true;
@@ -692,10 +779,10 @@
 
   function gridTable(zone, size) {
     var g = C.grid;
-    var cls = { "Go ahead": "c-go", "Start smaller": "c-smaller", "Build trust first": "c-first" };
+    var cls = { "Go ahead": "c-go", "Create it together": "c-together", "Build trust first": "c-first" };
     return '<table class="grid-table' + (size ? " has-pick" : "") + '">' +
       '<caption class="sr-only">Decision grid: trust stage by how much the change affects your team</caption>' +
-      '<thead><tr><td class="corner"></td>' + g.sizes.map(function (s) { return '<th scope="col">' + esc(s.label) + ' change</th>'; }).join("") + '</tr></thead>' +
+      '<thead><tr><td class="corner"></td>' + g.sizes.map(function (s) { return '<th scope="col">' + esc(s.label) + '<span class="th-change"> change</span></th>'; }).join("") + '</tr></thead>' +
       '<tbody>' + ZONES.map(function (z) {
         return '<tr><th scope="row"><span class="row"><span class="swatch ' + zClass(z) + '" aria-hidden="true"></span>' + z + '</span></th>' +
           SIZES.map(function (s) {
@@ -778,13 +865,17 @@
           '</div>' +
           zoneBar(t.total, t.zone) +
         '</div>' +
-        (t.ask ? '<div class="panel stack stack--tight"><h2 class="eyebrow">' + esc(r.askLabel) + '</h2><p class="reflect-quote">' + esc(t.ask) + '</p></div>' : "") +
         (t.tried ? '<div class="panel stack stack--tight"><h2 class="eyebrow">' + esc(r.triedLabel) + '</h2><p class="reflect-quote">' + esc(t.tried) + '</p></div>' : "") +
       '</div>';
 
     var decide =
       '<section class="panel decide" aria-labelledby="grid-h">' +
-        '<h2 class="h2" id="grid-h">' + esc(C.grid.question) + '</h2>' +
+        // Start from their own change; if they skipped it, ask them to picture one.
+        (t.ask
+          ? '<div class="titleblock"><p class="eyebrow">' + esc(C.grid.yourChange) + '</p><p class="reflect-quote">' + esc(t.ask) + '</p></div>'
+          : '<div class="titleblock"><p class="eyebrow">' + esc(C.grid.skipped) + '</p><p>' + esc(C.grid.reflect) + '</p></div>') +
+        '<div class="why-head"><h2 class="h2" id="grid-h">' + esc(C.grid.question) + '</h2>' +
+        '<p class="muted">' + esc(C.grid.choose) + '</p></div>' +
         '<fieldset class="sizes"><legend class="sr-only">' + esc(C.grid.question) + '</legend>' +
           C.grid.sizes.map(function (s) {
             var on = t.askSize === s.id;
@@ -799,8 +890,9 @@
 
     var chart =
       '<section class="stack chart" aria-labelledby="chart-h">' +
-        '<h2 class="h2" id="chart-h">Your 11 cues</h2>' +
-        '<p class="cap">' + esc("1 " + C.ratings[0] + " · 5 " + C.ratings[4]) + '</p>' +
+        '<div class="why-head"><h2 class="h2" id="chart-h">Your 11 cues</h2>' +
+        '<p class="cap">' + esc("1 " + C.ratings[0] + " · 5 " + C.ratings[4]) + '</p></div>' +
+        '<p class="measure">' + esc(r.bigReason) + '</p>' +
         cueRows(takes) +
         cueTable(takes) +
         (compare ? '<p class="panel small measure">' + esc(r.howToRead) + '</p>' : "") +
@@ -827,15 +919,14 @@
 
     var after =
       '<nav class="after" aria-label="More options">' +
-        '<button type="button" class="linkbtn" data-fresh>' + esc(r.startFresh) + '</button>' +
-        '<button type="button" class="linkbtn" data-done>Done</button>' +
+        '<button type="button" class="btn btn--secondary" data-done>Done</button>' +
+        '<button type="button" class="btn btn--secondary" data-fresh>' + esc(r.startFresh) + '</button>' +
         '<p class="muted">' + esc(r.retakeLater) + '<strong class="ink">' + esc(C.shortLink) + '</strong></p>' +
       '</nav>';
 
     return '<div class="screen wrap wrap--wide results ' + zClass(t.zone) + '">' +
       '<div class="overview">' + summary + decide + '</div>' +
       chart +
-      '<p class="reason">' + esc(r.bigReason) + '</p>' +
       tips +
       download +
       after +
@@ -875,8 +966,10 @@
   /* ---------------- Dialogs ---------------- */
 
   var dialogReturn = null;
-  function openDialog(html, onBind) {
+  function openDialog(html, onBind, opts) {
     dialogReturn = document.activeElement;
+    // Same accessible modal; "drawer" slides in from the side instead of centering.
+    dialog.classList.toggle("dialog--drawer", !!(opts && opts.drawer));
     dialog.innerHTML = html;
     onBind(dialog);
     if (typeof dialog.showModal === "function") dialog.showModal();
@@ -971,7 +1064,7 @@
 
   var RGB = {
     ink: [26, 24, 20], muted: [74, 72, 69], purple: [66, 49, 169],
-    Build: [196, 103, 58], Grow: [45, 110, 110], Sustain: [66, 49, 169], line: [220, 216, 208]
+    Build: [212, 137, 90], Grow: [74, 158, 158], Sustain: [157, 146, 224], line: [220, 216, 208]
   };
 
   function downloadPdf(takes, idx) {

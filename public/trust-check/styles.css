@@ -31,12 +31,16 @@
   /* One action color everywhere: the splash's deep teal. Purple now means Sustain only. */
   --action: #1f5050;
   --action-hover: #2d6e6e;
-  --select: #a14f27;          /* chosen answers (ratings, change size): dark terracotta, white on it 5.7:1 */
+  --select: var(--terracotta-light); /* chosen answers (ratings, change size): ink text on it 6.4:1 */
   --accent-on-cream: #a14f27; /* accent words on cream: 5.6:1 */
   --teal: #2d6e6e;
   --terracotta: #c4673a;
   --danger: #8f3d17; /* darkened terracotta: 8:1 with white text */
-  --terracotta-deep: #a14f27; /* terracotta for blocks and buttons with white text: 5.7:1 */
+  --terracotta-deep: #a14f27; /* no longer used for fills; kept for reference */
+  /* Light terracotta: buttons, chosen answers, the Build block, and the orange on teal.
+     Always ink text on it (6.4:1). */
+  --terracotta-light: #d4895a;
+  --terracotta-light-hover: #c97a4b; /* ink on it: 5.4:1 */
   --teal-deep: #1f5050;       /* splash background */
   --peach: #f3b48f;           /* small text on teal-deep: 5:1 */
   --orange-on-dark: #d4895a;  /* terracotta on deep teal for large text and icons: 3.2:1 */
@@ -46,9 +50,9 @@
   --surface: rgba(255, 255, 255, 0.62);
 
   /* Zones: Build is a colour block only, never text on cream. */
-  --zone-build: var(--terracotta);
-  --zone-grow: var(--teal);
-  --zone-sustain: var(--purple);
+  --zone-build: #d4895a;   /* light trio: same as the stage blocks and the mark */
+  --zone-grow: #4a9e9e;
+  --zone-sustain: #9d92e0;
 
   --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
   --sans: "Comme", "Helvetica Neue", Arial, sans-serif;
@@ -172,7 +176,6 @@ body:not([data-screen="welcome"]):not([data-screen="welcomeBack"]) .blob { opaci
   display: flex;
   flex-direction: column;
   gap: var(--s-s); /* paragraph-sized step between items */
-  animation: rise 500ms var(--ease) both;
 }
 /* Bigger steps only between groups: under the back/progress bar, above actions. */
 .screen > .topbar { margin-bottom: var(--s-2xs); }
@@ -265,10 +268,12 @@ strong, b { font-weight: 650; }
   min-width: 0;
   max-width: 100%;
   padding: 0.7em min(1.4em, 5vw);
-  border: 1px solid var(--action);
+  /* Button system: one primary (light terracotta, ink text), one secondary
+     (outline: teal on cream, cream on teal), one destructive (dark red). */
+  border: 1px solid var(--terracotta-light);
   border-radius: 0;
-  background: var(--action);
-  color: var(--white);
+  background: var(--terracotta-light);
+  color: var(--ink);
   font-family: var(--sans);
   font-size: var(--t-body);
   font-weight: 600;
@@ -278,14 +283,12 @@ strong, b { font-weight: 650; }
   cursor: pointer;
   transition: background-color 200ms var(--ease), color 200ms var(--ease), transform 120ms var(--ease);
 }
-.btn:hover { background: var(--action-hover); border-color: var(--action-hover); color: var(--white); }
+.btn:hover { background: var(--terracotta-light-hover); border-color: var(--terracotta-light-hover); color: var(--ink); }
 .btn:active { transform: scale(0.97); }
-.btn--secondary { background: transparent; color: var(--action); }
+.btn--secondary { background: transparent; border-color: var(--action); color: var(--action); }
 .btn--secondary:hover { background: rgba(31, 80, 80, 0.08); color: var(--action); border-color: var(--action); }
-.btn--next { background: var(--terracotta-deep); border-color: var(--terracotta-deep); color: var(--white); }
-.btn--next:hover { background: #8a4120; border-color: #8a4120; color: var(--white); }
-.btn--danger { background: var(--danger); border-color: var(--danger); }
-.btn--danger:hover { background: #a3481d; border-color: #a3481d; }
+.btn--danger { background: var(--danger); border-color: var(--danger); color: var(--white); }
+.btn--danger:hover { background: #a3481d; border-color: #a3481d; color: var(--white); }
 .btn--big { min-height: 3.5rem; font-size: var(--t-lead); font-family: var(--sans); }
 .btn svg { width: 1.1em; height: 1.1em; flex: none; }
 
@@ -324,6 +327,32 @@ strong, b { font-weight: 650; }
 .appbar .count { font-weight: 650; font-size: var(--t-small); }
 .appbar + .screen { padding-top: var(--s-m); }
 .appbar + .stages-screen .wrap:first-child { padding-top: 0; }
+
+/* ---------- Steps menu ---------- */
+.appbar-right { display: inline-flex; align-items: center; gap: var(--s-s); }
+.steps-btn {
+  display: inline-flex; align-items: center; gap: 0.45em;
+  min-height: 2.75rem; padding: 0 0.25rem;
+  border: 0; background: none; cursor: pointer;
+  font: 650 var(--t-small)/1 var(--sans); color: inherit;
+}
+.steps-btn svg { width: 1.15em; height: 1.15em; }
+.steps-btn:hover span { text-decoration: underline; text-underline-offset: 0.2em; }
+.band .steps-btn { color: var(--cream); }
+.steps-list { list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.step {
+  width: 100%; min-height: 2.75rem;
+  display: grid; grid-template-columns: 1fr auto; gap: var(--s-s); align-items: center;
+  padding: 0.6rem 0.25rem;
+  border: 0; border-bottom: 1px solid var(--line); background: none;
+  text-align: left; font: inherit; font-size: var(--t-small); color: var(--ink); cursor: pointer;
+}
+.step:hover:not(:disabled) { background: rgba(31, 80, 80, 0.06); }
+.step:disabled { color: var(--muted); cursor: not-allowed; }
+.step.is-current { font-weight: 650; box-shadow: inset 3px 0 0 var(--action); padding-left: 0.6rem; }
+.step-label { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.step-meta { display: inline-flex; align-items: center; gap: 0.3em; color: var(--muted); font-size: var(--t-cap); white-space: nowrap; }
+.step-meta svg { width: 1em; height: 1em; }
 
 /* ---------- Top bar: back + progress ---------- */
 
@@ -430,9 +459,9 @@ strong, b { font-weight: 650; }
   width: 1px; height: 1px; margin: 0;
 }
 .opt .num { font-weight: 700; min-width: 1ch; }
-.opt:has(input:checked) { background: var(--select); border-color: var(--select); color: var(--white); }
+.opt:has(input:checked) { background: var(--select); border-color: var(--select); color: var(--ink); }
 .opt:has(input:focus-visible) { outline: 3px solid var(--action); outline-offset: 3px; }
-.opt.is-checked { background: var(--select); border-color: var(--select); color: var(--white); }
+.opt.is-checked { background: var(--select); border-color: var(--select); color: var(--ink); }
 
 /* When the group itself has room for five readable columns, it becomes a row.
    This is the one place the shape changes, and it follows the group's width,
@@ -497,8 +526,7 @@ strong, b { font-weight: 650; }
   gap: 2px;
   height: 0.75rem;
 }
-.zonebar-track > span:not(.zonebar-marker) { background: var(--z); opacity: 0.32; }
-.zonebar-track > span.on:not(.zonebar-marker) { opacity: 1; }
+.zonebar-track > span:not(.zonebar-marker) { background: var(--z); } /* full theme colors; the marker and bold label show where you are */
 .zonebar-marker {
   position: absolute;
   top: -0.4rem; bottom: -0.4rem;
@@ -539,7 +567,8 @@ strong, b { font-weight: 650; }
 .spark-dates { font-size: var(--t-cap); color: var(--ink); }
 
 /* Decision grid */
-.panel.decide { padding: clamp(0.875rem, 0.5rem + 2vw, 2rem); }
+.panel.decide { padding: clamp(0.625rem, 0.3rem + 2.2vw, 2rem); }
+.decide > :first-child { margin-bottom: var(--s-xs); } /* their change, then a step before the question */
 .decide { container-type: inline-size; display: flex; flex-direction: column; gap: var(--s-s); }
 .sizes {
   border: 0; padding: 0; min-width: 0;
@@ -570,10 +599,12 @@ strong, b { font-weight: 650; }
   border-radius: 50%;
 }
 .size .size-desc { font-size: var(--t-small); color: var(--muted); }
-.size:has(input:checked) { background: var(--white); border-color: var(--select); box-shadow: inset 0 0 0 1px var(--select); }
-.size:has(input:checked) .size-name::before { border-color: var(--select); background: radial-gradient(circle, var(--select) 0 45%, transparent 50%); }
-.size.is-checked { background: var(--white); border-color: var(--select); box-shadow: inset 0 0 0 1px var(--select); }
-.size.is-checked .size-name::before { border-color: var(--select); background: radial-gradient(circle, var(--select) 0 45%, transparent 50%); }
+.size:has(input:checked) { background: var(--select); border-color: var(--select); }
+.size:has(input:checked) .size-desc { color: var(--ink); }
+.size:has(input:checked) .size-name::before { border-color: var(--ink); background: radial-gradient(circle, var(--ink) 0 45%, transparent 50%); }
+.size.is-checked { background: var(--select); border-color: var(--select); }
+.size.is-checked .size-desc { color: var(--ink); }
+.size.is-checked .size-name::before { border-color: var(--ink); background: radial-gradient(circle, var(--ink) 0 45%, transparent 50%); }
 .size:has(input:focus-visible) { outline: 3px solid var(--action); outline-offset: 3px; }
 
 .grid-table {
@@ -582,7 +613,7 @@ strong, b { font-weight: 650; }
   border-spacing: 3px;
   table-layout: fixed;
   text-align: center;
-  font-size: clamp(0.8125rem, 0.55rem + 2.4cqi, 1.25rem);
+  font-size: clamp(0.75rem, 0.5rem + 2.4cqi, 1.25rem);
   line-height: 1.2;
   overflow-wrap: normal;
   word-break: normal;
@@ -590,7 +621,9 @@ strong, b { font-weight: 650; }
 }
 .grid-table th { font-weight: 650; padding: 0.4em 0.1em; }
 .grid-table thead th { vertical-align: bottom; }
-.grid-table .corner { width: 24%; border: 0; background: none; }
+/* On the narrowest phones the headers drop "change" (the question already says it). */
+@container (max-width: 19rem) { .th-change { display: none; } .grid-table thead th { font-size: 0.7rem; } }
+.grid-table .corner { width: 22%; border: 0; background: none; }
 .grid-table tbody th { text-align: left; padding-left: 0.2em; }
 .grid-table tbody th span.row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3em 0.45em; }
 .grid-table td {
@@ -599,17 +632,14 @@ strong, b { font-weight: 650; }
   border: 1px solid var(--line);
   background: var(--white);
 }
-.grid-table td.c-smaller { background: rgba(26, 24, 20, 0.06); font-weight: 600; }
-.grid-table td.c-first { background: rgba(26, 24, 20, 0.12); font-weight: 600; }
-.grid-table.has-pick td:not(.pick) { color: var(--muted); }
 .grid-table td.pick {
-  background: var(--action);
-  color: var(--white);
+  background: #4a9e9e; /* light teal; ink text on it 5.6:1 */
+  color: var(--ink);
   font-weight: 650;
   outline: 3px solid var(--ink);
   outline-offset: -3px;
 }
-.pick-tag { display: block; font-size: 0.7em; letter-spacing: 0.08em; text-transform: uppercase; }
+.pick-tag { display: block; margin-top: 0.45em; font-size: 0.7em; letter-spacing: 0.08em; text-transform: uppercase; }
 
 .verdict { display: flex; flex-direction: column; gap: var(--s-3xs); }
 .verdict:empty { display: none; }
@@ -684,7 +714,9 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
 .download > .note, .download > [role="status"] { grid-column: 1 / -1; }
 .download > [role="status"]:empty { display: none; }
 
-.after { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2xs) var(--s-m); }
+.after { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-xs) var(--s-s); }
+.after > .btn { flex: 0 1 auto; min-width: min(100%, 11rem); }
+.after > p { flex-basis: 100%; }
 
 /* ---------- Dialog ---------- */
 
@@ -705,6 +737,26 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
 .dialog[open] { animation: rise 300ms var(--ease) both; }
 .dialog .stack { gap: var(--s-s); }
 .dialog .actions > .btn { flex-basis: 11rem; }
+
+/* Steps menu as a side drawer: full height, slides in from the right. */
+.dialog.dialog--drawer {
+  margin: 0 0 0 auto;
+  width: min(100%, 28rem);
+  height: 100vh; height: 100dvh;
+  max-height: none;
+  border: 0; border-left: 1px solid var(--line);
+  box-shadow: -24px 0 60px rgba(26, 24, 20, 0.2);
+}
+.dialog.dialog--drawer[open] { animation: drawer-in 380ms var(--ease) both; }
+@keyframes drawer-in { from { transform: translateX(100%); } to { transform: none; } }
+.drawer-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-s); }
+.drawer-close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.75rem; height: 2.75rem; flex: none;
+  border: 0; background: none; color: var(--ink); cursor: pointer;
+}
+.drawer-close svg { width: 1.4rem; height: 1.4rem; }
+.drawer-close:hover { color: var(--action); }
 
 /* ---------- Footer ---------- */
 
@@ -727,9 +779,11 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
 }
 .mark-sq { display: flex; gap: 4px; }
 .mark-sq i { width: clamp(0.7rem, 0.55rem + 0.5vw, 1.1rem); aspect-ratio: 1; }
-.mark-sq i:nth-child(1) { background: #c4673a; } /* Build */
-.mark-sq i:nth-child(2) { background: #3f8a8a; } /* Grow */
-.mark-sq i:nth-child(3) { background: #5a47c4; } /* Sustain */
+/* The mark uses the design system's lighter zone colors, matched in lightness
+   so no square looks heavier than the others. */
+.mark-sq i:nth-child(1) { background: #d4895a; } /* Build */
+.mark-sq i:nth-child(2) { background: #4a9e9e; } /* Grow */
+.mark-sq i:nth-child(3) { background: #9d92e0; } /* Sustain */
 
 body[data-screen="welcome"], body[data-screen="welcomeBack"] { background: var(--teal-deep); color: var(--cream); }
 body[data-screen="welcome"] .backdrop, body[data-screen="welcomeBack"] .backdrop { display: none; }
@@ -764,17 +818,7 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 
 /* Splash entrance: each word rises from behind its own mask, one at a time,
    then each detail rises on its own. Transform and opacity only. */
-.splash-h .w {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  padding: 0 0.1em 0.16em 0;     /* room for descenders */
-  margin: 0 -0.1em -0.16em 0;
-}
-.splash-h .w-in { display: inline-block; animation: line-up 700ms var(--ease) both; animation-delay: calc(150ms + var(--i, 0) * 65ms); }
-.splash { animation: none; }
 .splash .mark { animation: fade-in 600ms var(--ease) both; }
-.splash .seq { animation: rise 600ms var(--ease) both; animation-delay: calc(var(--seq-start, 900ms) + var(--seq, 0) * 140ms); }
 @keyframes line-up { from { transform: translateY(105%); } to { transform: none; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 .splash-h--short { font-size: clamp(3rem, 14cqi, 10rem); }
@@ -796,8 +840,6 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 .facts li { display: inline-flex; align-items: center; gap: 0.45em; }
 .facts svg { width: 1.15em; height: 1.15em; flex: none; stroke: var(--orange-on-dark); }
 
-.btn--light { background: var(--cream); border-color: var(--cream); color: var(--teal-deep); }
-.btn--light:hover { background: var(--white); border-color: var(--white); color: var(--teal-deep); }
 .btn--outline-light { background: transparent; border-color: var(--cream); color: var(--cream); }
 .btn--outline-light:hover { background: rgba(250, 248, 244, 0.12); border-color: var(--cream); color: var(--cream); }
 
@@ -809,15 +851,17 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 /* All three side by side once each can be ~17rem; never 2 + 1. */
 @container (min-width: 52rem) { .fields { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .field-block {
-  display: flex; flex-direction: column; justify-content: space-between;
-  gap: var(--s-m);
-  min-height: clamp(13rem, 9rem + 12vw, 26rem);
+  /* Top-anchored so "Stage n" and the zone word line up across all three blocks,
+     whatever the length of each description. */
+  display: flex; flex-direction: column; justify-content: flex-start;
+  gap: var(--s-l);
   padding: clamp(1.5rem, 1rem + 2.5vw, 3.5rem) var(--gutter) clamp(2rem, 1rem + 3.5vw, 4.5rem);
   color: var(--white);
 }
-.f-build { background: var(--terracotta-deep); }
-.f-grow { background: var(--teal); }
-.f-sustain { background: var(--purple); }
+.f-build { background: var(--terracotta-light); color: var(--ink); } /* ink on light terracotta: 6.4:1 */
+.field-block :focus-visible { outline-color: var(--ink); }
+.f-grow { background: #4a9e9e; color: var(--ink); }     /* ink: 5.6:1 */
+.f-sustain { background: #9d92e0; color: var(--ink); }  /* ink: 6.3:1 */
 .field-n { font-size: var(--t-cap); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 .field-body { display: flex; flex-direction: column; gap: var(--s-2xs); }
 .field-word { font: 400 clamp(3rem, 2rem + 4.5vw, 6.5rem)/0.9 var(--serif); letter-spacing: -0.02em; }
@@ -846,13 +890,22 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
   max-width: 13em;
   text-wrap: balance;
 }
-/* Statement reveal: each line rises from behind its own mask, one after another.
-   The lines are measured after layout, then unwrapped so text reflows normally. */
-.line-mask { display: block; overflow: hidden; padding-bottom: 0.14em; margin-bottom: -0.14em; }
-.line-in { display: block; animation: line-up 750ms var(--ease) both; animation-delay: calc(80ms + var(--l, 0) * 110ms); }
 .below { padding-block: var(--gap-group) var(--s-xl); display: flex; flex-direction: column; gap: var(--gap-text); }
 .below > * { max-width: 60rem; } /* ratings and card keep a readable width, aligned with the statement */
 .below > .why { margin-top: var(--s-xs); }
+
+/* ---------- Motion system (see app.js animateScreen) ---------- */
+/* Each word sits in a mask and rises into view; delays come from JS (--d). */
+.mw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.1em 0.16em 0;   /* room for descenders */
+  margin: 0 -0.1em -0.16em 0;
+}
+.mw-in { display: inline-block; animation: line-up 700ms var(--ease) both; animation-delay: var(--d, 0ms); }
+/* Content after the heading rises once. */
+.enter { animation: rise 600ms var(--ease) both; animation-delay: var(--d, 0ms); }
 
 /* ---------- Motion ---------- */
 

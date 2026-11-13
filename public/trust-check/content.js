@@ -107,7 +107,7 @@ window.TC_CONTENT = {
     },
     {
       group: "Telling me hard things",
-      text: "People bring problems to me early.",
+      text: "People bring problems to me before they turn into emergencies.",
       why: "Raising a problem early means risking being the one with bad news. People only do it when they expect help, not blame.",
       there: "A vendor delay gets flagged three weeks before launch. You move the date once, and stakeholders barely notice.",
       missing: "The same delay comes out two days before launch. You cancel a rollout people cleared their calendars for, and leadership starts questioning your team's timelines."
@@ -218,6 +218,10 @@ window.TC_CONTENT = {
   },
 
   grid: {
+    yourChange: "The change you typed earlier",
+    skipped: "You skipped this earlier",
+    reflect: "Think about one change you want people to make, like a new process, a habit, or a way of working together.",
+    choose: "Choose one to see where you land.",
     question: "How much will this change affect your team?",
     note: "Telling people to change takes more trust than asking them.",
     sizes: [
@@ -226,13 +230,13 @@ window.TC_CONTENT = {
       { id: "big", label: "Major", desc: "Takes away control or adds oversight. For example, a required review step before building." }
     ],
     cells: {
-      Build: { small: "Go ahead", medium: "Start smaller", big: "Build trust first" },
-      Grow: { small: "Go ahead", medium: "Go ahead", big: "Start smaller" },
+      Build: { small: "Go ahead", medium: "Create it together", big: "Build trust first" },
+      Grow: { small: "Go ahead", medium: "Go ahead", big: "Create it together" },
       Sustain: { small: "Go ahead", medium: "Go ahead", big: "Go ahead" }
     },
     lines: {
       "Go ahead": "You have the trust to introduce this change.",
-      "Start smaller": "Introduce a smaller version of the change first, while trust grows.",
+      "Create it together": "Create the change with your team before it starts, while trust grows.",
       "Build trust first": "Build trust before you introduce this change. Start with the tips below."
     }
   },
@@ -248,6 +252,15 @@ window.TC_CONTENT = {
     triedLabel: "What I've tried since last time",
     startFresh: "Start fresh",
     retakeLater: "Retake later at "
+  },
+
+  steps: {
+    button: "Steps",
+    heading: "Jump to a step",
+    intro: "Go back to any step you've already seen. The next questions open as you answer.",
+    results: "Your results",
+    locked: "Locked",
+    close: "Close"
   },
 
   startFresh: {
