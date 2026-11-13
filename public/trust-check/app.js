@@ -28,6 +28,18 @@
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
 
   function zoneFor(total) { return total <= 25 ? "Build" : total <= 40 ? "Grow" : "Sustain"; }
+  // A strong total can hide a weak area. If any area averages below 3,
+  // a Sustain total is capped at Grow. Returns that area's name, or "".
+  function cappedArea(scores) {
+    if (zoneFor(sum(scores)) !== "Sustain") return "";
+    var low = "", lowAvg = 3;
+    C.groups.forEach(function (g) {
+      var avg = g.items.reduce(function (a, i) { return a + scores[i]; }, 0) / g.items.length;
+      if (avg < lowAvg) { low = g.name; lowAvg = avg; }
+    });
+    return low;
+  }
+  function zoneOf(scores) { return cappedArea(scores) ? "Grow" : zoneFor(sum(scores)); }
   function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
   function zClass(z) { return "z-" + z.toLowerCase(); }
@@ -95,7 +107,7 @@
     }
     var total = sum(t.scores);
     var size = SIZES.indexOf(t.askSize) >= 0 ? t.askSize : null;
-    var zone = zoneFor(total);
+    var zone = zoneOf(t.scores);
     return {
       date: t.date,
       ask: typeof t.ask === "string" ? t.ask.slice(0, C.ask.max) : "",
@@ -398,7 +410,7 @@
     C.statements.forEach(function (st, i) {
       var v = S.scores[i];
       items.push(item((i + 1) + '. ' + esc(st.text), i <= S.reached, "statement:" + i,
-        v ? esc(C.ratings[v - 1]) : "", S.screen === "statement" && S.index === i));
+        v ? esc(k.answer) + ' <em>' + esc(C.ratings[v - 1]) + '</em>' : "", S.screen === "statement" && S.index === i));
     });
     items.push(item(esc(k.results), !!S.takes && (S.finished || S.editing), "results", "", S.screen === "results"));
     openDialog(
@@ -502,21 +514,22 @@
       '<ul class="facts">' + facts + '</ul>' +
       '<div class="actions">' +
         '<button type="button" class="btn" data-start>' + esc(w.start) + '</button>' +
-        '<button type="button" class="btn btn--outline-light" data-coming>' + esc(w.comingBack) + '</button>' +
+        '<button type="button" class="btn btn--outline-light" data-previous>' + esc(w.viewPrevious) + '</button>' +
       '</div>'
     );
   };
   bind.welcome = function () {
     $("[data-start]", main).addEventListener("click", function () {
+      if (S.saved) { openKeepOrClear(); return; } // saved results: keep to compare, or clear
       S.mode = "first"; S.ask = ""; S.tried = "";
-      go("stages"); // the change question now lives on results (Part 2)
+      go("stages");
     });
-    $("[data-coming]", main).addEventListener("click", function () {
+    $("[data-previous]", main).addEventListener("click", function () {
       if (S.saved) {
-        // Saved results on this browser: go straight into the retake.
-        var last = S.saved[S.saved.length - 1];
-        S.mode = "retake"; S.ask = last.ask || ""; S.tried = "";
-        go("tried");
+        // Show the latest saved results as they were.
+        S.takes = S.saved; S.scores = S.saved[S.saved.length - 1].scores.slice();
+        S.reached = N - 1; S.finished = true; S.editing = false;
+        go("results");
       } else {
         go("cleared");
       }
@@ -680,7 +693,10 @@
     return '<div class="why-head"><h2 class="h3" id="why-h" tabindex="-1">' + esc(k.heading) + '</h2>' +
       '<p>' + esc(s.why) + '</p></div>' +
       '<div data-impact class="stack">' + impact + '</div>' +
-      '<div class="actions actions--start"><button type="submit" class="btn">' + esc(i === N - 1 ? k.last : k.next) + '</button></div>';
+      '<div class="actions actions--start"><button type="submit" class="btn">' + esc(i === N - 1 ? k.last : k.next) + '</button>' +
+        // Changing an answer after seeing results: one click back to updated results.
+        (S.editing ? '<button type="button" class="btn btn--secondary" data-update-results>' + esc(C.results.updateResults) + '</button>' : "") +
+      '</div>';
   }
 
   SCREENS.statement = function () {
@@ -730,6 +746,9 @@
         }
       });
     });
+    why.addEventListener("click", function (e) {
+      if (e.target.closest("[data-update-results]")) finish();
+    });
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!S.scores[i]) return;
@@ -743,21 +762,23 @@
 
   function finish() {
     var total = sum(S.scores);
-    var zone = zoneFor(total);
-    var prev, lastSize;
+    var zone = zoneOf(S.scores);
+    var prev, lastSize, ask = S.ask, tried = S.mode === "first" ? "" : S.tried;
     if (S.editing && S.takes) {
-      // Changed answers after seeing results: replace this take, don't add another.
+      // Changed answers after seeing results: replace this take, don't add another,
+      // and keep what they typed on results (the planned change) and before.
+      var cur = S.takes[S.takes.length - 1];
       prev = S.takes.slice(0, -1);
-      lastSize = S.takes[S.takes.length - 1].askSize;
+      lastSize = cur.askSize; ask = cur.ask || ""; tried = cur.tried || "";
     } else {
       prev = S.saved || [];
       lastSize = prev.length ? prev[prev.length - 1].askSize : null;
     }
     var take = {
       date: isoLocal(new Date()),
-      ask: S.ask,
+      ask: ask,
       askSize: lastSize,
-      tried: S.mode === "first" ? "" : S.tried,
+      tried: tried,
       scores: S.scores.slice(),
       total: total,
       zone: zone,
@@ -804,9 +825,11 @@
   }
 
   function zoneBar(total, zone) {
-    var at = ((total - 11) / 44 * 100).toFixed(1) + "%";
+    // Held in Grow by a weak area: the marker sits at the top of Grow, not in Sustain.
+    var shown = zoneFor(total) === zone ? total : 40;
+    var at = ((shown - 11) / 44 * 100).toFixed(1) + "%";
     return '<div class="zonebar">' +
-      '<div class="zonebar-track" role="img" aria-label="' + esc(total + " out of 55, in the " + zone + " range, " + C.zones[zone].range.replace("–", " to ")) + '">' +
+      '<div class="zonebar-track" role="img" aria-label="' + esc(total + " out of 55, in " + zone + ", " + C.zones[zone].range.replace("–", " to ")) + '">' +
         ZONES.map(function (z) { return '<span class="' + zClass(z) + (z === zone ? " on" : "") + '"></span>'; }).join("") +
         '<span class="zonebar-marker" data-at="' + at + '"></span>' +
       '</div>' +
@@ -928,6 +951,9 @@
         '<div class="stack stack--tight">' +
           '<div class="score-line"><p class="t-bold">' + esc(r.scoreLine.replace("{n}", t.total)) + '</p>' +
           '</div>' +
+          // A strong total with one weak area: explain before the scale, so the
+          // marker sitting in Sustain doesn't contradict "You're in Grow."
+          (cappedArea(t.scores) ? '<p class="measure">' + esc(r.capNote.replace("{area}", cappedArea(t.scores))) + '</p>' : "") +
           zoneBar(t.total, t.zone) +
         '</div>' +
         // One sentence that sets up the page; the planner phrase jumps to Part 2.
@@ -1090,7 +1116,36 @@
     if (e.target === dialog) closeDialog(); // click on backdrop
   });
 
-  function openStartFresh() {
+  // Start with results already saved: keep them for comparison, or clear them.
+  function openKeepOrClear() {
+    var k = C.saved, last = S.saved[S.saved.length - 1];
+    openDialog(
+      '<div class="stack">' +
+        '<h2 class="h2" id="dialog-h">' + esc(k.heading) + '</h2>' +
+        '<p>' + esc(k.body.replace("{date}", longDate(last.date))) + '</p>' +
+        '<div class="actions">' +
+          '<button type="button" class="btn" data-d-keep>' + esc(k.keep) + '</button>' +
+          '<button type="button" class="btn btn--secondary" data-d-clear>' + esc(k.clear) + '</button>' +
+        '</div>' +
+        '<div><button type="button" class="linkbtn" data-d-cancel>' + esc(k.cancel) + '</button></div>' +
+      '</div>',
+      function (d) {
+        $("[data-d-keep]", d).addEventListener("click", function () {
+          S.mode = "retake"; S.ask = last.ask || ""; S.tried = "";
+          closeDialog();
+          go("tried");
+        });
+        // Clearing can't be undone, so it goes through the usual confirm (with a PDF option).
+        $("[data-d-clear]", d).addEventListener("click", function () {
+          closeDialog();
+          openStartFresh(function () { S.mode = "first"; go("stages", { replace: true }); });
+        });
+        $("[data-d-cancel]", d).addEventListener("click", closeDialog);
+      }
+    );
+  }
+
+  function openStartFresh(then) {
     var f = C.startFresh;
     openDialog(
       '<div class="stack">' +
@@ -1117,7 +1172,7 @@
           S = freshState();
           S.saved = null;
           closeDialog();
-          go("welcome", { replace: true });
+          if (then) then(); else go("welcome", { replace: true });
         });
         $("[data-d-cancel]", d).addEventListener("click", closeDialog);
       }
@@ -1201,6 +1256,7 @@
     para("You're in " + t.zone + ".", 22, { font: "times", x: M + 22, after: 2, lh: 1.25 });
     para(C.zones[t.zone].meaning, 10.5, { after: 8 });
     var facts = ["Total score: " + t.total + " out of 55"];
+    if (cappedArea(t.scores)) facts.push(C.results.capNote.replace("{area}", cappedArea(t.scores)));
     if (compare) facts.push("First take, " + longDate(first.date) + ": " + first.zone + " -> Today: " + t.zone);
     facts.forEach(function (f) { para(f, 11, { after: 1 }); });
     y += 8;

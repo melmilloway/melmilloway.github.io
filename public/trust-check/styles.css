@@ -364,7 +364,8 @@ strong, b { font-weight: 650; }
 .step:disabled { color: var(--muted); cursor: not-allowed; }
 .step.is-current { font-weight: 650; box-shadow: inset 3px 0 0 var(--action); padding-left: 0.6rem; }
 .step-label { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.step-meta { display: inline-flex; align-items: center; gap: 0.3em; color: var(--muted); font-size: var(--t-cap); font-style: italic; font-weight: 400; white-space: nowrap; } /* the answer reads apart from its question */
+.step-meta { display: inline-flex; align-items: center; gap: 0.3em; color: var(--muted); font-size: var(--t-cap); font-weight: 400; white-space: nowrap; }
+.step-meta em { font-style: italic; } /* the answer itself in italics so it reads apart from its question */
 .step-meta svg { width: 1em; height: 1em; }
 
 /* ---------- Top bar: back + progress ---------- */

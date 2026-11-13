@@ -16,7 +16,16 @@ window.TC_CONTENT = {
     details: "About 4 minutes · Saved only in your browser",
     pdf: "At the end, download your results as a PDF so you can compare when you take it again.",
     start: "Start",
-    comingBack: "Coming back to retake it?"
+    viewPrevious: "View previous results"
+  },
+
+  /* Start, when results are already saved in this browser. */
+  saved: {
+    heading: "You have saved results",
+    body: "Your results from {date} are saved in this browser. Keep them to compare with this take, or clear them and start fresh.",
+    keep: "Keep and compare",
+    clear: "Clear and start fresh",
+    cancel: "Cancel"
   },
 
   welcomeBack: {
@@ -62,7 +71,7 @@ window.TC_CONTENT = {
       {
         zone: "Grow",
         where: "You've started to earn their trust, but you don't fully have it yet.",
-        what: "Do more to support them. Get them the tools they need, bring them into real problems, and follow through on the commitments you make together."
+        what: "Do more to support them. Get them the tools they need, bring them into the problems you're solving, and follow through on the commitments you make together."
       },
       {
         zone: "Sustain",
@@ -192,7 +201,7 @@ window.TC_CONTENT = {
         ["Make their work easier.", "Ask, \"What's one thing I could do to make your work easier?\" Then do it, like getting them the right tool or stopping a report nobody reads."],
         ["Set a regular time to hear concerns.", "Set up a recurring time when anything can be raised, including concerns about how you lead. Act on at least one thing each time, so people see it leads somewhere."],
         ["Thank people when they disagree or admit a mistake.", "The first time someone disagrees with you or admits a mistake, your reaction decides whether they'll do it again. Thank them before you respond to what they said."],
-        ["Let the team make a real decision on their own.", "Let the team fully own one decision, like how to structure the next project kickoff, and don't override it."]
+        ["Let the team make a decision on their own.", "Let the team fully own one decision, like how to structure the next project kickoff, and don't override it."]
       ],
       watchTitle: "Watch out for asking for ideas and then doing nothing",
       watch: "You ask the team, \"What should we change about how requests come in?\" They give you five ideas. Weeks go by, nothing changes, and you never mention it again. The next time you ask, no one answers. Agree on who owns each action: some are yours, some are theirs. Follow through on the ones you own and tell the team when they're done. If you decide against an idea, say so and say why.",
@@ -261,6 +270,8 @@ window.TC_CONTENT = {
     part2: "Part 2 \u00b7 Optional",
     tipsLabel: { Build: "Ways to build trust in Build", Grow: "Ways to build trust in Grow", Sustain: "Ways to keep trust in Sustain" },
     tipsScope: "These apply to anyone in {zone}, whatever change you're planning.",
+    capNote: "Your total is in the Sustain range, but {area} is lower than the rest, so you're in Grow until it catches up.",
+    updateResults: "Update my results",
     nextStepLabel: "Next step",
     scoreLine: "Your score: {n} out of 55",
     cuesHeading: "What's behind your score",
@@ -293,6 +304,7 @@ window.TC_CONTENT = {
     heading: "Go back to any part",
     intro: "You can open anything you've already seen. The next questions open as you answer.",
     results: "Your results",
+    answer: "Your answer:",
     locked: "Locked",
     close: "Close"
   },
@@ -307,8 +319,8 @@ window.TC_CONTENT = {
   },
 
   cleared: {
-    heading: "We couldn't find your results from last time.",
-    body: "Your browser's local storage may have been cleared, or you may be on a different device or browser. Open the PDF you downloaded last time, take the check again, and compare your new results with it side by side.",
+    heading: "We couldn't find any saved results.",
+    body: "Your results may have been cleared, or you may be on a different device or browser. If you downloaded a PDF last time, it has everything. You can also take the check again and compare your new results with that PDF.",
     button: "Take it again",
     back: "Back"
   },
