@@ -1162,7 +1162,6 @@
     var doc = new window.jspdf.jsPDF({ unit: "pt", format: "letter" });
     var W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
     var M = 54, CW = W - 2 * M, y = M;
-    var footer = pdfText("Retake at " + C.shortLink + " and compare.");
 
     function color(c) { doc.setTextColor(c[0], c[1], c[2]); }
     function ensure(h) { if (y + h > H - M - 24) { doc.addPage(); y = M; } }
@@ -1265,12 +1264,11 @@
     para(z.watch, 10.5, { after: 6 });
     if (z.note) para(z.note, 10.5, { color: RGB.muted, after: 6 });
 
-    // 6. Footer on every page
+    // 6. Page numbers (no link or retake line)
     var pages = doc.internal.getNumberOfPages();
     for (var p = 1; p <= pages; p++) {
       doc.setPage(p);
       doc.setFont("helvetica", "normal"); doc.setFontSize(9); color(RGB.muted);
-      doc.text(footer, M, H - M + 14);
       if (pages > 1) doc.text(p + " / " + pages, W - M, H - M + 14, { align: "right" });
     }
 

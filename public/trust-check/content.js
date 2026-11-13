@@ -3,8 +3,6 @@
  * from SPEC.md. Mel can edit any string below.
  */
 window.TC_CONTENT = {
-  /* Open item: replace this placeholder before the session. */
-  shortLink: "[SHORT LINK]",
   linkedIn: "https://linkedin.com/in/melmilloway",
 
   welcome: {
