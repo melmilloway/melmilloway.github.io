@@ -368,7 +368,7 @@
     var steps = STEP_SCREENS[S.screen]
       ? '<button type="button" class="steps-btn" data-steps aria-haspopup="dialog">' + ICON_LIST + '<span>' + esc(C.steps.button) + '</span></button>'
       : "";
-    return '<header class="appbar wrap wrap--wide">' + mark() +
+    return '<header class="appbar wrap wrap--wide">' + mark(true) +
       '<span class="appbar-right">' + (right || "") + steps + '</span></header>';
   }
 
@@ -420,10 +420,37 @@
   }
   main.addEventListener("click", function (e) {
     if (e.target.closest("[data-steps]")) openSteps();
+    if (e.target.closest("[data-home]")) requestHome();
   });
 
-  function mark() {
-    return '<p class="mark"><span class="mark-sq" aria-hidden="true"><i></i><i></i><i></i></span>Trust Check</p>';
+  function mark(linked) {
+    var inner = '<span class="mark-sq" aria-hidden="true"><i></i><i></i><i></i></span>Trust Check';
+    // On inner screens the mark is a way home; on the splash it's just the name.
+    return linked
+      ? '<p class="mark"><button type="button" class="mark-btn" data-home aria-label="' + esc(C.home.label) + '">' + inner + '</button></p>'
+      : '<p class="mark">' + inner + '</p>';
+  }
+
+  // Going home: protect unsaved work first.
+  function requestHome() {
+    if (S.screen === "results" && !S.downloaded) { openLeave(goHome); return; }
+    var midTake = !S.finished && (S.editing || S.ask || S.tried || S.scores.some(function (v) { return v > 0; }));
+    if (!midTake) { goHome(); return; }
+    var h = C.home;
+    openDialog(
+      '<div class="stack">' +
+        '<h2 class="h2" id="dialog-h">' + esc(h.heading) + '</h2>' +
+        '<p>' + esc(h.body) + '</p>' +
+        '<div class="actions">' +
+          '<button type="button" class="btn" data-d-stay>' + esc(h.stay) + '</button>' +
+          '<button type="button" class="btn btn--secondary" data-d-go>' + esc(h.go) + '</button>' +
+        '</div>' +
+      '</div>',
+      function (d) {
+        $("[data-d-stay]", d).addEventListener("click", closeDialog);
+        $("[data-d-go]", d).addEventListener("click", function () { closeDialog(); goHome(); });
+      }
+    );
   }
   // Puts the closing "speak up?" (or the last two words) in the accent style.
   function accentEnd(text) {
@@ -802,7 +829,9 @@
   function verdict(zone, size) {
     if (!size) return "";
     var r = C.grid.cells[zone][size];
-    return '<p><strong>' + esc(zone + " + " + sizeLabel(size) + " change → " + r) + '</strong></p><p>' + esc(C.grid.lines[r]) + '</p>';
+    var act = C.grid.actions && C.grid.actions[r];
+    return '<p><strong>' + esc(zone + " + " + sizeLabel(size) + " change → " + r) + '</strong></p><p>' + esc(C.grid.lines[r]) + '</p>' +
+      (act ? '<div class="verdict-next"><p class="eyebrow">' + esc(C.results.nextStepLabel) + '</p><p>' + esc(act) + '</p></div>' : "");
   }
 
   function cueRows(takes) {
@@ -822,7 +851,6 @@
         var footer = "";
         if (compare) {
           footer = '<div class="cue-foot"><span class="change"><span class="sr-only">Change: </span>' + signed(v - f) + '</span>' +
-            (trend ? sparkline(takes.map(function (x) { return x.scores[i]; }), takes.map(function (x) { return x.date; }), 1, 5, takes.length + " takes") : "") +
           '</div>';
         }
         return '<li class="cue"><p class="cue-text">' + (i + 1) + '. ' + esc(s.text) + '</p>' + bars + footer + '</li>';
@@ -851,31 +879,51 @@
     var zoneChange = compare ? "First take, " + longDate(first.date) + ": " + first.zone + " → Today: " + t.zone : "";
     var focusHtml = esc(z.focus);
 
+    // Your 11 cues sit right under the score: the heading and why they matter,
+    // with the full chart in a closed accordion for anyone who wants detail.
+    var cues =
+      '<section class="stack chart cues-section" aria-labelledby="chart-h">' +
+        '<div class="why-head"><h2 class="subhead" id="chart-h">Your 11 cues</h2>' +
+        '<p class="measure">' + esc(r.bigReason) + '</p></div>' +
+        '<details class="cues-acc">' +
+          '<summary>' + esc(r.cuesToggle) + '</summary>' +
+          '<div class="stack cues-body">' +
+            '<p class="cap">' + esc("1 " + C.ratings[0] + " \u00b7 5 " + C.ratings[4]) + '</p>' +
+            cueRows(takes) +
+            cueTable(takes) +
+            (compare ? '<p class="panel small measure">' + esc(r.howToRead) + '</p>' : "") +
+          '</div>' +
+        '</details>' +
+      '</section>';
+
     var summary =
       '<div class="stack">' +
         (S.mode === "cleared" ? '<p class="note note--alert">' + esc(r.comparePdf) + '</p>' : "") +
         // Eyebrow and heading form one title block (label sits tight to its heading).
-        '<div class="titleblock"><p class="eyebrow">' + esc(dateStr) + '</p>' +
-        '<h1 class="h1">You’re in <span class="zone-word">' + esc(t.zone) + '.</span></h1></div>' +
-        (compare ? '<p class="zone-change">' + esc(zoneChange) + '</p>' : "") +
-        '<p class="measure">' + esc(z.meaning) + '</p>' +
+        // Title, zone change and meaning are one group (heading to its text: tight).
+        '<div class="why-head">' +
+          '<div class="titleblock"><p class="eyebrow">' + esc(dateStr) + '</p>' +
+          '<h1 class="h1">You’re in <span class="zone-word">' + esc(t.zone) + '.</span></h1></div>' +
+          '<p class="measure">' + esc(z.meaning) + '</p>' +
+        '</div>' +
         '<div class="stack stack--tight">' +
           '<div class="score-line"><p><span class="score-num">' + t.total + '</span> out of 55</p>' +
-            (trend ? sparkline(takes.map(function (x) { return x.total; }), takes.map(function (x) { return x.date; }), 11, 55, "Total over " + takes.length + " takes", "spark--total") : "") +
           '</div>' +
           zoneBar(t.total, t.zone) +
         '</div>' +
-        (t.tried ? '<div class="panel stack stack--tight"><h2 class="eyebrow">' + esc(r.triedLabel) + '</h2><p class="reflect-quote">' + esc(t.tried) + '</p></div>' : "") +
+        (t.tried ? '<div class="why-head"><h2 class="subhead">' + esc(r.triedLabel) + '</h2><p class="reflect-quote">' + esc(t.tried) + '</p></div>' : "") +
+        cues +
       '</div>';
 
     var decide =
-      '<section class="panel decide" aria-labelledby="grid-h">' +
+      '<section class="card decide" aria-labelledby="change-h">' +
         // Start from their own change; if they skipped it, ask them to picture one.
-        (t.ask
-          ? '<div class="titleblock"><p class="eyebrow">' + esc(C.grid.yourChange) + '</p><p class="reflect-quote">' + esc(t.ask) + '</p></div>'
-          : '<div class="titleblock"><p class="eyebrow">' + esc(C.grid.skipped) + '</p><p>' + esc(C.grid.reflect) + '</p></div>') +
-        '<div class="why-head"><h2 class="h2" id="grid-h">' + esc(C.grid.question) + '</h2>' +
-        '<p class="muted">' + esc(C.grid.choose) + '</p></div>' +
+        // Their change is the panel's main heading; the size question sits under it.
+        '<div class="why-head"><h2 class="card-title" id="change-h">' + esc(t.ask ? C.grid.yourChange : C.grid.skipped) + '</h2>' +
+          (t.ask ? '<p class="reflect-quote">' + esc(t.ask) + '</p>' : '<p>' + esc(C.grid.reflect) + '</p>') + '</div>' +
+        '<div class="why-head"><h3 class="subhead" id="grid-h">' + esc(C.grid.question) + '</h3>' +
+        // Why the size matters, then the instruction, right under the question.
+        '<p>' + esc((C.grid.note ? C.grid.note + " " : "") + C.grid.choose) + '</p></div>' +
         '<fieldset class="sizes"><legend class="sr-only">' + esc(C.grid.question) + '</legend>' +
           C.grid.sizes.map(function (s) {
             var on = t.askSize === s.id;
@@ -884,52 +932,44 @@
           }).join("") +
         '</fieldset>' +
         '<div data-grid>' + gridTable(t.zone, t.askSize) + '</div>' +
-        (C.grid.note ? '<p class="small muted">' + esc(C.grid.note) + '</p>' : "") +
         '<div class="verdict panel panel--white" data-verdict aria-live="polite">' + verdict(t.zone, t.askSize) + '</div>' +
       '</section>';
 
-    var chart =
-      '<section class="stack chart" aria-labelledby="chart-h">' +
-        '<div class="why-head"><h2 class="h2" id="chart-h">Your 11 cues</h2>' +
-        '<p class="cap">' + esc("1 " + C.ratings[0] + " · 5 " + C.ratings[4]) + '</p></div>' +
-        '<p class="measure">' + esc(r.bigReason) + '</p>' +
-        cueRows(takes) +
-        cueTable(takes) +
-        (compare ? '<p class="panel small measure">' + esc(r.howToRead) + '</p>' : "") +
-      '</section>';
-
     var tips =
-      '<section class="stack" aria-labelledby="tips-h">' +
-        '<div class="titleblock"><p class="eyebrow">Focus</p>' +
-        '<h2 class="h2" id="tips-h">' + focusHtml + '</h2></div>' +
+      // The tips are the next step after the result, so they sit in a panel
+      // topped with the zone's color and are labeled as next steps for that zone.
+      '<section class="card tips-card" aria-labelledby="tips-h">' +
+        '<div class="why-head"><div class="titleblock"><p class="eyebrow">' + esc(r.tipsLabel[t.zone]) + '</p>' +
+        '<h2 class="card-title focus-line" id="tips-h">' + focusHtml + '</h2></div>' +
+        '<p>' + esc(r.tipsScope.replace("{zone}", t.zone)) + '</p></div>' +
         '<div class="tips-layout"><ol class="tips">' + z.tips.map(function (tp, k) {
           return '<li class="tip"><span class="tip-n" aria-hidden="true">' + (k + 1) + '</span><p><strong>' + esc(tp[0]) + '</strong> ' + esc(tp[1]) + '</p></li>';
         }).join("") + '</ol>' +
-        '<aside class="panel panel--white watch stack stack--tight" aria-labelledby="watch-h"><h3 id="watch-h" class="row-icon">' + ICON_EYE + esc(z.watchTitle) + '</h3><p>' + esc(z.watch) + '</p></aside></div>' +
-        (z.note ? '<p class="muted measure">' + esc(z.note) + '</p>' : "") +
-      '</section>';
-
-    var download =
-      '<section class="panel panel--tint download" aria-label="Download">' +
-        (!S.saveOk ? '<p class="note note--alert"><strong>' + esc(r.noStorage) + '</strong></p>' : "") +
-        '<button type="button" class="btn btn--big" data-pdf>' + ICON_DOWN + esc(r.download) + '</button>' +
-        '<p class="small measure">' + esc(r.downloadNote) + '</p>' +
-        '<p class="small" data-pdf-status role="status"></p>' +
+        '<aside class="watch stack stack--tight" aria-labelledby="watch-h"><h3 id="watch-h" class="row-icon">' + ICON_EYE + esc(z.watchTitle) + '</h3><p>' + esc(z.watch) + '</p></aside></div>' +
+        (z.note ? '<p class="measure">' + esc(z.note) + '</p>' : "") +
       '</section>';
 
     var after =
       '<nav class="after" aria-label="More options">' +
-        '<button type="button" class="btn btn--secondary" data-done>Done</button>' +
+        '<button type="button" class="btn" data-done>Done</button>' +
         '<button type="button" class="btn btn--secondary" data-fresh>' + esc(r.startFresh) + '</button>' +
-        '<p class="muted">' + esc(r.retakeLater) + '<strong class="ink">' + esc(C.shortLink) + '</strong></p>' +
       '</nav>';
+
+    var download =
+      // Saving and leaving live together in one card, same style as the others.
+      '<section class="card save-card" aria-label="' + esc(r.download) + '">' +
+        (!S.saveOk ? '<p class="note note--alert"><strong>' + esc(r.noStorage) + '</strong></p>' : "") +
+        '<p class="measure">' + esc(r.downloadNote) + '</p>' +
+        '<div class="actions actions--start"><button type="button" class="btn" data-pdf>' + ICON_DOWN + esc(r.download) + '</button></div>' +
+        '<p class="small" data-pdf-status role="status"></p>' +
+        after +
+      '</section>';
+
 
     return '<div class="screen wrap wrap--wide results ' + zClass(t.zone) + '">' +
       '<div class="overview">' + summary + decide + '</div>' +
-      chart +
       tips +
       download +
-      after +
     '</div>';
   };
 
@@ -998,7 +1038,7 @@
         '<p>' + esc(f.body) + '</p>' +
         '<p class="note">' + esc(f.note) + '</p>' +
         '<div class="actions">' +
-          '<button type="button" class="btn btn--secondary" data-d-pdf>' + ICON_DOWN + esc(f.download) + '</button>' +
+          '<button type="button" class="btn" data-d-pdf>' + ICON_DOWN + esc(f.download) + '</button>' +
           '<button type="button" class="btn btn--danger" data-d-clear>' + esc(f.clear) + '</button>' +
         '</div>' +
         '<div><button type="button" class="linkbtn" data-d-cancel>' + esc(f.cancel) + '</button></div>' +
@@ -1073,7 +1113,7 @@
     var doc = new window.jspdf.jsPDF({ unit: "pt", format: "letter" });
     var W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
     var M = 54, CW = W - 2 * M, y = M;
-    var footer = pdfText("Retake at " + C.shortLink + " in 30, 60, or 90 days and compare.");
+    var footer = pdfText("Retake at " + C.shortLink + " and compare.");
 
     function color(c) { doc.setTextColor(c[0], c[1], c[2]); }
     function ensure(h) { if (y + h > H - M - 24) { doc.addPage(); y = M; } }
@@ -1116,6 +1156,7 @@
     if (t.askSize) {
       facts.push("Size of change: " + sizeLabel(t.askSize));
       facts.push("Grid result: " + t.gridResult + " - " + C.grid.lines[t.gridResult]);
+      if (C.grid.actions && C.grid.actions[t.gridResult]) facts.push("Next step: " + C.grid.actions[t.gridResult]);
     }
     facts.forEach(function (f) { para(f, 11, { after: 1 }); });
     y += 8;
@@ -1164,8 +1205,8 @@
     var z = C.zones[t.zone];
     rule();
     ensure(90);
-    para("Focus", 9, { style: "bold", color: RGB.muted, after: 2 });
-    para(z.focus, 18, { font: "times", after: 8, lh: 1.25 });
+    para(C.results.tipsLabel[t.zone].toUpperCase(), 9, { style: "bold", color: RGB.muted, after: 2 });
+    para(z.focus, 12.5, { style: "bold", after: 8, lh: 1.35 });
     z.tips.forEach(function (tp, k) {
       para((k + 1) + ". " + tp[0], 11, { style: "bold", after: 1 });
       para(tp[1], 10.5, { x: M + 14, width: CW - 14, after: 6 });

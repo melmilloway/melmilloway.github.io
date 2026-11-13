@@ -31,6 +31,7 @@
   /* One action color everywhere: the splash's deep teal. Purple now means Sustain only. */
   --action: #1f5050;
   --action-hover: #2d6e6e;
+  --pick: #4a9e9e;            /* your cell in the decision grid, and its result box */
   --select: var(--terracotta-light); /* chosen answers (ratings, change size): ink text on it 6.4:1 */
   --accent-on-cream: #a14f27; /* accent words on cream: 5.6:1 */
   --teal: #2d6e6e;
@@ -197,7 +198,7 @@ body:not([data-screen="welcome"]):not([data-screen="welcomeBack"]) .blob { opaci
 :root {
   --gap-label: var(--s-2xs);       /* 8-10px for regular headings */
   --gap-label-display: clamp(0.375rem, 0.32rem + 0.25vw, 0.5625rem); /* 6-9px above h1 and statements */
-  --gap-heading: var(--s-xs);
+  --gap-heading: var(--s-2xs);   /* heading to its text: 8-10px everywhere */
   --gap-text: var(--s-s);
   --gap-group: var(--s-l);
   --gap-section: var(--s-xl);
@@ -231,6 +232,8 @@ body:not([data-screen="welcome"]):not([data-screen="welcomeBack"]) .blob { opaci
 .h2 { font-size: var(--t-h2); line-height: 1.14; letter-spacing: -0.01em; }
 .h3 { font-size: var(--t-h3); line-height: 1.2; }
 .statement { font-size: var(--t-statement); line-height: 1.14; letter-spacing: -0.01em; }
+.subhead { font-family: var(--sans); font-size: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem); font-weight: 650; line-height: 1.35; }
+.focus-line { max-width: 52ch; }
 .lead { font-size: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem); font-weight: 600; line-height: 1.4; text-wrap: pretty; }
 .accent { font-style: normal; color: var(--accent-on-cream); }
 .muted { color: var(--muted); }
@@ -285,8 +288,10 @@ strong, b { font-weight: 650; }
 }
 .btn:hover { background: var(--terracotta-light-hover); border-color: var(--terracotta-light-hover); color: var(--ink); }
 .btn:active { transform: scale(0.97); }
-.btn--secondary { background: transparent; border-color: var(--action); color: var(--action); }
-.btn--secondary:hover { background: rgba(31, 80, 80, 0.08); color: var(--action); border-color: var(--action); }
+/* Secondary: the quieter sibling of the terracotta button. Dark terracotta
+   outline (5.6:1 on cream), ink text, light terracotta tint on hover. */
+.btn--secondary { background: transparent; border: 2px solid var(--terracotta-deep); color: var(--ink); }
+.btn--secondary:hover { background: rgba(212, 137, 90, 0.18); border-color: var(--terracotta-deep); color: var(--ink); }
 .btn--danger { background: var(--danger); border-color: var(--danger); color: var(--white); }
 .btn--danger:hover { background: #a3481d; border-color: #a3481d; color: var(--white); }
 .btn--big { min-height: 3.5rem; font-size: var(--t-lead); font-family: var(--sans); }
@@ -327,6 +332,9 @@ strong, b { font-weight: 650; }
 .appbar .count { font-weight: 650; font-size: var(--t-small); }
 .appbar + .screen { padding-top: var(--s-m); }
 .appbar + .stages-screen .wrap:first-child { padding-top: 0; }
+
+.mark-btn { display: inline-flex; align-items: center; gap: inherit; padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; cursor: pointer; min-height: 2.75rem; }
+.mark-btn:hover { text-decoration: underline; text-underline-offset: 0.25em; text-decoration-thickness: 2px; }
 
 /* ---------- Steps menu ---------- */
 .appbar-right { display: inline-flex; align-items: center; gap: var(--s-s); }
@@ -416,7 +424,6 @@ strong, b { font-weight: 650; }
 .examples li {
   padding-left: var(--s-s);
   border-left: 2px solid rgba(31, 80, 80, 0.35);
-  font-weight: 600;
   line-height: 1.4;
 }
 
@@ -567,7 +574,7 @@ strong, b { font-weight: 650; }
 .spark-dates { font-size: var(--t-cap); color: var(--ink); }
 
 /* Decision grid */
-.panel.decide { padding: clamp(0.625rem, 0.3rem + 2.2vw, 2rem); }
+.card.decide { padding: clamp(0.75rem, 0.3rem + 2.2vw, 2rem); }
 .decide > :first-child { margin-bottom: var(--s-xs); } /* their change, then a step before the question */
 .decide { container-type: inline-size; display: flex; flex-direction: column; gap: var(--s-s); }
 .sizes {
@@ -633,7 +640,7 @@ strong, b { font-weight: 650; }
   background: var(--white);
 }
 .grid-table td.pick {
-  background: #4a9e9e; /* light teal; ink text on it 5.6:1 */
+  background: var(--pick); /* light teal; ink text on it 5.6:1 */
   color: var(--ink);
   font-weight: 650;
   outline: 3px solid var(--ink);
@@ -643,6 +650,10 @@ strong, b { font-weight: 650; }
 
 .verdict { display: flex; flex-direction: column; gap: var(--s-3xs); }
 .verdict:empty { display: none; }
+.verdict-next { margin-top: var(--s-2xs); display: flex; flex-direction: column; gap: var(--gap-label); } /* spacing, not a line */
+.verdict-next .eyebrow { color: var(--ink); }
+/* The result box matches the highlighted cell, so the two read as one. */
+.verdict.panel { background: var(--pick); border-color: var(--pick); color: var(--ink); }
 
 /* Per-statement chart: groups flow into as many columns as fit. */
 .chart { container-type: inline-size; }
@@ -669,12 +680,47 @@ strong, b { font-weight: 650; }
 .cue-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--s-s); }
 .change { font-weight: 650; font-size: var(--t-small); font-variant-numeric: tabular-nums; }
 
+/* Your 11 cues: closed accordion under the score */
+.cues-section { margin-top: var(--s-xs); }
+.cues-acc { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.cues-acc > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-s);
+  min-height: 3rem; padding-block: var(--s-2xs);
+  cursor: pointer; list-style: none;
+  font-weight: 650; color: var(--action);
+}
+.cues-acc > summary::-webkit-details-marker { display: none; }
+.cues-acc > summary::after {
+  content: ""; flex: none; width: 0.6em; height: 0.6em;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-0.15em);
+  transition: transform 250ms var(--ease);
+}
+.cues-acc[open] > summary::after { transform: rotate(-135deg) translateY(-0.15em); }
+.cues-body { padding-block: var(--s-xs) var(--s-m); }
 details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2.75rem; display: inline-flex; align-items: center; }
 .table-scroll { max-width: 100%; overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; font-size: var(--t-small); line-height: 1.4; }
 .data-table th, .data-table td { padding: 0.5em 0.6em; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 .data-table td.n, .data-table th.n { text-align: right; white-space: nowrap; }
 .data-table thead th { font-weight: 650; }
+
+/* ---------- Results page system ----------
+   Page title (serif h1) > card titles (serif, one size) > subheads (sans bold) > body.
+   Every section is the same card: white, thin border, zone-color strip on top. */
+.card {
+  display: flex; flex-direction: column; gap: var(--gap-text);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 6px solid var(--zone);
+  padding: var(--s-m);
+  min-width: 0;
+}
+.card-title { font-family: var(--serif); font-weight: 400; font-size: var(--t-h3); line-height: 1.2; text-wrap: balance; }
+.save-card .after { margin-top: var(--s-xs); }
+
+/* Tips panel: the next step after the result, tied to it by the zone color. */
+.tips-card .watch { background: var(--cream); padding: var(--s-s); }
 
 /* Tips flow into columns as space allows. */
 .tips {
@@ -693,10 +739,9 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
 }
 .tips-layout > * { min-width: 0; }
 @media (min-width: 75rem) { .tips-layout { grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); } }
-.tip { display: grid; grid-template-columns: auto 1fr; gap: var(--s-xs); align-items: start; }
+.tip { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-xs); align-items: start; }
 .tip .tip-n { font-weight: 700; font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem); line-height: 1.2; color: var(--zone-text); min-width: 1ch; }
 .z-build .tip .tip-n { color: var(--ink); }
-.watch { border-left: 4px solid var(--terracotta); }
 .watch h3 { display: flex; align-items: flex-start; gap: 0.5em; }
 .watch h3 svg { flex: none; margin-top: 0.15em; }
 .watch h3 { font-family: var(--sans); font-weight: 650; font-size: var(--t-body); line-height: 1.35; }
@@ -819,7 +864,7 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 /* Splash entrance: each word rises from behind its own mask, one at a time,
    then each detail rises on its own. Transform and opacity only. */
 .splash .mark { animation: fade-in 600ms var(--ease) both; }
-@keyframes line-up { from { transform: translateY(105%); } to { transform: none; } }
+@keyframes line-up { from { transform: translateY(135%); } to { transform: none; } } /* start fully below the mask, padding included */
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 .splash-h--short { font-size: clamp(3rem, 14cqi, 10rem); }
 .splash-h em { font-style: normal; color: var(--orange-on-dark); } /* accents are upright: color carries the emphasis */
@@ -866,7 +911,7 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 .field-body { display: flex; flex-direction: column; gap: var(--s-2xs); }
 .field-word { font: 400 clamp(3rem, 2rem + 4.5vw, 6.5rem)/0.9 var(--serif); letter-spacing: -0.02em; }
 .field-where { font-weight: 650; font-size: var(--t-body); max-width: 30ch; }
-.field-what { font-size: var(--t-small); max-width: 42ch; }
+.field-what { font-size: var(--t-body); max-width: 42ch; }
 .field-block :focus-visible { outline-color: var(--white); }
 
 /* ---------- Statement screen: teal band ---------- */

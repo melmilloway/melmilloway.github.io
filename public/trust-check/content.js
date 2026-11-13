@@ -96,7 +96,7 @@ window.TC_CONTENT = {
       text: "I know what people want from their careers.",
       why: "Telling you where they want to go means trusting you won't hold it against them and might help them get there.",
       there: "You know a colleague wants to facilitate, so you bring them in to co-lead the next workshop. They get the experience they wanted, and the team gains another facilitator.",
-      missing: "Your team's strongest designer leaves for a job with \"more growth.\" Three projects in progress lose the person who knew them best, and the team spends months hiring and onboarding a replacement."
+      missing: "Your team's strongest designer leaves for a job with more room to grow. Three projects in progress lose the person who knew them best, and the team spends months hiring and onboarding a replacement."
     },
     {
       group: "Knowing my team",
@@ -175,11 +175,11 @@ window.TC_CONTENT = {
     Build: {
       range: "11–25",
       meaning: "Your team doesn't know yet whether it's safe to be honest with you. That's normal for new teams, new managers, and teams that were treated badly by a past leader.",
-      focus: "Be consistent, not fast.",
+      focus: "Do small things reliably, again and again. Trust grows from steady actions, and rushing won't speed it up.",
       tips: [
-        ["Repeat small things.", "Follow up on something someone mentioned last week, like asking how their kid's first week of college went. Weeks of small follow-ups do more than one great conversation."],
+        ["Repeat small things.", "Follow up on something someone mentioned last week, like asking how something they mentioned turned out. Many small follow-ups do more than one great conversation."],
         ["Keep small promises where people can see it.", "If you say you'll check on a tool license by Friday, come back on Friday, even if the answer is no."],
-        ["Ask before you answer.", "When a problem comes up, ask \"What would you try?\" even if you already know what you'd do."],
+        ["Ask before you answer.", "When a problem comes up, ask \"What would you try?\" before sharing your idea, and be open to theirs being better."],
         ["Wait before introducing major changes.", "If a change adds oversight or takes away control, wait until trust has grown, or bring the team the problem instead of your solution."]
       ],
       watchTitle: "Watch out for rushing",
@@ -189,9 +189,9 @@ window.TC_CONTENT = {
     Grow: {
       range: "26–40",
       meaning: "People are starting to open up, but they're still testing what happens when they take a risk with you.",
-      focus: "Show people it's worth telling you things.",
+      focus: "When someone takes a risk with you, like raising a problem or disagreeing, make sure it goes well for them.",
       tips: [
-        ["Remove what slows them down.", "Ask \"What's slowing you down?\" and fix one thing, like getting the right tool or stopping a report nobody reads."],
+        ["Make their work easier.", "Ask, \"What's one thing I could do to make your work easier?\" Then do it, like getting them the right tool or stopping a report nobody reads."],
         ["Give concerns a regular place.", "Set up a recurring time when anything can be raised, including concerns about how you lead. Act on at least one thing each time, so people see it leads somewhere."],
         ["Respond well the first time someone takes a risk.", "The first time someone disagrees with you or admits a mistake, your reaction decides whether they'll do it again. Thank them before you respond to what they said."],
         ["Hand over a real decision.", "Let the team fully own one decision, like how to structure the next project kickoff, and don't override it."]
@@ -203,16 +203,16 @@ window.TC_CONTENT = {
     Sustain: {
       range: "41–55",
       meaning: "People bring you problems, ideas, and disagreement. You have trust, and the work now is keeping it, which starts with watching yourself as closely as you watch the team.",
-      focus: "Keep paying attention to how people act, and to how you act.",
+      focus: "Keep noticing how people respond to you and how you treat them, so you catch it early if trust starts to slip.",
       tips: [
         ["Watch yourself, not just the team.", "Small missteps still happen at high trust, like thanking one person publicly for a project and leaving out someone else who helped. You may not notice it, but they will."],
-        ["Notice when someone is quieter than usual for them.", "Compare each person to their own normal, not to the rest of the team. A usually chatty person giving short answers in a 1:1 is a sign."],
-        ["Check in directly.", "Ask, \"You seem a bit quieter today. Is anything worrying you?\" When trust is high, people will tell you, and that's how you know it's still there."],
-        ["Admit your own mistakes quickly.", "Apologize for the specific thing, and fix what you can, like recognizing them publicly too. How you handle a misstep can strengthen trust more than never making one."],
-        ["Use the trust you've built, and keep checking that it's still there.", "This is when practices that need trust actually work, like open forums or full ownership of an initiative. Retake this check every quarter and after major changes. New team members start at Build, even if the rest of the team is at Sustain."]
+        ["Notice when someone is quieter than usual for them.", "Compare each person to their own normal, not to the rest of the team. A usually talkative person giving short answers in a 1:1 is a sign."],
+        ["Check in directly.", "Ask privately, \"How are things going for you lately?\" Leave room for them to share, or not. When trust is high, people will tell you, and that's how you know it's still there."],
+        ["Admit your own mistakes quickly.", "Apologize for the specific thing, and fix what you can, like recognizing their work too, in a way they're comfortable with. How you handle a misstep can strengthen trust more than never making one."],
+        ["Use the trust you've built, and keep checking that it's still there.", "This is when practices that need trust actually work, like open forums or full ownership of an initiative. Retake this check regularly and after major changes. New team members start at Build, even if the rest of the team is at Sustain."]
       ],
       watchTitle: "Watch out for assuming trust is permanent",
-      watch: "The higher the trust, the more people notice when you make a mistake. And they'll only tell you if you ask.",
+      watch: "The higher the trust, the more people notice when you make a mistake. Asking how you're doing makes it easier for them to tell you.",
       note: ""
     }
   },
@@ -238,10 +238,20 @@ window.TC_CONTENT = {
       "Go ahead": "You have the trust to introduce this change.",
       "Create it together": "Create the change with your team before it starts, while trust grows.",
       "Build trust first": "Build trust before you introduce this change. Start with the tips below."
+    },
+    /* One concrete action for each result, shown in the result box and the PDF. */
+    actions: {
+      "Go ahead": "Introduce the change, explain why it matters, and check in with the team to see how it's going.",
+      "Create it together": "Share the problem with your team and ask how they would solve it before you decide on the change.",
+      "Build trust first": "Hold off on this change for now. Use the ways to build trust below, then retake this check before you introduce it."
     }
   },
 
   results: {
+    tipsLabel: { Build: "Ways to build trust in Build", Grow: "Ways to build trust in Grow", Sustain: "Ways to keep trust in Sustain" },
+    tipsScope: "These apply to anyone in {zone}, whatever change you're planning.",
+    nextStepLabel: "Next step",
+    cuesToggle: "See all 11 cues and your scores",
     bigReason: "Every one of these cues affects whether your team will take on the changes you want. When trust is there, people bring you problems, ideas, and effort. When it isn't, you're working without the information and energy your team already has.",
     download: "Download my results (PDF)",
     downloadNote: "Your results are saved only in this browser, and they can be cleared. Download your PDF so you can compare next time.",
@@ -252,6 +262,14 @@ window.TC_CONTENT = {
     triedLabel: "What I've tried since last time",
     startFresh: "Start fresh",
     retakeLater: "Retake later at "
+  },
+
+  home: {
+    label: "Trust Check: go to the start",
+    heading: "Go back to the start?",
+    body: "Your answers so far won't be saved.",
+    stay: "Keep going",
+    go: "Go to the start"
   },
 
   steps: {
