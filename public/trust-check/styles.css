@@ -707,6 +707,8 @@ strong, b { font-weight: 650; }
 .cues-acc[open] > summary::after { transform: rotate(-135deg) translateY(-0.15em); }
 .cues-body { padding-block: var(--s-xs) var(--s-m); }
 details.table-alt summary { cursor: pointer; color: var(--action); font-weight: 650; min-height: 2.75rem; display: inline-flex; align-items: center; }
+details.table-alt summary { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; } /* reads as a link, like the Download table link */
+details.table-alt summary:hover { color: var(--action-hover); }
 .table-scroll { max-width: 100%; overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; font-size: var(--t-small); line-height: 1.4; }
 .data-table th, .data-table td { padding: 0.5em 0.6em; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
@@ -786,7 +788,7 @@ details.table-alt summary { cursor: pointer; color: var(--action); font-weight: 
 .tip .tip-n { font-weight: 650; font-size: var(--t-body); line-height: 1.6; color: var(--ink); min-width: 1ch; } /* same as the tip title */
 .z-build .tip .tip-n { color: var(--ink); }
 .watch h3 { display: flex; align-items: flex-start; gap: 0.5em; }
-.watch h3 svg { flex: none; margin-top: 0.15em; }
+.watch h3 svg { flex: none; width: 1.5em; height: 1.5em; margin-top: -0.05em; } /* larger eye, centered on the first line */
 .watch h3 { font-family: var(--sans); font-weight: 650; font-size: var(--t-body); line-height: 1.35; }
 
 .reflect-quote { font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); font-weight: 600; line-height: 1.45; }
@@ -1048,3 +1050,27 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 @media print {
   .backdrop, .site-foot, .topbar { display: none; }
 }
+
+/* Download table link: a little room below the Total row */
+details.table-alt > p { margin-top: var(--s-xs); }
+
+/* Table total: not an answer, so it reads as a summary row */
+.data-table .total-row th, .data-table .total-row td { font-weight: 650; font-size: var(--t-body); border-top: 2px solid var(--ink); border-bottom: 0; background: var(--zone-tint); }
+
+/* Quiet icon link (e.g. Download under the table): no underline, icon does the work */
+.icon-link {
+  display: inline-flex; align-items: center; gap: 0.4em; min-height: 2.75rem; padding: 0;
+  border: 0; background: none; cursor: pointer; font: inherit; font-weight: 650; color: var(--action);
+}
+.icon-link svg { width: 1.1em; height: 1.1em; flex: none; }
+.icon-link:hover { opacity: 0.8; }
+
+/* Table: the column headings are labels, not rows. Eyebrow style plus a heavier
+   rule; the statements themselves are regular text. */
+.data-table thead th { font-size: var(--t-cap); font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--ink); padding-bottom: 0.6em; }
+.data-table tbody th { font-weight: 400; }
+/* Keep statements and answers apart: a clear gutter before the answer column */
+.data-table td.n, .data-table th.n { padding-left: var(--s-l); width: 1%; }
+
+/* Welcome: two body paragraphs get normal paragraph spacing (the lede stays tight) */
+.splash-intro > p:not(.splash-lede) + p { margin-top: calc(var(--gap-text) - var(--s-2xs)); }

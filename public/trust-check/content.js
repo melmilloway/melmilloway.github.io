@@ -12,7 +12,8 @@ window.TC_CONTENT = {
     /* Where the big welcome headline breaks: one phrase per line, each shorter
        than the last. Must join (with spaces) to exactly the hook above. */
     hookLines: ["If you were getting something", "wrong and your team knew it,", "would they tell you?"],
-    body: "This check looks at 11 everyday cues to show where you are with a team: Build, Grow, or Sustain. Then it gives you tips for what to do next. Use it for a team you lead or any group you work with.",
+    body: "This check looks at 11 everyday cues to show where you are with a team: Build, Grow, or Sustain. Then it gives you tips for building the trust that drives results.",
+    use: "Use it for a team you lead or any group you work with.",
     details: "About 4 minutes · Saved only in your browser",
     pdf: "At the end, download your results as a PDF so you can compare when you take it again.",
     start: "Start",
@@ -203,8 +204,8 @@ window.TC_CONTENT = {
         ["Thank people when they disagree or admit a mistake.", "The first time someone disagrees with you or admits a mistake, your reaction decides whether they'll do it again. Thank them before you respond to what they said."],
         ["Let the team make a decision on their own.", "Let the team fully own one decision, like how to structure the next project kickoff, and don't override it."]
       ],
-      watchTitle: "Watch out for asking for ideas and then doing nothing",
-      watch: "You ask the team, \"What should we change about how requests come in?\" They give you five ideas. Weeks go by, nothing changes, and you never mention it again. The next time you ask, no one answers. Agree on who owns each action: some are yours, some are theirs. Follow through on the ones you own and tell the team when they're done. If you decide against an idea, say so and say why.",
+      watchTitle: "Watch out for not following through on your part",
+      watch: "You ask the team, \"What should we change about how requests come in?\" You agree on next steps: they'll track where requests get stuck, and you'll ask the other team for a new intake form. They do their part. Weeks go by, and you never do yours. The next time you ask, no one answers. When you split the work, follow through on what you own and tell the team when it's done. If your plans change, say so and say why.",
       note: ""
     },
     Sustain: {
@@ -271,6 +272,8 @@ window.TC_CONTENT = {
     tipsLabel: { Build: "Ways to build trust in Build", Grow: "Ways to build trust in Grow", Sustain: "Ways to keep trust in Sustain" },
     tipsScope: "These apply to anyone in {zone}, whatever change you're planning.",
     capNote: "Your total is in the Sustain range, but {area} is lower than the rest, so you're in Grow until it catches up.",
+    liftNote: "Your total is in the Build range, but most of your low ratings are in {area}, so you're in Grow. {area} is the place to start.",
+    tableDownload: "Download as a table (spreadsheet)",
     updateResults: "Update my results",
     nextStepLabel: "Next step",
     scoreLine: "Your score: {n} out of 55",
@@ -279,7 +282,9 @@ window.TC_CONTENT = {
     bigReason: "Every one of these cues affects whether your team will take on the changes you want. When trust is there, people bring you problems, ideas, and effort. When it isn't, you're working without the information and energy your team already has.",
     download: "Download my results (PDF)",
     downloadNote: "Your results are saved only in this browser, and they can be cleared. Download your PDF so you can compare next time.",
-    noStorage: "Your browser isn't saving results, so download your PDF to compare later.",
+    saveHeading: "Save your results",
+    noStorageHeading: "Your browser isn't saving results",
+    noStorage: "Download your PDF so you can compare your results next time.",
     comparePdf: "Compare these results with your PDF from last time.",
     howToRead: "A statement you cared about went up: what you're doing is working. No change: keep going, since trust builds slowly. Your zone went up: you may be ready to introduce a larger change.",
     askLabel: "The change I'm planning",
