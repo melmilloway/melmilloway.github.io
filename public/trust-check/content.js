@@ -243,8 +243,8 @@ window.TC_CONTENT = {
     /* One concrete action for each result, shown in the result box and the PDF. */
     actions: {
       "Go ahead": "Introduce the change, explain why it matters, delegate the work, and check in with the team to see how it's going.",
-      "Create it together": "Share the problem with your team and ask how they would solve it before you decide on the change.",
-      "Build trust first": "Hold off on this change for now. Use the ways to build trust above, then retake this check before you introduce it."
+      "Create it together": "Share the problem with your team and ask how they would solve it before you decide on the change. Then move forward with the change together.",
+      "Build trust first": "Hold off on this change unless it's business critical. Use the ways to build trust above, then retake this check before you introduce it."
     }
   },
 
@@ -289,9 +289,9 @@ window.TC_CONTENT = {
   },
 
   steps: {
-    button: "Steps",
-    heading: "Jump to a step",
-    intro: "Go back to any step you've already seen. The next questions open as you answer.",
+    button: "Menu",
+    heading: "Go back to any part",
+    intro: "You can open anything you've already seen. The next questions open as you answer.",
     results: "Your results",
     locked: "Locked",
     close: "Close"

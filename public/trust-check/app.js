@@ -674,7 +674,8 @@
     if (!v) return "";
     var there = '<div class="impact"><p class="eyebrow there">' + esc(k.there) + '</p><p>' + esc(s.there) + '</p></div>';
     var missing = '<div class="impact"><p class="eyebrow">' + esc(k.missing) + '</p><p>' + esc(s.missing) + '</p></div>';
-    var impact = v >= 4 ? there : v <= 2 ? missing : there + missing;
+    // Always both sides; the one that matches their rating comes first.
+    var impact = v <= 2 ? missing + there : there + missing;
     // Heading and its paragraph are one unit, spaced like each impact label and its text.
     return '<div class="why-head"><h2 class="h3" id="why-h" tabindex="-1">' + esc(k.heading) + '</h2>' +
       '<p>' + esc(s.why) + '</p></div>' +
@@ -1279,7 +1280,7 @@
     }
 
     // 8. Every answer with the feedback they saw ("Why this matters" and the
-    // matching story, by the same rules as the card: 4-5 there, 1-2 missing, 3 both).
+    // both stories, in the same order as the card: 1-2 missing first, otherwise there first).
     y += 6; rule(); ensure(60);
     para(C.results.pdfAnswersTitle, 12.5, { style: "bold", after: 8 });
     var lastG = "";
@@ -1295,8 +1296,10 @@
       if (compare) ans += "   |   " + C.results.pdfFirstTake + ": " + C.ratings[first.scores[i] - 1] + " (" + first.scores[i] + ")";
       para(ans, 10, { color: RGB.muted, after: 4 });
       para(C.card.heading + ": " + s.why, 10, { x: M + 12, width: CW - 12, after: 3 });
-      if (v >= 3) para(C.card.there + ": " + s.there, 10, { x: M + 12, width: CW - 12, after: 3 });
-      if (v <= 3) para(C.card.missing + ": " + s.missing, 10, { x: M + 12, width: CW - 12, after: 3 });
+      var pThere = [C.card.there + ": " + s.there], pMissing = [C.card.missing + ": " + s.missing];
+      (v <= 2 ? pMissing.concat(pThere) : pThere.concat(pMissing)).forEach(function (line) {
+        para(line, 10, { x: M + 12, width: CW - 12, after: 3 });
+      });
       y += 6;
     });
 

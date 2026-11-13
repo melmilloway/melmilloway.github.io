@@ -355,8 +355,8 @@ strong, b { font-weight: 650; }
 .steps-list { list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
 .step {
   width: 100%; min-height: 2.75rem;
-  display: grid; grid-template-columns: 1fr auto; gap: var(--s-s); align-items: center;
-  padding: 0.6rem 0.25rem;
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-3xs); /* answer sits under its question, not beside it */
+  padding: var(--s-xs) 0.25rem;
   border: 0; border-bottom: 1px solid var(--line); background: none;
   text-align: left; font: inherit; font-size: var(--t-small); color: var(--ink); cursor: pointer;
 }
@@ -364,7 +364,7 @@ strong, b { font-weight: 650; }
 .step:disabled { color: var(--muted); cursor: not-allowed; }
 .step.is-current { font-weight: 650; box-shadow: inset 3px 0 0 var(--action); padding-left: 0.6rem; }
 .step-label { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.step-meta { display: inline-flex; align-items: center; gap: 0.3em; color: var(--muted); font-size: var(--t-cap); white-space: nowrap; }
+.step-meta { display: inline-flex; align-items: center; gap: 0.3em; color: var(--muted); font-size: var(--t-cap); font-style: italic; font-weight: 400; white-space: nowrap; } /* the answer reads apart from its question */
 .step-meta svg { width: 1em; height: 1em; }
 
 /* ---------- Top bar: back + progress ---------- */
@@ -656,9 +656,9 @@ strong, b { font-weight: 650; }
 }
 .pick-tag { display: block; margin-top: 0.45em; font-size: var(--t-cap); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; } /* eyebrow style */
 
-.verdict { display: flex; flex-direction: column; gap: var(--s-3xs); }
+.verdict { display: flex; flex-direction: column; gap: var(--gap-heading); } /* standard heading-to-text gap */
 .verdict:empty { display: none; }
-.verdict-next { margin-top: var(--s-s); display: flex; flex-direction: column; gap: var(--s-3xs); } /* label hugs its text like the heading above it; more room above */
+.verdict-next { margin-top: var(--s-s); display: flex; flex-direction: column; gap: var(--gap-label); } /* standard label-to-text gap; more room above so it groups with its own text */
 .verdict-next .eyebrow { color: var(--ink); }
 /* The result box matches the highlighted cell, so the two read as one. */
 .verdict.panel { background: var(--zone-tint); border-color: var(--zone-tint); color: var(--ink); } /* light tint of your zone: easy to read */
@@ -960,7 +960,7 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 .field-n { font-size: var(--t-cap); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 .field-body { display: flex; flex-direction: column; gap: var(--s-2xs); }
 .field-word { font: 400 clamp(3rem, 2rem + 4.5vw, 6.5rem)/0.9 var(--serif); letter-spacing: -0.02em; }
-.field-where { font-weight: 650; font-size: var(--t-body); max-width: 30ch; }
+.field-where { font-weight: 650; font-size: var(--t-body); line-height: 1.35; max-width: 30ch; } /* bold lead line: same tighter leading as our bold headings */
 .field-what { font-size: var(--t-body); max-width: 42ch; }
 .field-block :focus-visible { outline-color: var(--white); }
 
