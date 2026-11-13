@@ -434,10 +434,15 @@
     }
     // The stages intro only shows up in the menu if they saw it this time (retakes skip it).
     if (S.visited.stages) items.push(item(esc(C.stages.headlineLead + C.stages.headlineAccent), true, "stages", "", S.screen === "stages"));
-    C.statements.forEach(function (st, i) {
-      var v = S.scores[i];
-      items.push(item((i + 1) + '. ' + esc(st.text), i <= S.reached, "statement:" + i,
-        v ? esc(k.answer) + ' <em>' + esc(C.ratings[v - 1]) + '</em>' : "", S.screen === "statement" && S.index === i));
+    // Statements grouped under their four areas, each with a small heading.
+    C.groups.forEach(function (g, gi) {
+      var rows = g.items.map(function (i) {
+        var st = C.statements[i], v = S.scores[i];
+        return item(esc(st.text), i <= S.reached, "statement:" + i, // no numbers: the area headings do the grouping
+          v ? esc(k.answer) + ' <em>' + esc(C.ratings[v - 1]) + '</em>' : "", S.screen === "statement" && S.index === i);
+      }).join("");
+      items.push('<li class="step-group"><p class="step-group-h" id="sg-' + gi + '">' + (gi + 1) + '. ' + esc(g.name) + '</p>' +
+        '<ol class="steps-list steps-sub" aria-labelledby="sg-' + gi + '">' + rows + '</ol></li>');
     });
     items.push(item(esc(k.results), !!S.takes && (S.finished || S.editing), "results", "", S.screen === "results"));
     openDialog(
@@ -548,7 +553,8 @@
   };
   bind.welcome = function () {
     $("[data-start]", main).addEventListener("click", function () {
-      if (S.saved) { openKeepOrClear(); return; } // saved results: keep to compare, or clear
+      // Saved results: one confirm (download first, or clear and start).
+      if (S.saved) { openStartFresh(function () { S.mode = "first"; go("stages", { replace: true }); }); return; }
       S.mode = "first"; S.ask = ""; S.tried = "";
       go("stages");
     });
@@ -679,7 +685,12 @@
     return '<section class="stages-screen">' +
       band({
         title: '<h1 class="statement">' + esc(st.headlineLead) + '<span class="accent">' + esc(st.headlineAccent) + '</span></h1>',
-        after: st.intro ? '<p class="band-text">' + esc(st.intro) + '</p>' : ""
+        after: '<div class="band-text stack">' +
+          '<p>' + esc(st.rateLead) + ' ' + C.groups.map(function (g, k) {
+            return (k === C.groups.length - 1 ? "and " : "") + '<strong>' + esc(g.name) + '</strong>';
+          }).join(", ") + '.</p>' +
+          '<p>' + esc(st.intro) + '</p>' +
+        '</div>'
       }) +
       '<ol class="fields">' + st.list.map(function (s, i) {
         return '<li class="field-block f-' + s.zone.toLowerCase() + '">' +
@@ -692,15 +703,27 @@
         '</li>';
       }).join("") + '</ol>' +
       '<div class="wrap wrap--wide stages-foot">' +
-        '<div class="why-head"><p>' + esc(st.footer) + '</p>' +
-          '<ul class="areas">' + C.groups.map(function (g) { return '<li>' + esc(g.name) + '</li>'; }).join("") + '</ul></div>' +
         '<div class="actions actions--start"><button type="button" class="btn" data-begin>' + esc(st.button) + '</button></div>' +
       '</div>' +
+      // A quiet hint that there's more below; a picture, not a control.
+      '<div class="scroll-hint" data-scroll-hint aria-hidden="true" hidden>' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div>' +
     '</section>';
   };
   bind.stages = function () {
     bindBack();
-    $("[data-begin]", main).addEventListener("click", function () { go("statement", { index: 0 }); });
+    $all("[data-begin]", main).forEach(function (b) {
+      b.addEventListener("click", function () { go("statement", { index: 0 }); });
+    });
+    // Show the scroll hint only when Begin starts below the fold; hide it on the first scroll.
+    var hint = $("[data-scroll-hint]", main), begin = $(".stages-foot [data-begin]", main);
+    if (hint && begin && begin.getBoundingClientRect().bottom > window.innerHeight) {
+      hint.hidden = false;
+      var off = function () {
+        if (window.scrollY > 24) { hint.classList.add("is-gone"); window.removeEventListener("scroll", off); }
+      };
+      window.addEventListener("scroll", off, { passive: true });
+    }
   };
 
   /* 6 + 7. Statement and Why card */
@@ -743,10 +766,28 @@
       '</fieldset>' +
       '<section class="panel panel--white why" data-why aria-labelledby="why-h"' + (S.scores[i] ? "" : " hidden") + '>' + whyCard(i) + '</section>' +
       '</div>' +
+      // Slim copy of the statement that slides in once the band scrolls away, so
+      // people keep the statement in view while reading the card. Visual only:
+      // screen readers already have the heading.
+      '<div class="stmt-mini" data-mini aria-hidden="true"><div class="wrap wrap--wide stmt-mini-inner">' +
+        '<span class="stmt-mini-n">' + (i + 1) + ' of ' + N + '</span>' +
+        '<p class="stmt-mini-t">' + esc(s.text) + '</p>' +
+      '</div></div>' +
     '</form>';
   };
+  var miniObserver = null;
   bind.statement = function () {
     var i = S.index;
+    var mini = $("[data-mini]", main), head = $("#stmt-h", main);
+    if (miniObserver) miniObserver.disconnect();
+    if (mini && head && "IntersectionObserver" in window) {
+      miniObserver = new IntersectionObserver(function (entries) {
+        var e = entries[0];
+        // Show only once the statement has scrolled up out of view (not below it).
+        mini.classList.toggle("is-on", !e.isIntersecting && e.boundingClientRect.top < 0);
+      });
+      miniObserver.observe(head);
+    }
     var form = $("[data-form]", main);
     var why = $("[data-why]", main);
     bindBack(function () { history.back(); });
@@ -1182,34 +1223,6 @@
     S.takes = S.saved; S.scores = S.saved[S.saved.length - 1].scores.slice();
     S.reached = N - 1; S.finished = true; S.editing = false; S.saveOk = true; // these came from storage
     go("results");
-  }
-
-  // Start with results already saved: clear them and start fresh, or look at them.
-  function openKeepOrClear() {
-    var k = C.saved, last = S.saved[S.saved.length - 1];
-    openDialog(
-      '<div class="stack">' +
-        '<h2 class="h2" id="dialog-h">' + esc(k.heading) + '</h2>' +
-        '<p>' + esc(k.body.replace("{date}", longDate(last.date))) + '</p>' +
-        '<div class="actions">' +
-          '<button type="button" class="btn" data-d-clear>' + esc(k.clear) + '</button>' +
-          '<button type="button" class="btn btn--secondary" data-d-view>' + esc(k.view) + '</button>' +
-        '</div>' +
-        '<div><button type="button" class="linkbtn" data-d-cancel>' + esc(k.cancel) + '</button></div>' +
-      '</div>',
-      function (d) {
-        $("[data-d-view]", d).addEventListener("click", function () {
-          closeDialog();
-          showPrevious();
-        });
-        // Clearing can't be undone, so it goes through the usual confirm (with a PDF option).
-        $("[data-d-clear]", d).addEventListener("click", function () {
-          closeDialog();
-          openStartFresh(function () { S.mode = "first"; go("stages", { replace: true }); });
-        });
-        $("[data-d-cancel]", d).addEventListener("click", closeDialog);
-      }
-    );
   }
 
   function openStartFresh(then) {

@@ -20,15 +20,6 @@ window.TC_CONTENT = {
     viewPrevious: "View previous results"
   },
 
-  /* Start, when results are already saved in this browser. */
-  saved: {
-    heading: "You have saved results",
-    body: "Your results from {date} are saved in this browser. To take the check again, clear them and start fresh. You can download your PDF first.",
-    clear: "Clear and start fresh",
-    view: "View previous results",
-    cancel: "Cancel"
-  },
-
   welcomeBack: {
     headline: "Welcome back.",
     retake: "Retake",
@@ -60,8 +51,9 @@ window.TC_CONTENT = {
   stages: {
     headlineLead: "Trust happens in ",
     headlineAccent: "three stages.",
-    intro: "Your answers to the 11 statements add up to a score that places you in one of these stages. At the end, your results show which stage you're in and give you tips for what to do next.",
-    footer: "Next, you'll rate 11 statements about the people you have in mind, in four areas:",
+    /* Intro under the heading: what you'll do (with the four areas), then what the score means. */
+    rateLead: "You'll rate 11 statements about the people you have in mind, in four areas:",
+    intro: "Your answers add up to a score that places you in one of these stages. At the end, your results show which stage you're in and give you tips for what to do next.",
     button: "Begin",
     list: [
       {
@@ -316,7 +308,7 @@ window.TC_CONTENT = {
 
   startFresh: {
     heading: "Start fresh?",
-    body: "This clears all your saved results from this browser, including your comparison history. You can't undo this.",
+    body: "This clears your saved results from this browser. You can't undo this.",
     note: "Download your PDF first if you want to keep them.",
     download: "Download PDF",
     clear: "Clear and start fresh",
