@@ -76,7 +76,7 @@ window.TC_CONTENT = {
 
   groups: [
     { name: "Knowing my team", items: [0, 1, 2] },
-    { name: "Telling me hard things", items: [3, 4, 5] },
+    { name: "Telling me difficult things", items: [3, 4, 5] },
     { name: "Sharing ideas and concerns", items: [6, 7, 8] },
     { name: "Admitting mistakes and asking for help", items: [9, 10] }
   ],
@@ -104,21 +104,21 @@ window.TC_CONTENT = {
       missing: "You decide the course is too long and push for a redesign. Two months later, completion is still low, because the real problem was the mobile bug nobody brought up."
     },
     {
-      group: "Telling me hard things",
+      group: "Telling me difficult things",
       text: "People bring problems to me before they turn into emergencies.",
       why: "Raising a problem early means risking being the one with bad news. People only do it when they expect help, not blame.",
       there: "A vendor delay gets flagged three weeks before launch. You move the date once, and stakeholders barely notice.",
       missing: "The same delay comes out two days before launch. You cancel a rollout people cleared their calendars for, and leadership starts questioning your team's timelines."
     },
     {
-      group: "Telling me hard things",
+      group: "Telling me difficult things",
       text: "People tell me when they disagree with me.",
       why: "Telling you they disagree is a risk, whether they say it in a meeting or one-on-one. People take it when they trust the relationship can handle it.",
       there: "In planning, someone says the new tool won't integrate with your LMS. You catch it before signing the contract.",
       missing: "Everyone agrees in the meeting. Six weeks into rollout, the integration problem surfaces, and the budget is already spent."
     },
     {
-      group: "Telling me hard things",
+      group: "Telling me difficult things",
       text: "When I ask for feedback, I get specific answers.",
       why: "Vague feedback is safe feedback. Specific answers mean people believe you really want to hear them.",
       there: "Someone tells you your last-minute requests are breaking up their focus time. You start batching requests, and deadlines stop being missed.",
