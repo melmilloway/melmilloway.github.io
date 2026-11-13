@@ -36,7 +36,7 @@ window.TC_CONTENT = {
     optional: "Optional",
     hint: "Type the change you have in mind. It will show with your results and in your PDF.",
     skip: "Skip",
-    max: 150
+    max: 800
   },
 
   tried: {
@@ -44,7 +44,7 @@ window.TC_CONTENT = {
     optional: "Optional",
     hint: "Type what you've tried. It will show with your results and in your PDF.",
     skip: "Skip",
-    max: 250
+    max: 800
   },
 
   stages: {
@@ -77,7 +77,7 @@ window.TC_CONTENT = {
   groups: [
     { name: "Knowing my team", items: [0, 1, 2] },
     { name: "Telling me difficult things", items: [3, 4, 5] },
-    { name: "Sharing ideas and concerns", items: [6, 7, 8] },
+    { name: "Joining in with ideas and questions", items: [6, 7, 8] },
     { name: "Admitting mistakes and asking for help", items: [9, 10] }
   ],
 
@@ -125,21 +125,21 @@ window.TC_CONTENT = {
       missing: "Everyone says everything is fine. The frustration shows up in an exit interview, when it's too late to fix."
     },
     {
-      group: "Sharing ideas and concerns",
+      group: "Joining in with ideas and questions",
       text: "When I ask for input, people respond in their own way, even the quieter ones.",
       why: "Trust doesn't look the same for everyone. Quieter people often show it through other channels.",
       there: "Your quietest team member messages you after a meeting about a flaw in the rollout plan nobody else caught. You fix it before launch.",
       missing: "They see the same flaw and keep it to themselves. It shows up after launch as rework."
     },
     {
-      group: "Sharing ideas and concerns",
+      group: "Joining in with ideas and questions",
       text: "When I suggest something new, people share their questions or concerns, in the moment or afterward.",
       why: "Questions and concerns, whether they come right away or a day later, mean people are working out how to make it succeed. When none come at all, they may have decided it won't.",
       there: "You introduce a new intake process, and people ask how it handles rush requests. You adjust it, and the team actually uses it.",
       missing: "People say \"sounds good,\" then keep emailing you requests directly. Three months later, you're managing two systems."
     },
     {
-      group: "Sharing ideas and concerns",
+      group: "Joining in with ideas and questions",
       text: "People offer ideas I didn't ask for.",
       why: "Sharing an unrequested idea risks having it dismissed. People do it when they believe their input changes things.",
       there: "A teammate suggests templating the onboarding module they rebuild every quarter. It saves the team a week each time.",
@@ -195,7 +195,7 @@ window.TC_CONTENT = {
         ["Let the team make a real decision on their own.", "Let the team fully own one decision, like how to structure the next project kickoff, and don't override it."]
       ],
       watchTitle: "Watch out for asking for ideas and then doing nothing",
-      watch: "You ask the team, \"What should we change about how requests come in?\" They give you five ideas. Weeks go by, nothing changes, and you never mention it again. The next time you ask, no one answers. Always follow up, even when the answer is no: tell the team what you'll do, what you won't, and why.",
+      watch: "You ask the team, \"What should we change about how requests come in?\" They give you five ideas. Weeks go by, nothing changes, and you never mention it again. The next time you ask, no one answers. Agree on who owns each action: some are yours, some are theirs. Follow through on the ones you own and tell the team when they're done. If you decide against an idea, say so and say why.",
       note: ""
     },
     Sustain: {
@@ -222,7 +222,7 @@ window.TC_CONTENT = {
     yourChange: "The change you typed earlier",
     skipped: "You skipped this earlier",
     reflect: "Think about one change you want people to make, like a new process, a habit, or a way of working together.",
-    choose: "Choose one to see where you land.",
+    choose: "Choose one to see what it means for a team in {zone}.",
     question: "How much will this change affect your team?",
     note: "Telling people to change takes more trust than asking them.",
     sizes: [
@@ -242,30 +242,39 @@ window.TC_CONTENT = {
     },
     /* One concrete action for each result, shown in the result box and the PDF. */
     actions: {
-      "Go ahead": "Introduce the change, explain why it matters, and check in with the team to see how it's going.",
+      "Go ahead": "Introduce the change, explain why it matters, delegate the work, and check in with the team to see how it's going.",
       "Create it together": "Share the problem with your team and ask how they would solve it before you decide on the change.",
       "Build trust first": "Hold off on this change for now. Use the ways to build trust above, then retake this check before you introduce it."
     }
   },
 
   results: {
+    intro: "Below are the 11 cues behind your score and {tips}. If you're planning a change, the {planner} helps you see whether there's enough trust for it to go well. At the bottom, you can download a PDF of everything to compare next time.",
+    plannerLink: "optional planner",
     mapLabel: "On this page",
     mapDownload: "Download PDF",
     mapPart1: "Your results and how to build trust",
     mapPart2: "Planning a change with your team (optional)",
+    part1Heading: "Part 1: {tips}",
+    part2Heading: "Part 2: Planning a change with your team in {zone} (optional)",
     part1: "Part 1",
     part2: "Part 2 \u00b7 Optional",
     tipsLabel: { Build: "Ways to build trust in Build", Grow: "Ways to build trust in Grow", Sustain: "Ways to keep trust in Sustain" },
     tipsScope: "These apply to anyone in {zone}, whatever change you're planning.",
     nextStepLabel: "Next step",
-    cuesToggle: "See all 11 cues and your scores",
+    scoreLine: "Your score: {n} out of 55",
+    cuesHeading: "What's behind your score",
+    cuesToggle: "See how you rated all 11 cues",
     bigReason: "Every one of these cues affects whether your team will take on the changes you want. When trust is there, people bring you problems, ideas, and effort. When it isn't, you're working without the information and energy your team already has.",
     download: "Download my results (PDF)",
     downloadNote: "Your results are saved only in this browser, and they can be cleared. Download your PDF so you can compare next time.",
     noStorage: "Your browser isn't saving results, so download your PDF to compare later.",
     comparePdf: "Compare these results with your PDF from last time.",
     howToRead: "A statement you cared about went up: what you're doing is working. No change: keep going, since trust builds slowly. Your zone went up: you may be ready to introduce a larger change.",
-    askLabel: "What I want people to start doing",
+    askLabel: "The change I'm planning",
+    pdfAnswersTitle: "Your answers, and why each one matters",
+    pdfYourAnswer: "Your answer",
+    pdfFirstTake: "First take",
     triedLabel: "What I've tried since last time",
     startFresh: "Start fresh",
     retakeLater: "Retake later at "

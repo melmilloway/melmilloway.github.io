@@ -54,6 +54,15 @@
     function p(n) { return (n < 10 ? "0" : "") + n; }
     return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
   }
+  // Time of a take, so same-day PDFs are told apart: "7:42 PM" and "1942".
+  function timeLabel(iso) {
+    return new Date(iso).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  }
+  function hhmm(iso) {
+    var d = new Date(iso);
+    function p(n) { return (n < 10 ? "0" : "") + n; }
+    return p(d.getHours()) + p(d.getMinutes());
+  }
   function signed(n) { return n > 0 ? "+" + n : n < 0 ? "−" + Math.abs(n) : "0"; }
 
   function announce(msg) {
@@ -823,6 +832,13 @@
       }).join("") + '</tbody></table>';
   }
 
+  // Escape a line and give the zone name its brush underline (static).
+  function markZone(text, zone) {
+    var e = esc(text), z = esc(zone);
+    var i = e.lastIndexOf(z);
+    return i < 0 ? e : e.slice(0, i) + '<span class="zone-mark">' + z + '</span>' + e.slice(i + z.length);
+  }
+
   function sizeLabel(id) {
     for (var i = 0; i < C.grid.sizes.length; i++) if (C.grid.sizes[i].id === id) return C.grid.sizes[i].label;
     return cap(id);
@@ -838,8 +854,9 @@
 
   function cueRows(takes) {
     var t = takes[takes.length - 1], first = takes[0], compare = takes.length > 1, trend = takes.length >= 3;
-    return '<div class="cue-groups">' + C.groups.map(function (g) {
-      return '<div class="cue-group"><h3 class="eyebrow">' + esc(g.name) + '</h3><ul class="cues">' + g.items.map(function (i) {
+    return '<div class="cue-groups">' + C.groups.map(function (g, gi) {
+      // Each area is numbered and boxed so the four themes stand out when skimming.
+      return '<div class="cue-group"><h3 class="t-bold">' + (gi + 1) + '. ' + esc(g.name) + '</h3><ul class="cues">' + g.items.map(function (i) {
         var s = C.statements[i], v = t.scores[i], f = first.scores[i];
         var bars;
         if (compare) {
@@ -885,30 +902,17 @@
     // with the full chart in a closed accordion for anyone who wants detail.
     var cues =
       '<section class="stack chart cues-section" aria-labelledby="chart-h">' +
-        '<div class="why-head"><h2 class="subhead" id="chart-h">Your 11 cues</h2>' +
+        '<div class="why-head"><h2 class="card-title" id="chart-h">' + esc(r.cuesHeading) + '</h2>' +
         '<p class="measure">' + esc(r.bigReason) + '</p></div>' +
         '<details class="cues-acc">' +
           '<summary>' + esc(r.cuesToggle) + '</summary>' +
           '<div class="stack cues-body">' +
-            '<p class="cap">' + esc("1 " + C.ratings[0] + " \u00b7 5 " + C.ratings[4]) + '</p>' +
-            cueRows(takes) +
-            cueTable(takes) +
-            (compare ? '<p class="panel small measure">' + esc(r.howToRead) + '</p>' : "") +
+            // Today's answers only; earlier takes will get their own view later.
+            cueRows([t]) +
+            cueTable([t]) +
           '</div>' +
         '</details>' +
       '</section>';
-
-    // A quick map of the page: two parts, each a jump to its section.
-    var pageMap =
-      '<nav class="page-map" aria-labelledby="map-h">' +
-        '<p class="eyebrow" id="map-h">' + esc(r.mapLabel) + '</p>' +
-        '<ol>' +
-          '<li><button type="button" class="map-link" data-jump="results-h"><span class="map-n">1</span>' + esc(r.mapPart1) + '</button></li>' +
-          '<li><button type="button" class="map-link" data-jump="change-h"><span class="map-n">2</span>' + esc(r.mapPart2) + '</button></li>' +
-        '</ol>' +
-        // Quick download from the top; the full save card stays at the end.
-        '<button type="button" class="linkbtn map-pdf" data-pdf>' + ICON_DOWN + esc(r.mapDownload) + '</button>' +
-      '</nav>';
 
     var summary =
       '<div class="stack">' +
@@ -916,14 +920,20 @@
         // Eyebrow and heading form one title block (label sits tight to its heading).
         // Title, zone change and meaning are one group (heading to its text: tight).
         '<div class="why-head">' +
-          '<div class="titleblock"><p class="eyebrow">' + esc(r.part1 + " \u00b7 " + dateStr) + '</p>' +
+          '<div class="titleblock"><p class="eyebrow">' + esc(dateStr) + '</p>' +
           '<h1 class="h1" id="results-h">You’re in <span class="zone-word">' + esc(t.zone) + '.</span></h1></div>' +
           '<p class="measure">' + esc(z.meaning) + '</p>' +
         '</div>' +
         '<div class="stack stack--tight">' +
-          '<div class="score-line"><p><span class="score-num">' + t.total + '</span> out of 55</p>' +
+          '<div class="score-line"><p class="t-bold">' + esc(r.scoreLine.replace("{n}", t.total)) + '</p>' +
           '</div>' +
           zoneBar(t.total, t.zone) +
+        '</div>' +
+        // One sentence that sets up the page; the planner phrase jumps to Part 2.
+        '<div class="results-intro">' +
+          '<p class="measure">' + esc(r.intro.split("{planner}")[0].replace("{tips}", r.tipsLabel[t.zone].charAt(0).toLowerCase() + r.tipsLabel[t.zone].slice(1))) +
+            '<button type="button" class="inline-link" data-jump="change-h">' + esc(r.plannerLink) + '</button>' +
+            esc(r.intro.split("{planner}")[1] || "") + '</p>' +
         '</div>' +
       '</div>';
     var tried = t.tried ? '<div class="why-head"><h2 class="subhead">' + esc(r.triedLabel) + '</h2><p class="reflect-quote">' + esc(t.tried) + '</p></div>' : "";
@@ -933,15 +943,15 @@
         // Start from their own change; if they skipped it, ask them to picture one.
         // Their change is the panel's main heading; the size question sits under it.
         // Part 2: optional planning. Title says what it's for; their change sits under it.
-        '<div class="titleblock"><p class="eyebrow">' + esc(r.part2) + '</p>' +
-        '<h2 class="card-title" id="change-h" tabindex="-1">' + esc(C.grid.planTitle) + '</h2></div>' +
+        // Heading and its opening text are one group (tight), like Part 1.
+        '<div class="why-head"><h2 class="card-title" id="change-h" tabindex="-1">' + markZone(r.part2Heading.replace("{zone}", t.zone), t.zone) + '</h2>' +
         // The change box lives here now: optional, saved with the results and in the PDF.
-        '<div class="why-head"><h3 class="subhead" id="plan-h">' + esc(C.grid.changeQuestion) + '</h3>' +
+        '<p id="plan-h">' + esc(C.grid.changeQuestion) + '</p>' +
           '<p id="plan-d">' + esc(C.grid.reflect) + '</p></div>' +
         field("plan-input", t.ask || "", C.ask.max, "plan-h", "plan-d", C.grid.changeHint) +
-        '<div class="why-head"><h3 class="subhead" id="grid-h">' + esc(C.grid.question) + '</h3>' +
+        '<div class="why-head"><h3 class="t-bold" id="grid-h">' + esc(C.grid.question) + '</h3>' +
         // Why the size matters, then the instruction, right under the question.
-        '<p>' + esc((C.grid.note ? C.grid.note + " " : "") + C.grid.choose) + '</p></div>' +
+        '<p>' + esc((C.grid.note ? C.grid.note + " " : "") + C.grid.choose.replace("{zone}", t.zone)) + '</p></div>' +
         '<fieldset class="sizes"><legend class="sr-only">' + esc(C.grid.question) + '</legend>' +
           C.grid.sizes.map(function (s) {
             var on = t.askSize === s.id;
@@ -957,8 +967,9 @@
       // The tips are the next step after the result, so they sit in a panel
       // topped with the zone's color and are labeled as next steps for that zone.
       '<section class="card tips-card" aria-labelledby="tips-h">' +
-        '<div class="why-head"><div class="titleblock"><p class="eyebrow">' + esc(r.tipsLabel[t.zone]) + '</p>' +
-        '<h2 class="card-title focus-line" id="tips-h">' + focusHtml + '</h2></div>' +
+        // Part 1 heading names the section; the focus line sits under it as bold body text.
+        '<div class="why-head"><h2 class="card-title" id="tips-h">' + markZone(r.part1Heading.replace("{tips}", r.tipsLabel[t.zone]), t.zone) + '</h2>' +
+        '<p class="focus-line">' + focusHtml + '</p>' +
         '<p>' + esc(r.tipsScope.replace("{zone}", t.zone)) + '</p></div>' +
         '<div class="tips-layout"><ol class="tips">' + z.tips.map(function (tp, k) {
           return '<li class="tip"><span class="tip-n" aria-hidden="true">' + (k + 1) + '</span><p><strong>' + esc(tp[0]) + '</strong> ' + esc(tp[1]) + '</p></li>';
@@ -978,7 +989,7 @@
       '<section class="card save-card" aria-label="' + esc(r.download) + '">' +
         (!S.saveOk ? '<p class="note note--alert"><strong>' + esc(r.noStorage) + '</strong></p>' : "") +
         '<p class="measure">' + esc(r.downloadNote) + '</p>' +
-        '<div class="actions actions--start"><button type="button" class="btn" data-pdf>' + ICON_DOWN + esc(r.download) + '</button></div>' +
+        '<div class="actions actions--start"><button type="button" class="btn btn--green" data-pdf>' + ICON_DOWN + esc(r.download) + '</button></div>' +
         '<p class="small" data-pdf-status role="status"></p>' +
         after +
       '</section>';
@@ -987,7 +998,6 @@
     // Part 1, your results: zone and score, the 11 cues behind it, then what to do (tips).
     // Part 2, planning a change (optional). Then save.
     return '<div class="screen wrap wrap--mid results ' + zClass(t.zone) + '">' +
-      pageMap +
       summary +
       cues +
       tips +
@@ -1179,18 +1189,8 @@
 
     // 1. Title, date, session
     para("Trust Check", 28, { font: "times", color: RGB.purple, after: 2, lh: 1.2 });
-    para(longDate(t.date), 11, { color: RGB.muted, after: 10 });
+    para(longDate(t.date) + ", " + timeLabel(t.date), 11, { color: RGB.muted, after: 10 });
     rule();
-
-    // 2. Reflections
-    if (t.ask) {
-      para(C.results.askLabel, 9, { style: "bold", color: RGB.muted, after: 2 });
-      para(t.ask, 13, { font: "times", after: 10 });
-    }
-    if (t.tried) {
-      para(C.results.triedLabel, 9, { style: "bold", color: RGB.muted, after: 2 });
-      para(t.tried, 13, { font: "times", after: 10 });
-    }
 
     // 3. Zone, score, size of change, grid result
     ensure(40);
@@ -1201,11 +1201,6 @@
     para(C.zones[t.zone].meaning, 10.5, { after: 8 });
     var facts = ["Total score: " + t.total + " out of 55"];
     if (compare) facts.push("First take, " + longDate(first.date) + ": " + first.zone + " -> Today: " + t.zone);
-    if (t.askSize) {
-      facts.push("Size of change: " + sizeLabel(t.askSize));
-      facts.push("Grid result: " + t.gridResult + " - " + C.grid.lines[t.gridResult]);
-      if (C.grid.actions && C.grid.actions[t.gridResult]) facts.push("Next step: " + C.grid.actions[t.gridResult]);
-    }
     facts.forEach(function (f) { para(f, 11, { after: 1 }); });
     y += 8;
     rule();
@@ -1253,8 +1248,8 @@
     var z = C.zones[t.zone];
     rule();
     ensure(90);
-    para(C.results.tipsLabel[t.zone].toUpperCase(), 9, { style: "bold", color: RGB.muted, after: 2 });
-    para(z.focus, 12.5, { style: "bold", after: 8, lh: 1.35 });
+    para(C.results.part1Heading.replace("{tips}", C.results.tipsLabel[t.zone]), 12.5, { style: "bold", after: 4 });
+    para(z.focus, 11, { after: 8, lh: 1.35 });
     z.tips.forEach(function (tp, k) {
       para((k + 1) + ". " + tp[0], 11, { style: "bold", after: 1 });
       para(tp[1], 10.5, { x: M + 14, width: CW - 14, after: 6 });
@@ -1264,7 +1259,48 @@
     para(z.watch, 10.5, { after: 6 });
     if (z.note) para(z.note, 10.5, { color: RGB.muted, after: 6 });
 
-    // 6. Page numbers (no link or retake line)
+    // 6. Planning a change (only if they typed one or chose a size)
+    if (t.ask || t.askSize) {
+      y += 6; rule(); ensure(60);
+      para(C.results.part2Heading.replace("{zone}", t.zone), 12.5, { style: "bold", after: 6 });
+      if (t.ask) { para(C.results.askLabel, 10, { style: "bold", after: 1 }); para(t.ask, 10.5, { after: 6 }); }
+      if (t.askSize) {
+        para("Size of change: " + sizeLabel(t.askSize), 10.5, { after: 1 });
+        para(t.zone + " + " + sizeLabel(t.askSize) + " change -> " + t.gridResult + ". " + C.grid.lines[t.gridResult], 10.5, { style: "bold", after: 1 });
+        if (C.grid.actions && C.grid.actions[t.gridResult]) para(C.results.nextStepLabel + ": " + C.grid.actions[t.gridResult], 10.5, { after: 6 });
+      }
+    }
+
+    // 7. What they tried (retakes)
+    if (t.tried) {
+      y += 6; rule();
+      para(C.results.triedLabel, 10, { style: "bold", after: 1 });
+      para(t.tried, 10.5, { after: 6 });
+    }
+
+    // 8. Every answer with the feedback they saw ("Why this matters" and the
+    // matching story, by the same rules as the card: 4-5 there, 1-2 missing, 3 both).
+    y += 6; rule(); ensure(60);
+    para(C.results.pdfAnswersTitle, 12.5, { style: "bold", after: 8 });
+    var lastG = "";
+    C.statements.forEach(function (s, i) {
+      var v = t.scores[i];
+      if (s.group !== lastG) {
+        lastG = s.group; ensure(40);
+        para(s.group.toUpperCase(), 8.5, { style: "bold", color: RGB.muted, after: 4 });
+      }
+      ensure(70);
+      para((i + 1) + ". " + s.text, 11, { style: "bold", after: 2 });
+      var ans = C.results.pdfYourAnswer + ": " + C.ratings[v - 1] + " (" + v + ")";
+      if (compare) ans += "   |   " + C.results.pdfFirstTake + ": " + C.ratings[first.scores[i] - 1] + " (" + first.scores[i] + ")";
+      para(ans, 10, { color: RGB.muted, after: 4 });
+      para(C.card.heading + ": " + s.why, 10, { x: M + 12, width: CW - 12, after: 3 });
+      if (v >= 3) para(C.card.there + ": " + s.there, 10, { x: M + 12, width: CW - 12, after: 3 });
+      if (v <= 3) para(C.card.missing + ": " + s.missing, 10, { x: M + 12, width: CW - 12, after: 3 });
+      y += 6;
+    });
+
+    // 9. Page numbers (no link or retake line)
     var pages = doc.internal.getNumberOfPages();
     for (var p = 1; p <= pages; p++) {
       doc.setPage(p);
@@ -1272,7 +1308,7 @@
       if (pages > 1) doc.text(p + " / " + pages, W - M, H - M + 14, { align: "right" });
     }
 
-    doc.save("trust-check-" + ymd(t.date) + ".pdf");
+    doc.save("trust-check-" + ymd(t.date) + "-" + hhmm(t.date) + ".pdf");
 
     // Record the download.
     if (S.takes === takes || S.saved === takes) {

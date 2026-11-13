@@ -240,6 +240,9 @@ body:not([data-screen="welcome"]):not([data-screen="welcomeBack"]) .blob { opaci
 .ink { color: var(--ink); }
 .small { font-size: var(--t-small); }
 .cap { font-size: var(--t-cap); color: var(--muted); }
+/* Text system (six styles): display (.h1/.statement), section heading (.h3/.card-title),
+   eyebrow, body, body bold (.t-bold), small (.small.muted). Links/buttons: bold teal or buttons. */
+.t-bold { font-family: var(--sans); font-size: var(--t-body); font-weight: 650; line-height: 1.4; }
 p { text-wrap: pretty; }
 strong, b { font-weight: 650; }
 
@@ -279,7 +282,7 @@ strong, b { font-weight: 650; }
   color: var(--ink);
   font-family: var(--sans);
   font-size: var(--t-body);
-  font-weight: 600;
+  font-weight: 650; /* same as body bold and links */
   line-height: 1.25;
   text-align: center;
   text-decoration: none;
@@ -292,6 +295,8 @@ strong, b { font-weight: 650; }
    outline (5.6:1 on cream), ink text, light terracotta tint on hover. */
 .btn--secondary { background: transparent; border: 2px solid var(--terracotta-deep); color: var(--ink); }
 .btn--secondary:hover { background: rgba(212, 137, 90, 0.18); border-color: var(--terracotta-deep); color: var(--ink); }
+.btn--green { background: var(--zone-grow); border-color: var(--zone-grow); color: var(--ink); } /* download: brand teal with ink text (5.8:1), apart from the terracotta Done below */
+.btn--green:hover { background: #3f8a8a; border-color: #3f8a8a; color: var(--ink); }
 .btn--danger { background: var(--danger); border-color: var(--danger); color: var(--white); }
 .btn--danger:hover { background: #a3481d; border-color: #a3481d; color: var(--white); }
 .btn--big { min-height: 3.5rem; font-size: var(--t-lead); font-family: var(--sans); }
@@ -345,7 +350,7 @@ strong, b { font-weight: 650; }
   font: 650 var(--t-small)/1 var(--sans); color: inherit;
 }
 .steps-btn svg { width: 1.15em; height: 1.15em; }
-.steps-btn:hover span { text-decoration: underline; text-underline-offset: 0.2em; }
+.steps-btn:hover { opacity: 0.8; } /* same quiet fade as the Trust Check mark */
 .band .steps-btn { color: var(--cream); }
 .steps-list { list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
 .step {
@@ -418,7 +423,7 @@ strong, b { font-weight: 650; }
 .below > .answer { margin-top: calc(var(--gap-group) - var(--gap-text)); display: flex; flex-direction: column; gap: var(--s-m); }
 .answer .field { gap: var(--gap-label); }
 .field textarea:focus-visible { outline-offset: 0; border-color: var(--action); }
-.field .counter { align-self: flex-end; font-size: var(--t-cap); color: var(--muted); }
+.field .counter { align-self: flex-end; font-size: var(--t-small); color: var(--muted); } /* small gray */
 
 .examples { list-style: none; display: flex; flex-direction: column; gap: var(--s-2xs); }
 .examples li {
@@ -501,15 +506,18 @@ strong, b { font-weight: 650; }
 
 /* ---------- Results ---------- */
 
-.results { --zone: var(--zone-grow); --zone-text: var(--ink); gap: var(--s-xl); }
-.results.z-build { --zone: var(--zone-build); --zone-text: var(--ink); }
-.results.z-sustain { --zone: var(--zone-sustain); --zone-text: var(--ink); }
+.results { --zone: var(--zone-grow); --zone-tint: #dcecec; --zone-text: var(--ink); gap: var(--s-xl); }
+.results.z-build { --zone: var(--zone-build); --zone-tint: #f6e5da; --zone-text: var(--ink); }
+.results.z-sustain { --zone: var(--zone-sustain); --zone-tint: #ebe8f9; --zone-text: var(--ink); }
 
 .zone-word { font-style: normal; color: var(--zone-text); }
 /* Every zone word: ink text (readable) with a thick underline in the zone's
    light color (the light trio is too pale for text on cream). The masked
    word inside it (when animating) carries the same underline. */
 .zone-word { --brush-color: var(--zone); }
+/* Room for the brush stroke under the results headline (scales with the heading). */
+.results h1 { margin-bottom: 0.3em; }
+.band .statement:has(.accent) { margin-bottom: 0.3em; } /* same room under "three stages." */
 
 /* Overview: summary and decision grid side by side when both fit. */
 .overview {
@@ -521,9 +529,8 @@ strong, b { font-weight: 650; }
 .overview > * { min-width: 0; }
 
 .score-line { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--s-2xs) var(--s-m); }
-.score-num { font-family: var(--serif); font-size: clamp(2.5rem, 2rem + 2vw, 4rem); line-height: 1; }
 
-.zonebar { display: flex; flex-direction: column; gap: var(--s-3xs); }
+.zonebar { display: flex; flex-direction: column; gap: calc(0.4rem + var(--s-2xs)); } /* clears the marker's overhang, then a small gap */
 .zonebar-track {
   position: relative;
   display: grid;
@@ -545,10 +552,13 @@ strong, b { font-weight: 650; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2px;
   font-size: var(--t-cap);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase; /* eyebrow style */
   color: var(--muted);
   line-height: 1.3;
 }
-.zonebar-labels .on { color: var(--ink); font-weight: 650; }
+.zonebar-labels .on { color: var(--ink); }
 
 .zone-change { font-weight: 600; }
 
@@ -618,7 +628,7 @@ strong, b { font-weight: 650; }
   border-spacing: 3px;
   table-layout: fixed;
   text-align: center;
-  font-size: clamp(0.75rem, 0.5rem + 2.4cqi, 1.25rem);
+  font-size: min(var(--t-body), 0.55rem + 2.4cqi); /* body size; only shrinks on the narrowest phones */
   line-height: 1.2;
   overflow-wrap: normal;
   word-break: normal;
@@ -638,45 +648,45 @@ strong, b { font-weight: 650; }
   background: var(--white);
 }
 .grid-table td.pick {
-  background: var(--pick); /* light teal; ink text on it 5.6:1 */
+  background: var(--zone); /* your zone's color; ink text on it 5.6:1 or better */
   color: var(--ink);
   font-weight: 650;
   outline: 3px solid var(--ink);
   outline-offset: -3px;
 }
-.pick-tag { display: block; margin-top: 0.45em; font-size: 0.7em; letter-spacing: 0.08em; text-transform: uppercase; }
+.pick-tag { display: block; margin-top: 0.45em; font-size: var(--t-cap); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; } /* eyebrow style */
 
 .verdict { display: flex; flex-direction: column; gap: var(--s-3xs); }
 .verdict:empty { display: none; }
-.verdict-next { margin-top: var(--s-2xs); display: flex; flex-direction: column; gap: var(--gap-label); } /* spacing, not a line */
+.verdict-next { margin-top: var(--s-s); display: flex; flex-direction: column; gap: var(--s-3xs); } /* label hugs its text like the heading above it; more room above */
 .verdict-next .eyebrow { color: var(--ink); }
 /* The result box matches the highlighted cell, so the two read as one. */
-.verdict.panel { background: var(--pick); border-color: var(--pick); color: var(--ink); }
+.verdict.panel { background: var(--zone-tint); border-color: var(--zone-tint); color: var(--ink); } /* light tint of your zone: easy to read */
 
 /* Per-statement chart: groups flow into as many columns as fit. */
 .chart { container-type: inline-size; }
 .cue-groups {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--s-m) var(--s-l);
+  gap: var(--s-s); /* the boxes separate the areas */
   align-items: start;
 }
 /* Four groups: one column, then two, then all four. Never 3 + 1. */
 @container (min-width: 40rem) { .cue-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (min-width: 82rem) { .cue-groups { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.cue-group { display: flex; flex-direction: column; gap: var(--s-xs); min-width: 0; }
-.cues { list-style: none; display: flex; flex-direction: column; gap: var(--s-s); }
-.cue { display: flex; flex-direction: column; gap: var(--s-3xs); }
-.cue-text { font-size: var(--t-small); line-height: 1.4; }
+.cue-group { display: flex; flex-direction: column; gap: var(--s-s); min-width: 0; background: var(--white); border: 1px solid var(--line); padding: var(--s-s); } /* one box per area */
+.cues { list-style: none; display: flex; flex-direction: column; gap: var(--s-m); } /* clear space between cues */
+.cue { display: flex; flex-direction: column; gap: var(--s-2xs); } /* statement and its bar stay together */
+.cue-text { font-size: var(--t-body); line-height: 1.45; }
 .bars { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--s-3xs) var(--s-2xs); }
-.bars .lbl { font-size: var(--t-cap); color: var(--muted); }
-.bars .val { font-weight: 650; font-size: var(--t-small); min-width: 1.5ch; text-align: right; }
+.bars .lbl { font-size: var(--t-small); color: var(--muted); }
+.bars .val { font-weight: 650; font-size: var(--t-body); min-width: 1.5ch; text-align: right; }
 .track { height: 0.6rem; background: rgba(26, 24, 20, 0.08); }
 .track > span { display: block; height: 100%; width: var(--v, 0%); background: var(--zone); }
 .track.first > span { background: transparent; border: 1px solid var(--muted); background-image: repeating-linear-gradient(135deg, rgba(26,24,20,0.28) 0 2px, transparent 2px 5px); }
 .bars--single { grid-template-columns: 1fr auto; }
 .cue-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--s-s); }
-.change { font-weight: 650; font-size: var(--t-small); font-variant-numeric: tabular-nums; }
+.change { font-weight: 650; font-size: var(--t-body); font-variant-numeric: tabular-nums; }
 
 /* Your 11 cues: closed accordion under the score */
 .cues-acc { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -695,7 +705,7 @@ strong, b { font-weight: 650; }
 }
 .cues-acc[open] > summary::after { transform: rotate(-135deg) translateY(-0.15em); }
 .cues-body { padding-block: var(--s-xs) var(--s-m); }
-details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2.75rem; display: inline-flex; align-items: center; }
+details.table-alt summary { cursor: pointer; color: var(--action); font-weight: 650; min-height: 2.75rem; display: inline-flex; align-items: center; }
 .table-scroll { max-width: 100%; overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; font-size: var(--t-small); line-height: 1.4; }
 .data-table th, .data-table td { padding: 0.5em 0.6em; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
@@ -713,10 +723,20 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
   padding: var(--s-m);
   min-width: 0;
 }
-.card-title { font-family: var(--serif); font-weight: 400; font-size: var(--t-h3); line-height: 1.2; text-wrap: balance; }
+/* Results: only the page title (h1) is serif. Section headings are bold sans,
+   one step larger than body bold so they still lead each section. */
+.card-title { font-family: var(--sans); font-weight: 650; font-size: clamp(1.25rem, 1.12rem + 0.6vw, 1.5rem); line-height: 1.3; text-wrap: balance; }
 .save-card .after { margin-top: var(--s-xs); }
 
 /* Tips panel: the next step after the result, tied to it by the zone color. */
+/* Results intro: one framing sentence with an inline jump, and a quick download. */
+.results-intro { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-2xs); }
+.inline-link {
+  display: inline; padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; color: var(--action); font-weight: 650;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em;
+}
+.inline-link:hover { color: var(--action-hover); }
 /* "On this page" map: two numbered jumps, quiet but obvious. */
 /* Wraps: the Download link sits beside the parts when there's room, below them when not. */
 .page-map { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--gap-label) var(--s-m); }
@@ -742,7 +762,7 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
 
 /* Part 1 reads as one unit: the tips sit close under the score. */
 .results > .cues-section, .results > .tips-card { margin-top: calc(var(--gap-group) - var(--s-xl)); }
-.tips-card .watch { background: var(--cream); padding: var(--s-s); }
+.tips-card .watch { background: var(--zone-tint); padding: var(--s-s); } /* same zone tint as the planner result box */
 
 /* Tips flow into columns as space allows. */
 .tips {
@@ -762,7 +782,7 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
 .tips-layout > * { min-width: 0; }
 @media (min-width: 75rem) { .tips-layout { grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); } }
 .tip { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-xs); align-items: start; }
-.tip .tip-n { font-weight: 700; font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem); line-height: 1.2; color: var(--zone-text); min-width: 1ch; }
+.tip .tip-n { font-weight: 650; font-size: var(--t-body); line-height: 1.6; color: var(--ink); min-width: 1ch; } /* same as the tip title */
 .z-build .tip .tip-n { color: var(--ink); }
 .watch h3 { display: flex; align-items: flex-start; gap: 0.5em; }
 .watch h3 svg { flex: none; margin-top: 0.15em; }
@@ -972,12 +992,12 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 /* ---------- Brush-stroke underline ----------
    Accent words keep the heading's own color; the color comes from a painted
    stroke underneath, which draws in left to right after the heading appears. */
-.splash-h em, .band .accent, .zone-word {
+.splash-h em, .band .accent, .zone-word, .zone-mark {
   position: relative;
   isolation: isolate;
   white-space: nowrap;
 }
-.splash-h em::after, .band .accent::after, .zone-word::after {
+.splash-h em::after, .band .accent::after, .zone-word::after, .zone-mark::after {
   content: "";
   position: absolute; z-index: -1;
   left: -0.06em; right: -0.08em; bottom: -0.02em;
@@ -988,6 +1008,9 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
   animation: brush-in 650ms var(--ease) both;
   animation-delay: var(--brush-delay, 300ms);
 }
+/* Zone names in section headings: same brush in the zone color, no draw-in. */
+.zone-mark { --brush-color: var(--zone); }
+.zone-mark::after { animation: none; height: 0.32em; bottom: -0.06em; }
 @keyframes brush-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 
 /* ---------- Motion system (see app.js animateScreen) ---------- */
