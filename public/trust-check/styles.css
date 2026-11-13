@@ -1128,8 +1128,8 @@ details.table-alt > p { margin-top: var(--s-xs); }
 
 /* Statement screens: collapsing band. Sticky with a negative top (set in JS) so
    only its bottom strip stays pinned; the strip shows the statement small. */
-.band--collapse { position: sticky; top: var(--band-top, 0px); z-index: 10; transition: box-shadow 200ms var(--ease); }
+.band--collapse.is-pinnable { position: sticky; top: var(--band-top, 0px); z-index: 10; transition: box-shadow 200ms var(--ease); }
 .band--collapse.is-collapsed { box-shadow: 0 6px 18px rgba(26, 24, 20, 0.16); }
-html:has(.band--collapse) { scroll-padding-top: calc(var(--pin-h, 4.5rem) + 1rem); } /* focused content stays clear of the pinned statement */
+html:has(.band--collapse.is-pinnable) { scroll-padding-top: calc(var(--pin-h, 4.5rem) + 1rem); } /* focused content stays clear of the pinned statement */
 /* Collapsing band: the statement shrinks into the strip (transform set in JS);
    the rest of the band fades out early; "n of 11" fades into the strip. */

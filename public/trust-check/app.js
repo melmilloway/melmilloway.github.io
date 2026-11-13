@@ -790,9 +790,15 @@
     var travel = 1;
     bandScroll = function () {
       if (!document.contains(band)) { window.removeEventListener("scroll", bandScroll); return; }
-      band.classList.toggle("is-collapsed", window.scrollY >= travel - 1);
+      band.classList.toggle("is-collapsed", band.classList.contains("is-pinnable") && window.scrollY >= travel - 1);
     };
     bandScroll.measure = function () {
+      // Phones only, and only when the page actually scrolls. Desktop screens
+      // often fit without scrolling, and a statement that never leaves the
+      // screen doesn't need pinning.
+      var pin = window.innerWidth < 768 && document.documentElement.scrollHeight > window.innerHeight + 4;
+      band.classList.toggle("is-pinnable", pin);
+      if (!pin) { band.classList.remove("is-collapsed"); document.documentElement.style.removeProperty("--pin-h"); return; }
       var P = Math.min(28, Math.max(16, window.innerWidth * 0.018));   // room above the area name
       travel = Math.max(0, eb.getBoundingClientRect().top - band.getBoundingClientRect().top - P);
       band.style.setProperty("--band-top", (-travel) + "px");
@@ -817,6 +823,7 @@
         if (first) {
           why.innerHTML = whyCard(i);
           why.hidden = false;
+          if (bandScroll) bandScroll.measure(); // the page may scroll now that the card is there
           S.cardShown[i] = true;
           // No jump: the page stays where it is and the card appears below the
           // ratings. Focus moves to the card for screen readers without scrolling.
