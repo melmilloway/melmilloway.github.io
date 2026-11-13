@@ -204,11 +204,13 @@
     var isSplash = S.screen === "welcome" || S.screen === "welcomeBack";
     // Inner screens carry the same mark as the splash, with progress on the right.
     // The statement screen draws its own bar inside its teal band.
-    var bar = (isSplash || S.screen === "statement") ? "" : appbar("");
+    // Banded screens draw the bar inside their teal band.
+    var bar = (isSplash || BANDED[S.screen]) ? "" : appbar("");
     main.innerHTML = bar + html;
     renderFooter();
     bind[S.screen] && bind[S.screen]();
     applyVars(main);
+    if (isSplash) sequenceSplash();
     window.scrollTo(0, 0);
     var target = (focusSel && $(focusSel, main)) || $("h1", main);
     if (target) {
@@ -216,6 +218,60 @@
       target.focus({ preventScroll: true });
     }
     document.title = titleFor() + " · Trust Check";
+  }
+
+  // Splash entrance: the headline's words rise one at a time from behind a mask,
+  // then each detail appears on its own: lede, paragraph, each fact, each button.
+  // Timing is set through CSS variables; reduced motion turns it all off in CSS.
+  var WORD_GAP = 65, ITEM_GAP = 140;
+  function sequenceSplash() {
+    var splashEl = $(".splash", main), h = $(".splash-h", main);
+    if (!splashEl || !h) return;
+    var n = 0;
+    var walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
+    var nodes = [], node;
+    while ((node = walker.nextNode())) { if (!node.parentNode.closest(".sr-only")) nodes.push(node); }
+    nodes.forEach(function (t) {
+      var frag = document.createDocumentFragment();
+      t.data.split(/(\s+)/).forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        var mask = document.createElement("span"), inner = document.createElement("span");
+        mask.className = "w"; inner.className = "w-in";
+        inner.textContent = part;
+        inner.style.setProperty("--i", n++);
+        mask.appendChild(inner); frag.appendChild(mask);
+      });
+      t.parentNode.replaceChild(frag, t);
+    });
+    // Details start just after the last word begins to rise.
+    splashEl.style.setProperty("--seq-start", (150 + Math.max(n - 1, 0) * WORD_GAP + 250) + "ms");
+    $all(".splash-lede, .splash-intro > p:not(.splash-lede), .facts li, .splash-body .actions .btn", splashEl)
+      .forEach(function (el, k) { el.classList.add("seq"); el.style.setProperty("--seq", k); });
+  }
+
+  // Masked line-by-line reveal for a heading whose line breaks depend on the
+  // screen width: measure where lines break, wrap each line in a mask, animate,
+  // then put the original markup back so the text reflows normally on resize.
+  function revealLines(h) {
+    if (!h || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+    var original = h.innerHTML;
+    var srText = $(".sr-only", h);
+    var srHTML = srText ? srText.outerHTML : "";
+    if (srText) srText.remove();
+    var words = h.textContent.trim().split(/\s+/);
+    h.innerHTML = words.map(function (w) { return '<span class="lw">' + esc(w) + '</span>'; }).join(" ");
+    var lines = [], lastTop = null;
+    $all(".lw", h).forEach(function (sp) {
+      var top = sp.offsetTop;
+      if (lastTop === null || Math.abs(top - lastTop) > 4) { lines.push([]); lastTop = top; }
+      lines[lines.length - 1].push(sp.textContent);
+    });
+    h.innerHTML = srHTML + lines.map(function (ln) {
+      return '<span class="line-mask" aria-hidden="true"><span class="line-in">' + esc(ln.join(" ")) + '</span></span>';
+    }).join("") + '<span class="sr-only">' + esc(words.join(" ")) + '</span>';
+    $all(".line-in", h).forEach(function (el, k) { el.style.setProperty("--l", k); });
+    window.setTimeout(function () { if (document.contains(h)) h.innerHTML = original; }, 80 + lines.length * 110 + 800);
   }
 
   // CSP blocks inline style attributes, so sizes are set through the CSSOM.
@@ -265,6 +321,32 @@
   var ICON_CLOCK = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
   var ICON_LOCK = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
   var ICON_SCREEN = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/></svg>';
+
+  var BANDED = { statement: true, ask: true, tried: true, stages: true };
+
+  // Deep teal band shared by the question screens: mark, Back, optional progress,
+  // then the eyebrow and heading as one title block.
+  function band(o) {
+    return '<section class="band">' +
+      appbar(o.count || "") +
+      '<div class="wrap wrap--wide band-inner">' +
+        '<div class="topbar">' + backBtn() + '</div>' +
+        (o.progress || "") +
+        '<div class="titleblock">' +
+          (o.eyebrow ? '<p class="eyebrow"' + (o.eyebrowId ? ' id="' + o.eyebrowId + '"' : "") + '>' + esc(o.eyebrow) + '</p>' : "") +
+          o.title +
+        '</div>' +
+        (o.after || "") +
+      '</div>' +
+    '</section>';
+  }
+
+  // Optional text step: the button says "Skip" until something is typed.
+  function bindOptional(ta, btn, skipLabel) {
+    function sync() { btn.textContent = ta.value.trim() ? C.card.next : skipLabel; }
+    ta.addEventListener("input", sync);
+    sync();
+  }
 
   function appbar(right) {
     return '<header class="appbar wrap wrap--wide">' + mark() + (right || "") + '</header>';
@@ -390,19 +472,24 @@
   /* 3. Your ask */
   SCREENS.ask = function () {
     var a = C.ask;
-    return '<form class="screen wrap" data-form novalidate>' +
-      '<div class="topbar">' + backBtn() + '</div>' +
-      '<h1 class="h2" id="ask-h">' + esc(a.headline) + '</h1>' +
-      '<p class="measure" id="ask-d">' + esc(a.body) + '</p>' +
-      '<div class="titleblock"><p class="eyebrow" id="ask-ex">For example</p>' +
-      '<ul class="examples" aria-labelledby="ask-ex">' + a.examples.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
-      field("ask-input", S.ask, a.max, "ask-h", "ask-d", a.placeholder) +
-      '<div class="actions actions--start"><button type="submit" class="btn">' + esc(C.card.next) + '</button></div>' +
+    return '<form class="statement-screen" data-form novalidate>' +
+      band({ eyebrow: a.optional, title: '<h1 class="statement" id="ask-h">' + esc(a.headline) + '</h1>' }) +
+      '<div class="wrap wrap--wide below">' +
+        // Two groups: the explanation, then the answer area (hint, box, button).
+        '<div class="stack">' +
+          '<p class="measure" id="ask-d">' + esc(a.body) + '</p>' +
+          '<div class="titleblock"><p class="eyebrow" id="ask-ex">For example</p>' +
+          '<ul class="examples" aria-labelledby="ask-ex">' + a.examples.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
+        '</div>' +
+        '<div class="answer">' + field("ask-input", S.ask, a.max, "ask-h", "ask-d", a.hint) +
+        '<div class="actions actions--start"><button type="submit" class="btn btn--next" data-next>' + esc(C.card.next) + '</button></div></div>' +
+      '</div>' +
     '</form>';
   };
   bind.ask = function () {
     var ta = bindCounter("ask-input");
     ta.addEventListener("input", function () { S.ask = ta.value; });
+    bindOptional(ta, $("[data-next]", main), C.ask.skip);
     bindBack();
     $("[data-form]", main).addEventListener("submit", function (e) {
       e.preventDefault();
@@ -414,16 +501,19 @@
 
   /* 4. What have you tried? */
   SCREENS.tried = function () {
-    return '<form class="screen wrap" data-form novalidate>' +
-      '<div class="topbar">' + backBtn() + '</div>' +
-      '<h1 class="h2" id="tried-h">' + esc(C.tried.headline) + '</h1>' +
-      field("tried-input", S.tried, C.tried.max, "tried-h") +
-      '<div class="actions actions--start"><button type="submit" class="btn">' + esc(C.card.next) + '</button></div>' +
+    var t = C.tried;
+    return '<form class="statement-screen" data-form novalidate>' +
+      band({ eyebrow: t.optional, title: '<h1 class="statement" id="tried-h">' + esc(t.headline) + '</h1>' }) +
+      '<div class="wrap wrap--wide below">' +
+        '<div class="answer">' + field("tried-input", S.tried, t.max, "tried-h", "", t.hint) +
+        '<div class="actions actions--start"><button type="submit" class="btn btn--next" data-next>' + esc(C.card.next) + '</button></div></div>' +
+      '</div>' +
     '</form>';
   };
   bind.tried = function () {
     var ta = bindCounter("tried-input");
     ta.addEventListener("input", function () { S.tried = ta.value; });
+    bindOptional(ta, $("[data-next]", main), C.tried.skip);
     bindBack();
     $("[data-form]", main).addEventListener("submit", function (e) {
       e.preventDefault();
@@ -435,11 +525,11 @@
   /* 5. Three stages: full-bleed color fields */
   SCREENS.stages = function () {
     var st = C.stages;
-    return '<section class="screen stages-screen">' +
-      '<div class="wrap wrap--wide stack">' +
-        '<div class="topbar">' + backBtn() + '</div>' +
-        '<h1 class="h1">' + esc(st.headlineLead) + '<span class="accent">' + esc(st.headlineAccent) + '</span></h1>' +
-      '</div>' +
+    return '<section class="stages-screen">' +
+      band({
+        title: '<h1 class="statement">' + esc(st.headlineLead) + '<span class="accent">' + esc(st.headlineAccent) + '</span></h1>',
+        after: st.intro ? '<p class="band-text">' + esc(st.intro) + '</p>' : ""
+      }) +
       '<ol class="fields">' + st.list.map(function (s, i) {
         return '<li class="field-block f-' + s.zone.toLowerCase() + '">' +
           '<p class="field-n">Stage ' + (i + 1) + '</p>' +
@@ -450,9 +540,9 @@
           '</div>' +
         '</li>';
       }).join("") + '</ol>' +
-      '<div class="wrap wrap--wide stack">' +
-        '<p class="lead">' + esc(st.footer) + '</p>' +
-        '<div class="actions actions--start"><button type="button" class="btn" data-begin>' + esc(st.button) + '</button></div>' +
+      '<div class="wrap wrap--wide stages-foot">' +
+        '<p>' + esc(st.footer) + '</p>' +
+        '<div class="actions actions--start"><button type="button" class="btn btn--next" data-begin>' + esc(st.button) + '</button></div>' +
       '</div>' +
     '</section>';
   };
@@ -468,10 +558,11 @@
     var there = '<div class="impact"><p class="eyebrow there">' + esc(k.there) + '</p><p>' + esc(s.there) + '</p></div>';
     var missing = '<div class="impact"><p class="eyebrow">' + esc(k.missing) + '</p><p>' + esc(s.missing) + '</p></div>';
     var impact = v >= 4 ? there : v <= 2 ? missing : there + missing;
-    return '<h2 class="h3" id="why-h" tabindex="-1">' + esc(k.heading) + '</h2>' +
-      '<p>' + esc(s.why) + '</p>' +
+    // Heading and its paragraph are one unit, spaced like each impact label and its text.
+    return '<div class="why-head"><h2 class="h3" id="why-h" tabindex="-1">' + esc(k.heading) + '</h2>' +
+      '<p>' + esc(s.why) + '</p></div>' +
       '<div data-impact class="stack">' + impact + '</div>' +
-      '<div class="actions actions--start"><button type="submit" class="btn">' + esc(i === N - 1 ? k.last : k.next) + '</button></div>';
+      '<div class="actions actions--start"><button type="submit" class="btn btn--next">' + esc(i === N - 1 ? k.last : k.next) + '</button></div>';
   }
 
   SCREENS.statement = function () {
@@ -479,17 +570,12 @@
     var pct = ((i + 1) / N * 100).toFixed(1) + "%";
     // Teal band: mark, progress and the statement, sized as a statement (not a hero).
     return '<form class="statement-screen" data-form novalidate>' +
-      '<section class="band">' +
-        appbar('<span class="count" aria-hidden="true">' + (i + 1) + ' of ' + N + '</span>') +
-        '<div class="wrap wrap--wide band-inner">' +
-          '<div class="topbar">' + backBtn() + '</div>' +
-          '<div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="1" aria-valuemax="' + N + '" aria-valuenow="' + (i + 1) + '" aria-valuetext="' + (i + 1) + ' of ' + N + '"><span data-p="' + pct + '"></span></div>' +
-          '<div class="titleblock">' +
-            '<p class="eyebrow" id="grp-' + i + '">' + esc(s.group) + '</p>' +
-            '<h1 class="statement" id="stmt-h" tabindex="-1"><span class="sr-only">' + (i + 1) + ' of ' + N + '. </span>' + esc(s.text) + '</h1>' +
-          '</div>' +
-        '</div>' +
-      '</section>' +
+      band({
+        count: '<span class="count" aria-hidden="true">' + (i + 1) + ' of ' + N + '</span>',
+        progress: '<div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="1" aria-valuemax="' + N + '" aria-valuenow="' + (i + 1) + '" aria-valuetext="' + (i + 1) + ' of ' + N + '"><span data-p="' + pct + '"></span></div>',
+        eyebrow: s.group, eyebrowId: "grp-" + i,
+        title: '<h1 class="statement" id="stmt-h" tabindex="-1"><span class="sr-only">' + (i + 1) + ' of ' + N + '. </span>' + esc(s.text) + '</h1>'
+      }) +
       '<div class="wrap wrap--wide below">' +
       '<fieldset class="rating">' +
         '<legend>How often is this true?</legend>' +
@@ -505,6 +591,7 @@
   };
   bind.statement = function () {
     var i = S.index;
+    revealLines($("#stmt-h", main));
     var form = $("[data-form]", main);
     var why = $("[data-why]", main);
     bindBack(function () { history.back(); });

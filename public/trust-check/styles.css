@@ -19,13 +19,6 @@
   font-style: normal;
   font-display: swap;
 }
-@font-face {
-  font-family: "Instrument Serif";
-  src: url("fonts/instrument-serif-italic-latin.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
 
 :root {
   /* Brand */
@@ -38,15 +31,15 @@
   /* One action color everywhere: the splash's deep teal. Purple now means Sustain only. */
   --action: #1f5050;
   --action-hover: #2d6e6e;
-  --select: var(--purple);    /* chosen answers (ratings, change size): white on it is 9.4:1 */
-  --accent-on-cream: #a14f27; /* italic accent words in headings: 5.6:1 on cream */
+  --select: #a14f27;          /* chosen answers (ratings, change size): dark terracotta, white on it 5.7:1 */
+  --accent-on-cream: #a14f27; /* accent words on cream: 5.6:1 */
   --teal: #2d6e6e;
   --terracotta: #c4673a;
   --danger: #8f3d17; /* darkened terracotta: 8:1 with white text */
-  --terracotta-deep: #a14f27; /* terracotta for blocks with white text: 5.7:1 */
+  --terracotta-deep: #a14f27; /* terracotta for blocks and buttons with white text: 5.7:1 */
   --teal-deep: #1f5050;       /* splash background */
   --peach: #f3b48f;           /* small text on teal-deep: 5:1 */
-  --orange-on-dark: #d4895a;  /* design-system terracotta glow; large text/icons on teal-deep: 3.2:1 */
+  --orange-on-dark: #d4895a;  /* terracotta on deep teal for large text and icons: 3.2:1 */
   --lilac: #9d92e0;
   --line: rgba(26, 24, 20, 0.1);
   --line-strong: rgba(26, 24, 20, 0.22);
@@ -200,7 +193,7 @@ body:not([data-screen="welcome"]):not([data-screen="welcomeBack"]) .blob { opaci
    Rule: space above a heading is always larger than space below it.       */
 :root {
   --gap-label: var(--s-2xs);       /* 8-10px for regular headings */
-  --gap-label-display: var(--s-xs); /* 12-15px above h1 and statements */
+  --gap-label-display: clamp(0.375rem, 0.32rem + 0.25vw, 0.5625rem); /* 6-9px above h1 and statements */
   --gap-heading: var(--s-xs);
   --gap-text: var(--s-s);
   --gap-group: var(--s-l);
@@ -236,7 +229,7 @@ body:not([data-screen="welcome"]):not([data-screen="welcomeBack"]) .blob { opaci
 .h3 { font-size: var(--t-h3); line-height: 1.2; }
 .statement { font-size: var(--t-statement); line-height: 1.14; letter-spacing: -0.01em; }
 .lead { font-size: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem); font-weight: 600; line-height: 1.4; text-wrap: pretty; }
-.accent { font-style: italic; color: var(--accent-on-cream); }
+.accent { font-style: normal; color: var(--accent-on-cream); }
 .muted { color: var(--muted); }
 .ink { color: var(--ink); }
 .small { font-size: var(--t-small); }
@@ -289,6 +282,8 @@ strong, b { font-weight: 650; }
 .btn:active { transform: scale(0.97); }
 .btn--secondary { background: transparent; color: var(--action); }
 .btn--secondary:hover { background: rgba(31, 80, 80, 0.08); color: var(--action); border-color: var(--action); }
+.btn--next { background: var(--terracotta-deep); border-color: var(--terracotta-deep); color: var(--white); }
+.btn--next:hover { background: #8a4120; border-color: #8a4120; color: var(--white); }
 .btn--danger { background: var(--danger); border-color: var(--danger); }
 .btn--danger:hover { background: #a3481d; border-color: #a3481d; }
 .btn--big { min-height: 3.5rem; font-size: var(--t-lead); font-family: var(--sans); }
@@ -380,7 +375,11 @@ strong, b { font-weight: 650; }
   line-height: 1.5;
   resize: vertical;
 }
-.field-hint { font-size: var(--t-small); color: var(--muted); }
+.field-hint { font-size: var(--t-body); color: var(--ink); }
+/* The answer area is its own group: a group-sized step above it, the hint snug
+   on its box (it labels the box), the button a step below. */
+.below > .answer { margin-top: calc(var(--gap-group) - var(--gap-text)); display: flex; flex-direction: column; gap: var(--s-m); }
+.answer .field { gap: var(--gap-label); }
 .field textarea:focus-visible { outline-offset: 0; border-color: var(--action); }
 .field .counter { align-self: flex-end; font-size: var(--t-cap); color: var(--muted); }
 
@@ -391,6 +390,17 @@ strong, b { font-weight: 650; }
   font-weight: 600;
   line-height: 1.4;
 }
+
+/* ---------- Zone color swatches (used by the score bar, grid and legends) ---------- */
+
+.swatch {
+  display: inline-block; flex: none;
+  width: 0.85em; height: 0.85em;
+  background: var(--z);
+}
+.z-build { --z: var(--zone-build); }
+.z-grow { --z: var(--zone-grow); }
+.z-sustain { --z: var(--zone-sustain); }
 
 /* ---------- Rating group ---------- */
 
@@ -429,22 +439,29 @@ strong, b { font-weight: 650; }
    not the device. */
 @container (min-width: 38rem) {
   .rating-options { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  /* Every button: same padding top and bottom, number on one shared line, and a
+     two-line slot for the label with the text centered in it, so one-line and
+     two-line labels look equally balanced. */
   .opt {
     flex-direction: column;
-    justify-content: flex-start; /* numbers share one top line; long labels wrap below */
-    gap: var(--s-3xs);
-    min-height: 6rem;
-    padding: var(--s-xs) var(--s-2xs);
+    justify-content: center;
+    gap: var(--s-2xs);
+    padding: var(--s-s) var(--s-2xs);
     text-align: center;
   }
   .opt .num { font-weight: 700; font-size: 1.5em; line-height: 1; }
+  .opt .word {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 2.5em; /* two lines at line-height 1.25 */
+    line-height: 1.25;
+  }
 }
 
 /* ---------- Why card ---------- */
 
 .why [data-impact] { margin-top: var(--s-xs); }
 .why { display: flex; flex-direction: column; gap: var(--s-s); animation: rise 450ms var(--ease) both; }
-.why .impact { display: flex; flex-direction: column; gap: var(--s-3xs); }
+.why .impact, .why-head { display: flex; flex-direction: column; gap: var(--gap-label); }
 
 /* ---------- Results ---------- */
 
@@ -452,7 +469,7 @@ strong, b { font-weight: 650; }
 .results.z-build { --zone: var(--zone-build); --zone-text: var(--ink); }
 .results.z-sustain { --zone: var(--zone-sustain); --zone-text: var(--purple); }
 
-.zone-word { font-style: italic; color: var(--zone-text); }
+.zone-word { font-style: normal; color: var(--zone-text); }
 .z-build .zone-word {
   text-decoration: underline;
   text-decoration-color: var(--terracotta);
@@ -743,27 +760,25 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 }
 /* Phrase per line: each phrase starts a new line; a phrase too long for the
    screen wraps inside itself, balanced. */
-.splash-h .ph {
-  display: block;
-  overflow: hidden;              /* the mask each line rises out of */
-  padding: 0 0.12em 0.14em 0;    /* room for descenders and the italic overhang */
-  margin-bottom: -0.14em;
-}
-.splash-h .ph-in { display: block; text-wrap: balance; }
+.splash-h .ph { display: block; text-wrap: balance; }
 
-/* Splash entrance: headline lines rise one at a time from behind a mask,
-   then the details fade up. Transform and opacity only, so it stays smooth. */
+/* Splash entrance: each word rises from behind its own mask, one at a time,
+   then each detail rises on its own. Transform and opacity only. */
+.splash-h .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.1em 0.16em 0;     /* room for descenders */
+  margin: 0 -0.1em -0.16em 0;
+}
+.splash-h .w-in { display: inline-block; animation: line-up 700ms var(--ease) both; animation-delay: calc(150ms + var(--i, 0) * 65ms); }
 .splash { animation: none; }
-.splash .ph-in { animation: line-up 900ms var(--ease) both; animation-delay: calc(150ms + var(--line, 0) * 120ms); }
-.splash .ph:nth-child(2) .ph-in { --line: 1; }
-.splash .ph:nth-child(3) .ph-in { --line: 2; }
 .splash .mark { animation: fade-in 600ms var(--ease) both; }
-.splash-body { animation: rise 700ms var(--ease) 620ms both; }
-.splash-h--short { animation: rise 800ms var(--ease) 150ms both; }
+.splash .seq { animation: rise 600ms var(--ease) both; animation-delay: calc(var(--seq-start, 900ms) + var(--seq, 0) * 140ms); }
 @keyframes line-up { from { transform: translateY(105%); } to { transform: none; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 .splash-h--short { font-size: clamp(3rem, 14cqi, 10rem); }
-.splash-h em { font-style: italic; color: var(--orange-on-dark); }
+.splash-h em { font-style: normal; color: var(--orange-on-dark); } /* accents are upright: color carries the emphasis */
 .splash-body { display: flex; flex-direction: column; gap: var(--s-m); max-width: 40rem; }
 /* Proximity: the lede and its paragraph are one unit, so they sit close. */
 .splash-intro { display: flex; flex-direction: column; gap: var(--s-2xs); }
@@ -788,7 +803,8 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 
 /* ---------- Stages: full-bleed color fields ---------- */
 
-.stages-screen { padding-bottom: var(--s-xl); gap: var(--s-l); container-type: inline-size; }
+.stages-screen { display: flex; flex-direction: column; container-type: inline-size; }
+.stages-foot { display: flex; flex-direction: column; gap: var(--gap-text); padding-block: var(--gap-group) var(--s-xl); }
 .fields { list-style: none; display: grid; grid-template-columns: 1fr; }
 /* All three side by side once each can be ~17rem; never 2 + 1. */
 @container (min-width: 52rem) { .fields { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -818,7 +834,10 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 .band .linkbtn { color: var(--cream); }
 .band .progress { background: rgba(250, 248, 244, 0.18); }
 .band .progress > span { background: var(--orange-on-dark); }
+.band .progress + .titleblock { margin-top: var(--s-xs); } /* breathing room between progress and the title */
 .band .eyebrow { color: var(--peach); } /* small text on dark: peach, 5:1 */
+.band .accent { color: var(--orange-on-dark); }
+.band-text { max-width: 52ch; color: rgba(250, 248, 244, 0.92); margin-top: calc(var(--gap-heading) - var(--gap-text)); }
 /* A statement, not a hero: about 40 characters per line (13em of this
    condensed serif), type that scales with the screen, balanced lines. */
 .band .statement {
@@ -826,8 +845,11 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
   line-height: 1.06;
   max-width: 13em;
   text-wrap: balance;
-  animation: rise 500ms var(--ease) both;
 }
+/* Statement reveal: each line rises from behind its own mask, one after another.
+   The lines are measured after layout, then unwrapped so text reflows normally. */
+.line-mask { display: block; overflow: hidden; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+.line-in { display: block; animation: line-up 750ms var(--ease) both; animation-delay: calc(80ms + var(--l, 0) * 110ms); }
 .below { padding-block: var(--gap-group) var(--s-xl); display: flex; flex-direction: column; gap: var(--gap-text); }
 .below > * { max-width: 60rem; } /* ratings and card keep a readable width, aligned with the statement */
 .below > .why { margin-top: var(--s-xs); }

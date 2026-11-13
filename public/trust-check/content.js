@@ -35,17 +35,24 @@ window.TC_CONTENT = {
       "Writing content out for review before building"
     ],
     placeholder: "Type it here, or just keep it in mind",
+    optional: "Optional",
+    hint: "Type the change you have in mind. It will show with your results and in your PDF.",
+    skip: "Skip",
     max: 150
   },
 
   tried: {
     headline: "What have you tried since last time?",
+    optional: "Optional",
+    hint: "Type what you've tried. It will show with your results and in your PDF.",
+    skip: "Skip",
     max: 250
   },
 
   stages: {
     headlineLead: "Trust happens in ",
     headlineAccent: "three stages.",
+    intro: "Your answers to the 11 statements add up to a score that places you in one of these stages. At the end, your results show which stage you're in and give you tips for what to do next.",
     footer: "Next, rate 11 statements about the people you have in mind.",
     button: "Begin",
     list: [
