@@ -273,6 +273,8 @@
       });
     }
     var after = last + MOTION.settle;
+    // The brush stroke under the accent word draws in once its words have risen.
+    h.style.setProperty("--brush-delay", (last + 450) + "ms");
     if (isSplash) {
       $all(".splash-lede, .splash-intro > p:not(.splash-lede), .facts li, .splash-body .actions .btn", main)
         .forEach(function (el, k) { el.classList.add("enter"); el.style.setProperty("--d", (after + k * MOTION.item) + "ms"); });
@@ -896,14 +898,26 @@
         '</details>' +
       '</section>';
 
+    // A quick map of the page: two parts, each a jump to its section.
+    var pageMap =
+      '<nav class="page-map" aria-labelledby="map-h">' +
+        '<p class="eyebrow" id="map-h">' + esc(r.mapLabel) + '</p>' +
+        '<ol>' +
+          '<li><button type="button" class="map-link" data-jump="results-h"><span class="map-n">1</span>' + esc(r.mapPart1) + '</button></li>' +
+          '<li><button type="button" class="map-link" data-jump="change-h"><span class="map-n">2</span>' + esc(r.mapPart2) + '</button></li>' +
+        '</ol>' +
+        // Quick download from the top; the full save card stays at the end.
+        '<button type="button" class="linkbtn map-pdf" data-pdf>' + ICON_DOWN + esc(r.mapDownload) + '</button>' +
+      '</nav>';
+
     var summary =
       '<div class="stack">' +
         (S.mode === "cleared" ? '<p class="note note--alert">' + esc(r.comparePdf) + '</p>' : "") +
         // Eyebrow and heading form one title block (label sits tight to its heading).
         // Title, zone change and meaning are one group (heading to its text: tight).
         '<div class="why-head">' +
-          '<div class="titleblock"><p class="eyebrow">' + esc(dateStr) + '</p>' +
-          '<h1 class="h1">You’re in <span class="zone-word">' + esc(t.zone) + '.</span></h1></div>' +
+          '<div class="titleblock"><p class="eyebrow">' + esc(r.part1 + " \u00b7 " + dateStr) + '</p>' +
+          '<h1 class="h1" id="results-h">You’re in <span class="zone-word">' + esc(t.zone) + '.</span></h1></div>' +
           '<p class="measure">' + esc(z.meaning) + '</p>' +
         '</div>' +
         '<div class="stack stack--tight">' +
@@ -919,7 +933,8 @@
         // Start from their own change; if they skipped it, ask them to picture one.
         // Their change is the panel's main heading; the size question sits under it.
         // Part 2: optional planning. Title says what it's for; their change sits under it.
-        '<h2 class="card-title" id="change-h">' + esc(C.grid.planTitle) + '</h2>' +
+        '<div class="titleblock"><p class="eyebrow">' + esc(r.part2) + '</p>' +
+        '<h2 class="card-title" id="change-h" tabindex="-1">' + esc(C.grid.planTitle) + '</h2></div>' +
         '<div class="why-head"><h3 class="subhead">' + esc(t.ask ? C.grid.yourChange : C.grid.skipped) + '</h3>' +
           (t.ask ? '<p class="reflect-quote">' + esc(t.ask) + '</p>' : '<p>' + esc(C.grid.reflect) + '</p>') + '</div>' +
         '<div class="why-head"><h3 class="subhead" id="grid-h">' + esc(C.grid.question) + '</h3>' +
@@ -967,12 +982,13 @@
       '</section>';
 
 
-    // Part 1, your results: zone and score, what to do (tips), then cue details.
+    // Part 1, your results: zone and score, the 11 cues behind it, then what to do (tips).
     // Part 2, planning a change (optional). Then save.
     return '<div class="screen wrap wrap--mid results ' + zClass(t.zone) + '">' +
+      pageMap +
       summary +
-      tips +
       cues +
+      tips +
       tried +
       decide +
       download +
@@ -980,6 +996,16 @@
   };
 
   bind.results = function () {
+    $all("[data-jump]", main).forEach(function (b) {
+      b.addEventListener("click", function () {
+        var target = document.getElementById(b.getAttribute("data-jump"));
+        if (!target) return;
+        var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+        if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+        target.focus({ preventScroll: true });
+      });
+    });
     var t = current();
     $all('input[name="size"]', main).forEach(function (inp) {
       inp.addEventListener("change", function () {
@@ -991,7 +1017,9 @@
         $("[data-verdict]", main).innerHTML = verdict(t.zone, t.askSize);
       });
     });
-    $("[data-pdf]", main).addEventListener("click", function () { downloadPdf(S.takes, S.takes.length - 1); });
+    $all("[data-pdf]", main).forEach(function (b) {
+      b.addEventListener("click", function () { downloadPdf(S.takes, S.takes.length - 1); });
+    });
     $("[data-fresh]", main).addEventListener("click", function () { openStartFresh(); });
     $("[data-done]", main).addEventListener("click", function () {
       if (S.downloaded) goHome();

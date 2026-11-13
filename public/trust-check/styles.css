@@ -507,13 +507,9 @@ strong, b { font-weight: 650; }
 
 .zone-word { font-style: normal; color: var(--zone-text); }
 /* Every zone word: ink text (readable) with a thick underline in the zone's
-   light color (the light trio is too pale for text on cream). */
-.zone-word {
-  text-decoration: underline;
-  text-decoration-color: var(--zone);
-  text-decoration-thickness: 0.09em;
-  text-underline-offset: 0.12em;
-}
+   light color (the light trio is too pale for text on cream). The masked
+   word inside it (when animating) carries the same underline. */
+.zone-word { --brush-color: var(--zone); }
 
 /* Overview: summary and decision grid side by side when both fit. */
 .overview {
@@ -683,7 +679,6 @@ strong, b { font-weight: 650; }
 .change { font-weight: 650; font-size: var(--t-small); font-variant-numeric: tabular-nums; }
 
 /* Your 11 cues: closed accordion under the score */
-.cues-section { margin-top: var(--s-xs); }
 .cues-acc { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .cues-acc > summary {
   display: flex; align-items: center; justify-content: space-between; gap: var(--s-s);
@@ -722,8 +717,31 @@ details.table-alt summary { cursor: pointer; color: var(--action); min-height: 2
 .save-card .after { margin-top: var(--s-xs); }
 
 /* Tips panel: the next step after the result, tied to it by the zone color. */
+/* "On this page" map: two numbered jumps, quiet but obvious. */
+/* Wraps: the Download link sits beside the parts when there's room, below them when not. */
+.page-map { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--gap-label) var(--s-m); }
+.page-map > .eyebrow { flex-basis: 100%; }
+.page-map ol { min-width: 0; }
+.map-pdf { font-weight: 650; text-decoration: none; color: var(--action); }
+.map-pdf:hover { text-decoration: underline; }
+
+.page-map ol { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-2xs) var(--s-m); }
+.map-link {
+  display: inline-flex; align-items: center; gap: 0.55em;
+  min-height: 2.75rem; padding: 0;
+  border: 0; background: none; cursor: pointer;
+  font: 650 var(--t-body)/1.3 var(--sans); color: var(--action); text-align: left;
+}
+.map-link:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.map-n {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 1.6em; height: 1.6em;
+  background: var(--action); color: var(--white); font-size: 0.85em;
+}
+#results-h, #change-h { scroll-margin-top: var(--s-m); }
+
 /* Part 1 reads as one unit: the tips sit close under the score. */
-.results > .tips-card { margin-top: calc(var(--gap-group) - var(--s-xl)); }
+.results > .cues-section, .results > .tips-card { margin-top: calc(var(--gap-group) - var(--s-xl)); }
 .tips-card .watch { background: var(--cream); padding: var(--s-s); }
 
 /* Tips flow into columns as space allows. */
@@ -864,6 +882,9 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 /* Phrase per line: each phrase starts a new line; a phrase too long for the
    screen wraps inside itself, balanced. */
 .splash-h .ph { display: block; text-wrap: balance; }
+/* The brush stroke hangs below the last line, so add space equal to its height
+   (scales with the headline) to keep the gap to the details clearly a group gap. */
+.splash-h { margin-bottom: 0.25em; }
 
 /* Splash entrance: each word rises from behind its own mask, one at a time,
    then each detail rises on its own. Transform and opacity only. */
@@ -871,7 +892,7 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 @keyframes line-up { from { transform: translateY(135%); } to { transform: none; } } /* start fully below the mask, padding included */
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 .splash-h--short { font-size: clamp(3rem, 14cqi, 10rem); }
-.splash-h em { font-style: normal; color: var(--orange-on-dark); } /* accents are upright: color carries the emphasis */
+.splash-h em { font-style: normal; color: inherit; --brush-color: var(--orange-on-dark); }
 .splash-body { display: flex; flex-direction: column; gap: var(--s-m); max-width: 40rem; }
 /* Proximity: the lede and its paragraph are one unit, so they sit close. */
 .splash-intro { display: flex; flex-direction: column; gap: var(--s-2xs); }
@@ -929,7 +950,7 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 .band .progress > span { background: var(--orange-on-dark); }
 .band .progress + .titleblock { margin-top: var(--s-xs); } /* breathing room between progress and the title */
 .band .eyebrow { color: var(--peach); } /* small text on dark: peach, 5:1 */
-.band .accent { color: var(--orange-on-dark); }
+.band .accent { color: inherit; --brush-color: var(--orange-on-dark); }
 .band-text { max-width: 52ch; color: rgba(250, 248, 244, 0.92); margin-top: calc(var(--gap-heading) - var(--gap-text)); }
 /* A statement, not a hero: about 40 characters per line (13em of this
    condensed serif), type that scales with the screen, balanced lines. */
@@ -942,6 +963,27 @@ body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-
 .below { padding-block: var(--gap-group) var(--s-xl); display: flex; flex-direction: column; gap: var(--gap-text); }
 .below > * { max-width: 60rem; } /* ratings and card keep a readable width, aligned with the statement */
 .below > .why { margin-top: var(--s-xs); }
+
+/* ---------- Brush-stroke underline ----------
+   Accent words keep the heading's own color; the color comes from a painted
+   stroke underneath, which draws in left to right after the heading appears. */
+.splash-h em, .band .accent, .zone-word {
+  position: relative;
+  isolation: isolate;
+  white-space: nowrap;
+}
+.splash-h em::after, .band .accent::after, .zone-word::after {
+  content: "";
+  position: absolute; z-index: -1;
+  left: -0.06em; right: -0.08em; bottom: -0.02em;
+  height: 0.3em;
+  background: var(--brush-color, currentColor);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%2024%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M4%2013.5C38%208.2%2074%209.6%20112%208.4c39-1.2%2077%20.4%20116-.6%2023-.6%2047-2.2%2068-1.4%202.3.1%203.1%203.6.9%204.4-9.6%203.4-6.1%204.9-2.6%206.7%202.4%201.2%201.3%204.6-1.4%204.5-36-1.2-72%201.6-108%201.3-41-.4-82-1.7-123%20.4-20%201-39%202.6-58%203.1C1.9%2022.1%201%2019.2%203%2018c3.6-2.1%202.4-3.1-1.2-3.4-1.7-.2-1-1.6%202.2-1.1z%22%20fill%3D%22black%22/%3E%3Cpath%20d%3D%22M22%2011.2c50-2.4%20120-3.6%20200-3.1M30%2019.4c70-1.8%20150-1.2%20230-2.6%22%20stroke%3D%22black%22%20stroke-width%3D%221.2%22%20fill%3D%22none%22%20opacity%3D%22.5%22/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%2024%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M4%2013.5C38%208.2%2074%209.6%20112%208.4c39-1.2%2077%20.4%20116-.6%2023-.6%2047-2.2%2068-1.4%202.3.1%203.1%203.6.9%204.4-9.6%203.4-6.1%204.9-2.6%206.7%202.4%201.2%201.3%204.6-1.4%204.5-36-1.2-72%201.6-108%201.3-41-.4-82-1.7-123%20.4-20%201-39%202.6-58%203.1C1.9%2022.1%201%2019.2%203%2018c3.6-2.1%202.4-3.1-1.2-3.4-1.7-.2-1-1.6%202.2-1.1z%22%20fill%3D%22black%22/%3E%3Cpath%20d%3D%22M22%2011.2c50-2.4%20120-3.6%20200-3.1M30%2019.4c70-1.8%20150-1.2%20230-2.6%22%20stroke%3D%22black%22%20stroke-width%3D%221.2%22%20fill%3D%22none%22%20opacity%3D%22.5%22/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  animation: brush-in 650ms var(--ease) both;
+  animation-delay: var(--brush-delay, 300ms);
+}
+@keyframes brush-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 
 /* ---------- Motion system (see app.js animateScreen) ---------- */
 /* Each word sits in a mask and rises into view; delays come from JS (--d). */

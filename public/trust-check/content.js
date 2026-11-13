@@ -249,6 +249,12 @@ window.TC_CONTENT = {
   },
 
   results: {
+    mapLabel: "On this page",
+    mapDownload: "Download PDF",
+    mapPart1: "Your results and how to build trust",
+    mapPart2: "Planning a change with your team (optional)",
+    part1: "Part 1",
+    part2: "Part 2 \u00b7 Optional",
     tipsLabel: { Build: "Ways to build trust in Build", Grow: "Ways to build trust in Grow", Sustain: "Ways to keep trust in Sustain" },
     tipsScope: "These apply to anyone in {zone}, whatever change you're planning.",
     nextStepLabel: "Next step",
