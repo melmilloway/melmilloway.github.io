@@ -112,7 +112,7 @@ window.TC_CONTENT = {
     {
       group: "Telling me difficult things",
       text: "People bring problems to me before they turn into emergencies.",
-      why: "Raising a problem early means risking being the one with bad news. People only do it when they expect help, not blame.",
+      why: "Raising a problem before it turns into an emergency means risking being the one with bad news. People only raise problems when they expect help, not blame.",
       there: "A team member tells you about a vendor delay three weeks before launch. You move the date once, and stakeholders barely notice.",
       missing: "The same delay comes out two days before launch. You cancel a rollout people cleared their calendars for, and leadership starts questioning your team's timelines.",
       try: "When someone brings you bad news, thank them before you ask any questions. Then ask \"What do you need from me?\""
@@ -216,7 +216,7 @@ window.TC_CONTENT = {
     Sustain: {
       range: "33–44",
       meaning: "People bring you problems, ideas, and disagreement. You have trust, and the work now is keeping it, which starts with noticing your own small missteps, like forgetting to credit someone who helped.",
-      focus: "Keep noticing how people respond to you and how you treat them, so you catch it early if trust starts to slip.",
+      focus: "Keep noticing how people respond to you and how you treat them, so you can tell right away when trust starts to slip.",
       tips: [
         ["Notice your own small missteps.", "Small missteps still happen at high trust, like thanking one person publicly for a project and leaving out someone else who helped. You may not notice it, but they will."],
         ["Notice when someone acts differently than usual.", "Compare each person to their own normal, not to the rest of the team. A usually talkative person giving short answers in a 1:1 is a sign."],
@@ -286,7 +286,7 @@ window.TC_CONTENT = {
     scoreLine: "Your score: {n} out of 44",
     cuesHeading: "What's behind your score",
     cuesToggle: "See how you rated all 11 cues",
-    bigReason: "Every one of these cues affects whether your team will take on the changes you want. When trust is there, people tell you about problems early, suggest better ways to do the work, and put in extra effort. When it isn't, people keep problems and ideas to themselves and do only what's asked. You find out about problems late, and you make decisions without what your team knows.",
+    bigReason: "Every one of these cues affects whether your team will take on the changes you want. When trust is there, people tell you about problems while there's still time to solve them, suggest better ways to do the work, and put in extra effort. When it isn't, people keep problems and ideas to themselves and do only what's asked. You find out about problems late, and you make decisions without what your team knows.",
     download: "Download my results (PDF)",
     downloadNote: "Your results are saved only in this browser, and they can be cleared. Download your PDF so you can compare next time.",
     saveHeading: "Save your results",
