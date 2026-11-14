@@ -277,6 +277,8 @@ window.TC_CONTENT = {
     tipsLabel: { Build: "Ways to build trust in Build", Grow: "Ways to build trust in Grow", Sustain: "Ways to keep trust in Sustain" },
     tipsScope: "These apply to anyone in {zone}, whatever change you're planning.",
     capNote: "Your total is in the Sustain range, but {area} is lower than the rest, so you're in Grow until it catches up.",
+    capNoteMany: "Your total is in the Sustain range, but {count} areas are lower than the rest: {areas}. You're in Grow until they catch up.",
+    meterMoved: "{n} out of {max}, in the {from} range, moved to {zone}",
     liftNote: "Your total is in the Build range, but most of your low ratings are in {area}, so you're in Grow. {area} is the place to start.",
     tableDownload: "Download as a table (spreadsheet)",
     updateResults: "Update my results",

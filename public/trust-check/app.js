@@ -47,7 +47,7 @@
   }
   // Fairness rules on top of the total, so one area can't decide the zone:
   //  An area is low when its average is under 2.5 (it leans Rarely or Sometimes).
-  //  - Sustain needs no low areas. One low area: Grow, with that area named.
+  //  - Sustain needs no low areas. Any low area: Grow, with every low area named.
   //  - Build needs at least two low areas. A low total that comes from
   //    just one area: Grow, with that area named.
   function zoneInfo(scores) {
@@ -57,7 +57,7 @@
       if (avg < 2.5) low.push(g.name);
       if (avg < lowestAvg) { lowest = g.name; lowestAvg = avg; }
     });
-    if (base === "Sustain" && low.length) return { zone: "Grow", from: "Sustain", area: lowest };
+    if (base === "Sustain" && low.length) return { zone: "Grow", from: "Sustain", area: lowest, low: low };
     if (base === "Build" && low.length < 2) return { zone: "Grow", from: "Build", area: lowest };
     return { zone: base, from: "", area: "" };
   }
@@ -65,7 +65,13 @@
   function zoneNote(scores) {
     var z = zoneInfo(scores);
     if (!z.from) return "";
+    if (z.from === "Sustain" && z.low.length > 1) return C.results.capNoteMany.replace("{count}", ["", "one", "two", "three", "four"][z.low.length]).replace("{areas}", listAnd(z.low));
     return (z.from === "Sustain" ? C.results.capNote : C.results.liftNote).replace(/\{area\}/g, z.area);
+  }
+  // "A", "A, and B", "A, B, and C". The comma before "and" keeps area names
+  // that contain "and" readable.
+  function listAnd(a) {
+    return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + ", and " + a[a.length - 1];
   }
   function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -932,8 +938,12 @@
   function zoneBar(total, zone) {
     // Moved to Grow by the fairness rules: the marker sits at the nearest edge of Grow.
     var at = (meterAt(total, zone) * 100).toFixed(1) + "%";
+    var raw = zoneFor(total);
+    var label = raw === zone
+      ? total + " out of " + TOP + ", in " + zone + ", " + C.zones[zone].range.replace("–", " to ")
+      : C.results.meterMoved.replace("{n}", total).replace("{max}", TOP).replace("{from}", raw).replace("{zone}", zone);
     return '<div class="zonebar">' +
-      '<div class="zonebar-track" role="img" aria-label="' + esc(total + " out of " + TOP + ", in " + zone + ", " + C.zones[zone].range.replace("–", " to ")) + '">' +
+      '<div class="zonebar-track" role="img" aria-label="' + esc(label) + '">' +
         ZONES.map(function (z) { return '<span class="' + zClass(z) + (z === zone ? " on" : "") + '"></span>'; }).join("") +
         '<span class="zonebar-marker" data-at="' + at + '"></span>' +
       '</div>' +
