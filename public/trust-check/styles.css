@@ -480,7 +480,7 @@ strong, b { font-weight: 650; }
    This is the one place the shape changes, and it follows the group's width,
    not the device. */
 @container (min-width: 38rem) {
-  .rating-options { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .rating-options { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   /* Every button: same padding top and bottom, number on one shared line, and a
      two-line slot for the label with the text centered in it, so one-line and
      two-line labels look equally balanced. */
@@ -535,7 +535,7 @@ strong, b { font-weight: 650; }
 .zonebar-track {
   position: relative;
   display: grid;
-  grid-template-columns: 15fr 15fr 15fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 2px;
   height: 0.75rem;
 }
@@ -639,6 +639,7 @@ strong, b { font-weight: 650; }
 .grid-table thead th { vertical-align: bottom; }
 /* On the narrowest phones the headers drop "change" (the question already says it). */
 @container (max-width: 19rem) { .th-change { display: none; } .grid-table thead th { font-size: 0.7rem; } }
+@media (max-width: 22.5rem) { .grid-table tbody th { font-size: 0.92em; } }
 .grid-table .corner { width: 22%; border: 0; background: none; }
 .grid-table tbody th { text-align: left; padding-left: 0.2em; }
 .grid-table tbody th span.row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3em 0.45em; }

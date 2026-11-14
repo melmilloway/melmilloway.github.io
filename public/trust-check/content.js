@@ -75,7 +75,7 @@ window.TC_CONTENT = {
     ]
   },
 
-  ratings: ["Rarely", "Sometimes", "About half the time", "Often", "Almost always"],
+  ratings: ["Rarely", "Sometimes", "Often", "Almost always"],
 
   groups: [
     { name: "Knowing my team", items: [0, 1, 2] },
@@ -186,7 +186,7 @@ window.TC_CONTENT = {
 
   zones: {
     Build: {
-      range: "11–25",
+      range: "11–22",
       meaning: "Your team doesn't know yet whether it's safe to tell you about problems or disagree with you. That's normal for new teams, new managers, and teams that were treated badly by a past leader.",
       focus: "Follow up and follow through, again and again. Trust grows when people see you keep small promises week after week, and rushing won't speed it up.",
       tips: [
@@ -200,7 +200,7 @@ window.TC_CONTENT = {
       note: "You don't need a title for this. Trust can start building before you're anyone's manager, as a peer, a teammate, or a project lead."
     },
     Grow: {
-      range: "26–40",
+      range: "23–32",
       meaning: "People are starting to open up, like raising a small problem or disagreeing with you in a one-on-one. They're watching how you react before they raise a problem or disagree again.",
       focus: "When someone raises a problem or disagrees with you, thank them and act on what they said, so they're willing to speak up again.",
       tips: [
@@ -214,7 +214,7 @@ window.TC_CONTENT = {
       note: ""
     },
     Sustain: {
-      range: "41–55",
+      range: "33–44",
       meaning: "People bring you problems, ideas, and disagreement. You have trust, and the work now is keeping it, which starts with noticing your own small missteps, like forgetting to credit someone who helped.",
       focus: "Keep noticing how people respond to you and how you treat them, so you catch it early if trust starts to slip.",
       tips: [
@@ -281,7 +281,7 @@ window.TC_CONTENT = {
     tableDownload: "Download as a table (spreadsheet)",
     updateResults: "Update my results",
     nextStepLabel: "Next step",
-    scoreLine: "Your score: {n} out of 55",
+    scoreLine: "Your score: {n} out of 44",
     cuesHeading: "What's behind your score",
     cuesToggle: "See how you rated all 11 cues",
     bigReason: "Every one of these cues affects whether your team will take on the changes you want. When trust is there, people bring you problems, ideas, and effort. When it isn't, you're working without the information and energy your team already has.",

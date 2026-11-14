@@ -31,19 +31,33 @@
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
 
-  function zoneFor(total) { return total <= 25 ? "Build" : total <= 40 ? "Grow" : "Sustain"; }
+  // Scores run 1 (Rarely) to 4 (Almost always), so totals run 11 to 44.
+  // Build: on average Sometimes or lower. Sustain: on average Often or higher.
+  var MAX = 4, TOP = 11 * MAX;
+  var RANGES = { Build: [11, 22], Grow: [23, 32], Sustain: [33, 44] };
+  function zoneFor(total) { return total <= RANGES.Build[1] ? "Build" : total <= RANGES.Grow[1] ? "Grow" : "Sustain"; }
+  // Where the meter marker sits (0 to 1). The meter shows three equal parts,
+  // so the marker goes to the middle of its score's slot inside its zone.
+  // Moved to Grow by the fairness rules: the nearest edge of Grow.
+  function meterAt(total, zone) {
+    var raw = zoneFor(total);
+    var shown = raw === zone ? total : raw === "Sustain" ? RANGES.Grow[1] : RANGES.Grow[0];
+    var k = ZONES.indexOf(zone), r = RANGES[zone];
+    return (k + (shown - r[0] + 0.5) / (r[1] - r[0] + 1)) / 3;
+  }
   // Fairness rules on top of the total, so one area can't decide the zone:
-  //  - Sustain needs every area to average 3 or more. One weaker area: Grow.
-  //  - Build needs at least two low areas (average under 2.5). A low total
-  //    that comes from just one area: Grow, with that area named.
+  //  An area is low when its average is under 2.5 (it leans Rarely or Sometimes).
+  //  - Sustain needs no low areas. One low area: Grow, with that area named.
+  //  - Build needs at least two low areas. A low total that comes from
+  //    just one area: Grow, with that area named.
   function zoneInfo(scores) {
-    var base = zoneFor(sum(scores)), low = [], lowest = "", lowestAvg = 6;
+    var base = zoneFor(sum(scores)), low = [], lowest = "", lowestAvg = MAX + 1;
     C.groups.forEach(function (g) {
       var avg = g.items.reduce(function (a, i) { return a + scores[i]; }, 0) / g.items.length;
       if (avg < 2.5) low.push(g.name);
       if (avg < lowestAvg) { lowest = g.name; lowestAvg = avg; }
     });
-    if (base === "Sustain" && lowestAvg < 3) return { zone: "Grow", from: "Sustain", area: lowest };
+    if (base === "Sustain" && low.length) return { zone: "Grow", from: "Sustain", area: lowest };
     if (base === "Build" && low.length < 2) return { zone: "Grow", from: "Build", area: lowest };
     return { zone: base, from: "", area: "" };
   }
@@ -116,7 +130,7 @@
     if (!Array.isArray(t.scores) || t.scores.length !== N) return null;
     for (var i = 0; i < N; i++) {
       var v = t.scores[i];
-      if (typeof v !== "number" || v !== Math.floor(v) || v < 1 || v > 5) return null;
+      if (typeof v !== "number" || v !== Math.floor(v) || v < 1 || v > MAX) return null;
     }
     var total = sum(t.scores);
     var size = SIZES.indexOf(t.askSize) >= 0 ? t.askSize : null;
@@ -139,7 +153,7 @@
       var raw = window.localStorage.getItem(KEY);
       if (!raw) return null;
       var d = JSON.parse(raw);
-      if (!d || d.version !== 1 || !Array.isArray(d.takes) || !d.takes.length) return null;
+      if (!d || d.version !== 2 || !Array.isArray(d.takes) || !d.takes.length) return null;
       var takes = [];
       for (var i = 0; i < d.takes.length; i++) {
         var t = cleanTake(d.takes[i]);
@@ -152,7 +166,7 @@
 
   function writeStore(takes) {
     try {
-      window.localStorage.setItem(KEY, JSON.stringify({ version: 1, takes: takes }));
+      window.localStorage.setItem(KEY, JSON.stringify({ version: 2, takes: takes }));
       return true;
     } catch (e) { return false; }
   }
@@ -917,10 +931,9 @@
 
   function zoneBar(total, zone) {
     // Moved to Grow by the fairness rules: the marker sits at the nearest edge of Grow.
-    var raw = zoneFor(total), shown = raw === zone ? total : raw === "Sustain" ? 40 : 26;
-    var at = ((shown - 11) / 44 * 100).toFixed(1) + "%";
+    var at = (meterAt(total, zone) * 100).toFixed(1) + "%";
     return '<div class="zonebar">' +
-      '<div class="zonebar-track" role="img" aria-label="' + esc(total + " out of 55, in " + zone + ", " + C.zones[zone].range.replace("–", " to ")) + '">' +
+      '<div class="zonebar-track" role="img" aria-label="' + esc(total + " out of " + TOP + ", in " + zone + ", " + C.zones[zone].range.replace("–", " to ")) + '">' +
         ZONES.map(function (z) { return '<span class="' + zClass(z) + (z === zone ? " on" : "") + '"></span>'; }).join("") +
         '<span class="zonebar-marker" data-at="' + at + '"></span>' +
       '</div>' +
@@ -976,11 +989,11 @@
         var bars;
         if (compare) {
           bars = '<div class="bars">' +
-            '<span class="lbl">First take</span><span class="track first"><span data-v="' + (f / 5 * 100) + '%"></span></span><span class="val">' + f + '</span>' +
-            '<span class="lbl">Today</span><span class="track"><span data-v="' + (v / 5 * 100) + '%"></span></span><span class="val">' + v + '</span>' +
+            '<span class="lbl">First take</span><span class="track first"><span data-v="' + (f / MAX * 100) + '%"></span></span><span class="val">' + f + '</span>' +
+            '<span class="lbl">Today</span><span class="track"><span data-v="' + (v / MAX * 100) + '%"></span></span><span class="val">' + v + '</span>' +
           '</div>';
         } else {
-          bars = '<div class="bars bars--single"><span class="track" aria-hidden="true"><span data-v="' + (v / 5 * 100) + '%"></span></span><span class="val">' + v + '<span class="sr-only"> of 5, ' + esc(C.ratings[v - 1]) + '</span></span></div>';
+          bars = '<div class="bars bars--single"><span class="track" aria-hidden="true"><span data-v="' + (v / MAX * 100) + '%"></span></span><span class="val">' + v + '<span class="sr-only"> of ' + MAX + ', ' + esc(C.ratings[v - 1]) + '</span></span></div>';
         }
         var footer = "";
         if (compare) {
@@ -1012,7 +1025,7 @@
           '<td class="n">' + t.scores[i] + ' (' + esc(C.ratings[t.scores[i] - 1]) + ')</td>' +
           (compare ? '<td class="n">' + signed(t.scores[i] - first.scores[i]) + '</td>' : "") + '</tr>';
       }).join("") +
-      '<tr class="total-row"><th scope="row">Total</th>' + (compare ? '<td class="n">' + first.total + '</td>' : "") + '<td class="n">' + t.total + ' out of 55</td>' + (compare ? '<td class="n">' + signed(t.total - first.total) + '</td>' : "") + '</tr>' +
+      '<tr class="total-row"><th scope="row">Total</th>' + (compare ? '<td class="n">' + first.total + '</td>' : "") + '<td class="n">' + t.total + ' out of ' + TOP + '</td>' + (compare ? '<td class="n">' + signed(t.total - first.total) + '</td>' : "") + '</tr>' +
       '</tbody></table></div></details>';
   }
 
@@ -1020,11 +1033,11 @@
   // browser, nothing is sent anywhere.
   function downloadCsv(t) {
     function cell(v) { v = String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
-    var rows = [["Area", "Statement", "Rating (1-5)", "Answer"]];
+    var rows = [["Area", "Statement", "Rating (1-" + MAX + ")", "Answer"]];
     C.statements.forEach(function (s, i) {
       rows.push([s.group, (i + 1) + ". " + s.text, t.scores[i], C.ratings[t.scores[i] - 1]]);
     });
-    rows.push(["", "Total", t.total + " out of 55", "You're in " + t.zone]);
+    rows.push(["", "Total", t.total + " out of " + TOP, "You're in " + t.zone]);
     var csv = "\ufeff" + rows.map(function (r) { return r.map(cell).join(","); }).join("\r\n");
     var url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
     var a = document.createElement("a");
@@ -1336,7 +1349,7 @@
     var doc = new window.jspdf.jsPDF({ unit: "pt", format: "letter" });
     // Accessibility basics jsPDF supports: a real title shown in the window,
     // the document language, and real (selectable) text in reading order.
-    doc.setProperties({ title: "Trust Check results, " + longDate(t.date), subject: "You're in " + t.zone + ". Score " + t.total + " out of 55.", author: "Trust Check by Mel Milloway", creator: "Trust Check" });
+    doc.setProperties({ title: "Trust Check results, " + longDate(t.date), subject: "You're in " + t.zone + ". Score " + t.total + " out of " + TOP + ".", author: "Trust Check by Mel Milloway", creator: "Trust Check" });
     if (doc.setLanguage) doc.setLanguage("en-US");
     if (doc.viewerPreferences) doc.viewerPreferences({ DisplayDocTitle: true });
     var W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
@@ -1453,8 +1466,7 @@
     ensure(40);
     var gap = 2, segW = (CW - 2 * gap) / 3;
     ZONES.forEach(function (zn, k) { fill(RGB[zn]); doc.rect(M + k * (segW + gap), y + 4, segW, 7, "F"); });
-    var raw = zoneFor(t.total), shown = raw === t.zone ? t.total : raw === "Sustain" ? 40 : 26;
-    fill(RGB.ink); doc.rect(M + (shown - 11) / 44 * CW - 1, y, 2.5, 15, "F");
+    fill(RGB.ink); doc.rect(M + meterAt(t.total, t.zone) * CW - 1, y, 2.5, 15, "F");
     y += 22;
     ZONES.forEach(function (zn, k) {
       var keep = y;
@@ -1504,7 +1516,7 @@
     var ty = y + 6;
     setStyle(ST.h3); doc.text("Total", M + 8, ty + ST.h3.size, { charSpace: 0 });
     var cx0 = M + cols[0];
-    (compare ? [String(first.total), String(t.total), signed(t.total - first.total)] : [t.total + " out of 55"]).forEach(function (v, k) {
+    (compare ? [String(first.total), String(t.total), signed(t.total - first.total)] : [t.total + " out of " + TOP]).forEach(function (v, k) {
       setStyle(ST.h3); doc.text(pdfText(v), cx0 + cols[k + 1] - (k === cols.length - 2 ? 8 : 0), ty + ST.h3.size, { align: "right", charSpace: 0 });
       cx0 += cols[k + 1];
     });
