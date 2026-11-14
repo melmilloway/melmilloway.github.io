@@ -193,10 +193,10 @@ window.TC_CONTENT = {
         ["Follow up on what people tell you.", "If someone mentions something that matters to them, ask later how it turned out. Many small follow-ups do more than one great conversation."],
         ["Do what you said you'd do.", "If you say you'll check on a tool license by Friday, come back on Friday, even if the answer is no."],
         ["Ask for their ideas before sharing yours.", "When a problem comes up, ask \"What would you try?\" before sharing your idea, and be open to theirs being better."],
-        ["Wait before introducing major changes.", "If a change adds oversight or takes away control, wait until trust has grown, or bring the team the problem instead of your solution."]
+        ["Admit what you don't know.", "When someone asks something you can't answer, say \"I don't know\" and tell them how you'll find out. Then come back with the answer. When you say you don't know, your team sees it's okay for them to say it too."]
       ],
       watchTitle: "Watch out for rushing",
-      watch: "Getting to know people quickly and then introducing a major change can feel like a trick. People may wonder whether you were friendly only to get something from them.",
+      watch: "Getting to know people quickly can feel like a tactic, especially if you start asking for more right after. People may wonder whether you were friendly only to get something from them.",
       note: "You don't need a title for this. Trust can start building before you're anyone's manager, as a peer, a teammate, or a project lead."
     },
     Grow: {
@@ -275,7 +275,7 @@ window.TC_CONTENT = {
     part1: "Part 1",
     part2: "Part 2 \u00b7 Optional",
     tipsLabel: { Build: "Ways to build trust in Build", Grow: "Ways to build trust in Grow", Sustain: "Ways to keep trust in Sustain" },
-    tipsScope: "These apply to anyone in {zone}, whatever change you're planning.",
+    tipsScope: "Use these day to day with your team, whether or not you're planning a change.",
     capNote: "Your total is in the Sustain range, but {area} is lower than the rest, so you're in Grow until it catches up.",
     capNoteMany: "Your total is in the Sustain range, but {count} areas are lower than the rest: {areas}. You're in Grow until they catch up.",
     meterMoved: "{n} out of {max}, in the {from} range, moved to {zone}",
