@@ -113,7 +113,7 @@ window.TC_CONTENT = {
       group: "Telling me difficult things",
       text: "People bring problems to me before they turn into emergencies.",
       why: "Raising a problem early means risking being the one with bad news. People only do it when they expect help, not blame.",
-      there: "A vendor delay gets flagged three weeks before launch. You move the date once, and stakeholders barely notice.",
+      there: "A team member tells you about a vendor delay three weeks before launch. You move the date once, and stakeholders barely notice.",
       missing: "The same delay comes out two days before launch. You cancel a rollout people cleared their calendars for, and leadership starts questioning your team's timelines.",
       try: "When someone brings you bad news, thank them before you ask any questions. Then ask \"What do you need from me?\""
     },
