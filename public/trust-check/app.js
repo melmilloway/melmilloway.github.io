@@ -1100,10 +1100,10 @@
           (zoneNote(t.scores) ? '<p class="measure">' + esc(zoneNote(t.scores)) + '</p>' : "") +
           zoneBar(t.total, t.zone) +
         '</div>' +
-        // One sentence that sets up the page; the planner phrase jumps to Part 2.
+        // One sentence that sets up the page.
         '<div class="results-intro">' +
           '<p class="measure">' + esc(r.intro.split("{planner}")[0].replace("{tips}", r.tipsLabel[t.zone].charAt(0).toLowerCase() + r.tipsLabel[t.zone].slice(1))) +
-            '<button type="button" class="inline-link" data-jump="change-h">' + esc(r.plannerLink) + '</button>' +
+            esc(r.plannerLink) +
             esc(r.intro.split("{planner}")[1] || "") + '</p>' +
         '</div>' +
       '</div>';

@@ -286,7 +286,7 @@ window.TC_CONTENT = {
     scoreLine: "Your score: {n} out of 44",
     cuesHeading: "What's behind your score",
     cuesToggle: "See how you rated all 11 cues",
-    bigReason: "Every one of these cues affects whether your team will take on the changes you want. When trust is there, people bring you problems, ideas, and effort. When it isn't, you're working without the information and energy your team already has.",
+    bigReason: "Every one of these cues affects whether your team will take on the changes you want. When trust is there, people tell you about problems early, suggest better ways to do the work, and put in extra effort. When it isn't, people keep problems and ideas to themselves and do only what's asked. You find out about problems late, and you make decisions without what your team knows.",
     download: "Download my results (PDF)",
     downloadNote: "Your results are saved only in this browser, and they can be cleared. Download your PDF so you can compare next time.",
     saveHeading: "Save your results",
