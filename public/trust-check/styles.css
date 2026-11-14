@@ -1120,7 +1120,7 @@ details.table-alt > p { margin-top: var(--s-xs); }
 /* Stages: closing teal band around Begin, mirroring the band at the top */
 .stages-close { background: var(--teal-deep); color: var(--cream); }
 .stages-close :focus-visible { outline-color: var(--cream); }
-.stages-ready { font-size: var(--t-body); font-weight: 650; } /* paragraph size, bold so it reads as the lead-in to Begin */
+.stages-ready { font-size: var(--t-body); font-weight: 400; } /* plain paragraph text */
 /* On tall screens the teal band fills to the bottom, so there's never a cream strip under it */
 .stages-screen { min-height: 100svh; }
 .stages-close { flex: 1 0 auto; }

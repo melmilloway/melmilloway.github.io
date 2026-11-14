@@ -739,7 +739,8 @@
     var there = '<div class="impact"><p class="eyebrow there">' + esc(k.there) + '</p><p>' + rich(s.there) + '</p></div>';
     var missing = '<div class="impact"><p class="eyebrow">' + esc(k.missing) + '</p><p>' + rich(s.missing) + '</p></div>';
     // Always both sides, always in the same order, whatever the rating.
-    var impact = there + missing;
+    var tryIt = '<div class="impact impact--try"><p class="eyebrow">' + esc(k.tryThis) + '</p><p>' + rich(s.try) + '</p></div>';
+    var impact = there + missing + tryIt;
     // Heading and its paragraph are one unit, spaced like each impact label and its text.
     return '<div class="why-head"><h2 class="h3" id="why-h" tabindex="-1">' + esc(k.heading) + '</h2>' +
       '<p>' + esc(s.why) + '</p></div>' +
@@ -994,6 +995,7 @@
             '<p>' + rich(s.why) + '</p>' +
             '<div class="impact"><p class="eyebrow there">' + esc(k.there) + '</p><p>' + rich(s.there) + '</p></div>' +
             '<div class="impact"><p class="eyebrow">' + esc(k.missing) + '</p><p>' + rich(s.missing) + '</p></div>' +
+            '<div class="impact impact--try"><p class="eyebrow">' + esc(k.tryThis) + '</p><p>' + rich(s.try) + '</p></div>' +
           '</div></details>';
         return '<li class="cue"><p class="cue-text">' + (i + 1) + '. ' + esc(s.text) + '</p>' + bars + footer + more + '</li>';
       }).join("") + '</ul></div>';
@@ -1558,7 +1560,7 @@
         var ans = r.pdfYourAnswer + ": " + C.ratings[v - 1] + " (" + v + ")";
         if (compare) ans += "    " + r.pdfFirstTake + ": " + C.ratings[first.scores[i] - 1] + " (" + first.scores[i] + ")";
         write(ans, ST.body, { color: RGB.muted, after: 8 });
-        [[C.card.heading, s.why], [C.card.there, s.there], [C.card.missing, s.missing]].forEach(function (b) {
+        [[C.card.heading, s.why], [C.card.there, s.there], [C.card.missing, s.missing], [C.card.tryThis, s.try]].forEach(function (b) {
           ensure(40);
           write(b[0], ST.label, { x: M + 14, after: 1 });
           write(b[1], ST.body, { x: M + 14, after: 8 });
