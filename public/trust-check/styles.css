@@ -643,6 +643,7 @@ strong, b { font-weight: 650; }
 .grid-table .corner { width: 22%; border: 0; background: none; }
 .grid-table tbody th { text-align: left; padding-left: 0.2em; }
 .grid-table tbody th span.row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3em 0.45em; }
+@media (max-width: 47.99rem) { .grid-table tbody th span.row { flex-direction: column; align-items: flex-start; } } /* phones: every zone name sits under its color square, not just the longest */
 .grid-table td {
   height: clamp(3rem, 12cqi, 4.5rem);
   padding: 0.3em 0.15em;
@@ -859,6 +860,12 @@ details.table-alt summary:hover { color: var(--action-hover); }
 }
 .site-foot[hidden] { display: none; }
 .site-foot-privacy { flex-basis: 100%; }
+.site-foot-sep2 { display: none; }
+@media (min-width: 48rem) { .site-foot-privacy { flex-basis: auto; } .site-foot-sep2 { display: inline; } } /* one line on wider screens */
+/* Welcome: the splash fills the screen minus the footer, so the footer shows too. */
+body[data-screen="welcome"] .app, body[data-screen="welcomeBack"] .app { display: flex; flex-direction: column; }
+body[data-screen="welcome"] .splash, body[data-screen="welcomeBack"] .splash { min-height: 0; flex: 1 0 auto; padding-bottom: clamp(1.25rem, 4svh, 4rem); }
+body[data-screen="welcome"] .site-foot, body[data-screen="welcomeBack"] .site-foot { padding-block: 0 var(--s-s); }
 .site-foot a { color: var(--action); display: inline-flex; align-items: center; min-height: 1.5rem; }
 
 /* ---------- Splash (Welcome, Welcome back) ---------- */
@@ -894,6 +901,11 @@ body[data-screen="statement"], body[data-screen="ask"],
 body[data-screen="tried"], body[data-screen="stages"] { background: var(--teal-deep); }
 body[data-screen="statement"] .app, body[data-screen="ask"] .app,
 body[data-screen="tried"] .app, body[data-screen="stages"] .app { background: var(--cream); }
+/* The footer runs full width in cream on these screens too (the page behind it is teal). */
+body[data-screen="statement"] .site-foot, body[data-screen="ask"] .site-foot,
+body[data-screen="tried"] .site-foot, body[data-screen="stages"] .site-foot {
+  background: var(--cream); box-shadow: 0 0 0 100vmax var(--cream); clip-path: inset(0 -100vmax);
+}
 body[data-screen="statement"] .backdrop, body[data-screen="ask"] .backdrop,
 body[data-screen="tried"] .backdrop, body[data-screen="stages"] .backdrop { display: none; }
 

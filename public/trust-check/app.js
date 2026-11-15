@@ -377,10 +377,11 @@
   }
 
   function renderFooter() {
-    var show = S.screen === "welcome" || S.screen === "welcomeBack" || S.screen === "results" || S.screen === "cleared";
-    foot.hidden = !show;
-    foot.innerHTML = '<span>' + esc(C.footer.owner) + '</span><span aria-hidden="true">·</span><a href="' + esc(C.linkedIn) + '" rel="noopener noreferrer" data-leave>LinkedIn</a>' +
-      '<span class="site-foot-privacy">' + esc(C.footer.privacy) + '</span>';
+    // On every screen. Mid-take, LinkedIn opens in a new tab so answers aren't lost.
+    var midTake = !!BANDED[S.screen];
+    foot.hidden = false;
+    foot.innerHTML = '<span>' + esc(C.footer.owner) + '</span><span aria-hidden="true">·</span><a href="' + esc(C.linkedIn) + '" rel="noopener noreferrer"' + (midTake ? ' target="_blank"' : ' data-leave') + '>LinkedIn</a>' +
+      '<span class="site-foot-sep2" aria-hidden="true">·</span><span class="site-foot-privacy">' + esc(C.footer.privacy) + '</span>';
   }
 
   foot.addEventListener("click", function (e) {
