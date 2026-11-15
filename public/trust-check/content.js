@@ -88,7 +88,7 @@ window.TC_CONTENT = {
   statements: [
     {
       group: "Knowing my team",
-      text: "I know what matters to people outside of work.",
+      text: "When someone on my team has something big going on outside of work, I know about it.",
       why: "When you know what matters to people outside work, like a new baby, a sick parent or a race they're training for, they feel like you see them as a person. People who feel known by their manager care more about the team and its goals. Some people prefer to keep their lives private, and that's okay. What matters is whether they'd feel comfortable telling you.",
       there: "A teammate tells you their dad is having surgery next month. You move a deadline and make sure their work is covered, so they're not rushing beforehand and can be with him without checking email. When they're back, you ask how he's doing. They feel like part of the team, and the next time someone else needs time off, they're the first to offer help.",
       missing: "The same teammate puts the time off on the calendar but doesn't say why. Maybe you've never asked about life outside work, or the last time they shared something, you moved straight on to the agenda. In the weeks before, they rush to finish everything while juggling appointments, and their work isn't up to their usual standard. You don't know why, so you can't help. When they're back, no one asks how their dad is. They feel like a name on a project list, and a few months later they take a job on a team where they feel known.",
@@ -96,7 +96,7 @@ window.TC_CONTENT = {
     },
     {
       group: "Knowing my team",
-      text: "I know what people want from their careers.",
+      text: "When a new project or stretch opportunity comes up, I know who on my team would want it.",
       why: "Telling you what they want from their career means trusting you won't hold it against them, and that you might help them get to that next step.",
       there: "You know a colleague wants to facilitate, so you bring them in to co-lead the next workshop. They get the experience they wanted, and the team gains another facilitator.",
       missing: "Your team's strongest designer leaves for a job with more room to grow. Three projects in progress lose the person who knew them best, and the team spends months hiring and onboarding a replacement.",
