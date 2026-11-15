@@ -160,7 +160,7 @@ window.TC_CONTENT = {
     },
     {
       group: "Admitting mistakes and asking for help",
-      text: "When someone on my team makes a mistake, they tell me about it.",
+      text: "When someone on my team makes a mistake I'd need to know about, they tell me.",
       why: "When someone tells you they made a mistake, like sending the wrong file to a client, they're trusting you to help them sort it out instead of holding it against them. People only take that risk when they've seen you respond calmly before.",
       there: "Someone tells you they sent the wrong course version to the pilot group. You send a correction that afternoon.",
       missing: "The wrong version goes out to every learner, and you hear about it from a VP.",
