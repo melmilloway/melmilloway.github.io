@@ -883,6 +883,20 @@ body[data-screen="welcome"] :focus-visible, body[data-screen="welcomeBack"] :foc
 body[data-screen="welcome"] .site-foot, body[data-screen="welcomeBack"] .site-foot { color: rgba(250, 248, 244, 0.8); }
 body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-foot a { color: var(--peach); }
 
+/* Screens that open with the teal band: the page itself is teal and the content
+   area is cream, so a phone's status bar (which takes its color from the page,
+   not from the band) is teal from the start instead of turning teal only once
+   the band pins. */
+html:has(body[data-screen="statement"]), html:has(body[data-screen="ask"]),
+html:has(body[data-screen="tried"]), html:has(body[data-screen="stages"]),
+html:has(body[data-screen="welcome"]), html:has(body[data-screen="welcomeBack"]),
+body[data-screen="statement"], body[data-screen="ask"],
+body[data-screen="tried"], body[data-screen="stages"] { background: var(--teal-deep); }
+body[data-screen="statement"] .app, body[data-screen="ask"] .app,
+body[data-screen="tried"] .app, body[data-screen="stages"] .app { background: var(--cream); }
+body[data-screen="statement"] .backdrop, body[data-screen="ask"] .backdrop,
+body[data-screen="tried"] .backdrop, body[data-screen="stages"] .backdrop { display: none; }
+
 .splash {
   position: relative;
   overflow: hidden;

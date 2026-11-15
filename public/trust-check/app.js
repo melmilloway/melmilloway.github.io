@@ -257,6 +257,10 @@
 
   function render(focusSel) {
     document.body.setAttribute("data-screen", S.screen);
+    // Browser and phone status bar color follows the top of the screen.
+    var tealTop = BANDED[S.screen] || S.screen === "welcome" || S.screen === "welcomeBack";
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", tealTop ? "#1f5050" : "#faf8f4");
     S.visited[S.screen] = true;
     if (S.screen === "statement") S.reached = Math.max(S.reached, S.index);
     var html = SCREENS[S.screen]();
