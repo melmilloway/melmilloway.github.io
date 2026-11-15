@@ -4,6 +4,7 @@
  */
 window.TC_CONTENT = {
   linkedIn: "https://linkedin.com/in/melmilloway",
+  footer: { owner: "\u00a9 2026 Mel Milloway", privacy: "Your answers stay in this browser. No cookies or tracking." },
 
   welcome: {
     headlineLead: "Your team's performance starts with ",
@@ -135,7 +136,7 @@ window.TC_CONTENT = {
     },
     {
       group: "Joining in with ideas and questions",
-      text: "When I ask for input, people respond in their own way, even people who rarely speak up in meetings.",
+      text: "When I ask for input, people respond, even if they respond in their own way, like a message after a meeting.",
       why: "Not everyone shares ideas out loud in a meeting. People who rarely speak up in meetings often share in other ways, like a message afterward.",
       there: "A team member who rarely speaks up in meetings messages you after a meeting about a flaw in the rollout plan nobody else caught. You update the plan before launch.",
       missing: "They see the same flaw and keep it to themselves. Customers find the flaw after launch, and the team spends weeks redoing the rollout.",
@@ -167,10 +168,10 @@ window.TC_CONTENT = {
     },
     {
       group: "Admitting mistakes and asking for help",
-      text: "People come to me for help when they're stuck.",
+      text: "When people have tried what they can and are still stuck, they come to me for help.",
       why: "When people ask you for help, they're admitting they're stuck. They do it when they trust they won't be penalized for it, like getting passed over for the next project.",
-      there: "A new hire asks for help with the authoring tool on day two. Ten minutes with a teammate, and they're productive that week.",
-      missing: "They figure it out alone for a week, fall behind on their first deadline, and start wondering whether they made the right choice to join.",
+      there: "A new hire tries the help guide for the authoring tool, still can't publish, and asks you for help on day two. Ten minutes with a teammate, and they're productive that week.",
+      missing: "They run out of ideas and keep struggling alone for a week, fall behind on their first deadline, and start wondering whether they made the right choice to join.",
       try: "When someone comes to you for help, thank them for asking. Then talk it through together: what they've tried, where they got stuck and what might help next. You can also mention something you got help with recently and who helped, so asking for help looks like a normal part of the job."
     }
   ],

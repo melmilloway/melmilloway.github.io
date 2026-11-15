@@ -858,6 +858,7 @@ details.table-alt summary:hover { color: var(--action-hover); }
   color: var(--muted);
 }
 .site-foot[hidden] { display: none; }
+.site-foot-privacy { flex-basis: 100%; }
 .site-foot a { color: var(--action); display: inline-flex; align-items: center; min-height: 1.5rem; }
 
 /* ---------- Splash (Welcome, Welcome back) ---------- */
@@ -1094,7 +1095,7 @@ details.table-alt > p { margin-top: var(--s-xs); }
 .step-group { padding-top: var(--s-s); }
 .step-group-h { font-size: var(--t-cap); font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0 0.25rem var(--s-3xs); }
 .steps-list .steps-sub { border-top: 1px solid var(--line); }
-.step-group + li:not(.step-group) { margin-top: var(--s-s); border-top: 1px solid var(--line); }
+.step-group + li:not(.step-group) { margin-top: var(--s-s); } /* the last statement's bottom line already sits above Your results */
 
 
 /* Stages intro: the four areas sit inline in bold; two short paragraphs */

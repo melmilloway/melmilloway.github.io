@@ -375,7 +375,8 @@
   function renderFooter() {
     var show = S.screen === "welcome" || S.screen === "welcomeBack" || S.screen === "results" || S.screen === "cleared";
     foot.hidden = !show;
-    foot.innerHTML = '<span>Mel Milloway</span><span aria-hidden="true">·</span><a href="' + esc(C.linkedIn) + '" rel="noopener noreferrer" data-leave>LinkedIn</a>';
+    foot.innerHTML = '<span>' + esc(C.footer.owner) + '</span><span aria-hidden="true">·</span><a href="' + esc(C.linkedIn) + '" rel="noopener noreferrer" data-leave>LinkedIn</a>' +
+      '<span class="site-foot-privacy">' + esc(C.footer.privacy) + '</span>';
   }
 
   foot.addEventListener("click", function (e) {
