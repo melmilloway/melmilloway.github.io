@@ -112,7 +112,7 @@ window.TC_CONTENT = {
     },
     {
       group: "Telling me difficult things",
-      text: "People bring problems to me before they turn into emergencies.",
+      text: "When a problem comes up, people bring it to me before it turns into an emergency.",
       why: "Raising a problem before it turns into an emergency means risking being the one with bad news. People only raise problems when they expect help, not blame.",
       there: "A team member tells you about a vendor delay three weeks before launch. You move the date once, and stakeholders barely notice.",
       missing: "The same delay comes out two days before launch. You cancel a rollout people cleared their calendars for, and leadership starts questioning your team's timelines.",
@@ -152,7 +152,7 @@ window.TC_CONTENT = {
     },
     {
       group: "Joining in with ideas and questions",
-      text: "People offer ideas I didn't ask for.",
+      text: "When people see a better way to do something, they suggest it, even if I didn't ask.",
       why: "Sharing an idea no one asked for risks having it brushed off. People do it when they've seen their past ideas get used, or at least taken seriously.",
       there: "A teammate suggests templating the onboarding module they rebuild every quarter. It saves the team a week each time.",
       missing: "They keep rebuilding the onboarding module by hand, and you never find out the team loses a week to it every quarter.",
@@ -160,7 +160,7 @@ window.TC_CONTENT = {
     },
     {
       group: "Admitting mistakes and asking for help",
-      text: "People admit mistakes to me.",
+      text: "When someone on my team makes a mistake, they tell me about it.",
       why: "When someone tells you they made a mistake, like sending the wrong file to a client, they're trusting you to help them sort it out instead of holding it against them. People only take that risk when they've seen you respond calmly before.",
       there: "Someone tells you they sent the wrong course version to the pilot group. You send a correction that afternoon.",
       missing: "The wrong version goes out to every learner, and you hear about it from a VP.",
