@@ -120,7 +120,7 @@ window.TC_CONTENT = {
     },
     {
       group: "Telling me difficult things",
-      text: "People tell me when they disagree with me.",
+      text: "When people disagree with me, they tell me.",
       why: "Disagreeing with their manager is a risk, whether they say it in a meeting or one-on-one. People disagree with you when they trust you won't hold it against them, like giving them less interesting projects afterward.",
       there: "In planning, someone says the new tool won't integrate with your LMS. You catch it before signing the contract.",
       missing: "Everyone agrees in the meeting. Six weeks into rollout, the integration problem comes out, and the budget is already spent.",
