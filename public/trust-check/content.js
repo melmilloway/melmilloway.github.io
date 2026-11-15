@@ -105,7 +105,7 @@ window.TC_CONTENT = {
     {
       group: "Knowing my team",
       text: "When a problem comes up, I ask others how they'd solve it before offering my own answer.",
-      why: "When you give your answer first, people learn to wait for your answer instead of solving the problem themselves. Asking first shows you trust their judgment, and you get the benefit of what they know about the work, like a learner complaint you hadn't heard.",
+      why: "When you give your answer first, people learn to wait for your answer instead of solving the problem themselves. Asking first shows you trust their judgment, and talking it through with them helps them build the skill of solving problems on their own. You also get the benefit of what they know about the work, like a learner complaint you hadn't heard.",
       there: "Course completion rates drop, so you ask the people working on it what's going on. A designer who talks to learners says the module is broken on mobile, and it's working the next day.",
       missing: "You decide the course is too long and push for a redesign. Two months later, completion is still low, because the problem was the mobile bug nobody brought up.",
       try: "Next time someone brings you a problem, ask \"What have you tried?\" or \"What would you try?\" and wait before sharing your idea. If the risk is small, let them go with their approach, even if you'd do it differently."
