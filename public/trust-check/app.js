@@ -577,7 +577,8 @@
       '<ul class="facts">' + facts + '</ul>' +
       '<div class="actions">' +
         '<button type="button" class="btn" data-start>' + esc(w.start) + '</button>' +
-        '<button type="button" class="btn btn--outline-light" data-previous>' + esc(w.viewPrevious) + '</button>' +
+        // Only when this browser has saved results to show.
+        (S.saved ? '<button type="button" class="btn btn--outline-light" data-previous>' + esc(w.viewPrevious) + '</button>' : '') +
       '</div>'
     );
   };
@@ -588,7 +589,10 @@
       S.mode = "first"; S.ask = ""; S.tried = "";
       go("stages");
     });
-    $("[data-previous]", main).addEventListener("click", function () {
+    var prev = $("[data-previous]", main);
+    if (prev) prev.addEventListener("click", function () {
+      // Read again in case the results were cleared since the page loaded.
+      S.saved = readStore();
       if (S.saved) showPrevious();
       else go("cleared");
     });

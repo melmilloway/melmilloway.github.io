@@ -951,6 +951,8 @@ body[data-screen="tried"] .backdrop, body[data-screen="stages"] .backdrop { disp
 .splash-intro > p:not(.splash-lede) { max-width: 62ch; color: rgba(250, 248, 244, 0.92); }
 .splash-lede { font: 650 clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem)/1.4 var(--sans); text-wrap: pretty; }
 .splash-body > .actions { margin-top: var(--s-2xs); }
+/* Start alone (nothing saved yet): same width it has next to "View previous results", full width on phones. */
+@media (min-width: 30rem) { .splash-body > .actions > .btn:only-child { flex: 0 1 calc(50% - var(--s-xs) / 2); } }
 
 .facts {
   list-style: none;
