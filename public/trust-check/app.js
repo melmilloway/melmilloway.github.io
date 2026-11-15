@@ -1151,7 +1151,7 @@
 
     var after =
       '<nav class="after" aria-label="More options">' +
-        '<button type="button" class="btn" data-done>Done</button>' +
+        '<button type="button" class="btn btn--secondary" data-done>Done</button>' +
         '<button type="button" class="btn btn--secondary" data-fresh>' + esc(r.startFresh) + '</button>' +
       '</nav>';
 
