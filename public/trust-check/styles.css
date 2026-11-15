@@ -887,8 +887,8 @@ body[data-screen="welcome"] .site-foot, body[data-screen="welcomeBack"] .site-fo
 body[data-screen="welcome"], body[data-screen="welcomeBack"] { background: var(--teal-deep); color: var(--cream); }
 body[data-screen="welcome"] .backdrop, body[data-screen="welcomeBack"] .backdrop { display: none; }
 body[data-screen="welcome"] :focus-visible, body[data-screen="welcomeBack"] :focus-visible { outline-color: var(--cream); }
-body[data-screen="welcome"] .site-foot, body[data-screen="welcomeBack"] .site-foot { color: rgba(250, 248, 244, 0.8); }
-body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-foot a { color: var(--peach); }
+body[data-screen="welcome"] .site-foot, body[data-screen="welcomeBack"] .site-foot, body[data-screen="stages"] .site-foot { color: rgba(250, 248, 244, 0.8); } /* stages: the footer continues the teal closing band */
+body[data-screen="welcome"] .site-foot a, body[data-screen="welcomeBack"] .site-foot a, body[data-screen="stages"] .site-foot a { color: var(--peach); }
 
 /* Screens that open with the teal band: the page itself is teal and the content
    area is cream, so a phone's status bar (which takes its color from the page,
@@ -903,7 +903,7 @@ body[data-screen="statement"] .app, body[data-screen="ask"] .app,
 body[data-screen="tried"] .app, body[data-screen="stages"] .app { background: var(--cream); }
 /* The footer runs full width in cream on these screens too (the page behind it is teal). */
 body[data-screen="statement"] .site-foot, body[data-screen="ask"] .site-foot,
-body[data-screen="tried"] .site-foot, body[data-screen="stages"] .site-foot {
+body[data-screen="tried"] .site-foot {
   background: var(--cream); box-shadow: 0 0 0 100vmax var(--cream); clip-path: inset(0 -100vmax);
 }
 body[data-screen="statement"] .backdrop, body[data-screen="ask"] .backdrop,
