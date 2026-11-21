@@ -7,6 +7,7 @@ export interface CaseStudy {
   sections: {
     heading: string;
     body: string;
+    visual?: "gap-chart";
   }[];
   disclaimer?: string;
   liveLink?: { label: string; href: string };
@@ -14,6 +15,49 @@ export interface CaseStudy {
 }
 
 export const caseStudies: CaseStudy[] = [
+  {
+    slug: "grade-pending",
+    image: "/images/case-studies/grade-pending.png",
+    title: "Teaching Judgment Through a 3D Inspection Game",
+    subtitle:
+      "To improve Food Code judgment through realistic practice.",
+    description:
+      "A browser-based 3D game where you inspect restaurants as a trainee health inspector, cite which Food Code violation it is and how serious it is, then give the restaurant the grade those violations add up to.",
+    liveLink: {
+      label: "Play Grade Pending",
+      href: "https://content.buildxcl.com/?m=d1b93b80-ffa9-11ef-a5c5-b22df4fb9d51&n=63bb6639-e2a1-11f1-a962-cebbdb442116",
+    },
+    sections: [
+      {
+        heading: "Business Goal",
+        body: "Restaurants get a grade in their window based on a health inspection, and customers see it before they decide whether to come in. That grade comes from FDA Food Code violations, which add up to a score.\n\nIn Grade Pending, a trainee has to identify the violations in the kitchen, rate how serious each one is, and identify the things that are not violations. After that, they give the restaurant a grade based on the violation totals.\n\nWhat we are measuring is how often a trainee cites the correct Food Code violation and rates its seriousness correctly. Sunny Side Diner has six violations and three items where nothing is wrong. Fifty-seven people played Sunny Side Diner between November 17 and November 20, 2026, with each of the nine items judged by between 19 and 30 of them. Across those plays, trainees identify a violation and rate its seriousness correctly 36% of the time, and correctly leave the three fine items alone 79% of the time. The target is to raise how often trainees cite the correct violation and rate its seriousness correctly from 36% to 72% by the fifth restaurant.\n\nFive restaurants are planned so trainees get enough practice to improve, and so there is enough data to show that improvement. One restaurant only gives us evidence pointing to where our skill gaps may be.",
+      },
+      {
+        heading: "Problem Statement",
+        body: "Assume a trainee is familiar with the FDA Food Code. Using the Food Code in a kitchen is a different skill, and that skill is really three skills stacked together.\n\nThe first is identifying when to use a tool. Potato salad sitting on a prep table looks the same at 48 degrees as it does at 41 degrees. A sanitizer bucket looks the same whether it is strong enough to kill bacteria or not. A trainee has to use a tool on these items before deciding whether they break the Food Code.\n\nThe second is judging which Food Code rule a violation breaks and how serious it is: a public health hazard, a critical violation, or a general one.\n\nThe third is grading the restaurant from the violation total. Each level of seriousness adds a different number of points, so a trainee has to total them and work out which grade that total comes to.\n\nSkills like this are usually taught with compliance training, which is not what Grade Pending is. Compliance training gives people a lot of information without being able to help them practice, and usually ends with a quiz. A quiz only shows knowledge transfer, not application. A trainee passes the quiz, then walks into the environment without having practiced right before they need to apply what they learned. People forget what they do not practice, so by the time someone needs the training, much of it is gone and the judgments they make are wrong more often.",
+      },
+      {
+        heading: "Solution",
+        body: "Grade Pending puts the learner inside the kitchen to practice, so they can apply what they learned on the job soon after. You are an inspector reporting for duty at Sunny Side Diner. You walk the kitchen and check each thing in it, deciding when to reach for a thermometer or sanitizer test strips, whether what you find breaks the Food Code, and how serious it is. Two things give you feedback after each decision. Rosa Delgado, a senior inspector, tells you whether you were right and what the correct answer was. Grubble, the town's restaurant review app, fills with posts from customers and staff reacting to what you decided. Both come immediately, so you are reinforced on what you got right and corrected on what you got wrong while the decision is still fresh.\n\nBy the time you grade the restaurant, you know which items were violations and how serious each one is. Rules follow the FDA Food Code (2022) and grading is modeled on New York City's restaurant grading system. You still have to total the points and work out which grade that total comes to.\n\nFour awards per restaurant track the behaviors that make a grade defensible: taking every temperature before deciding, citing nothing that is fine, catching the raw chicken stored above the lettuce, and giving the correct grade.\n\nBuilt in Three.js and delivered as an xAPI package. It is hosted and launched through [Build Capable XCL](https://buildcapable.com/xcl/), which handles the learner launch, the sign-in form, and the learning record store. Every decision reports back: what a trainee did with each item, whether they picked the right reason, whether they rated the seriousness right, whether they cited something that was fine, and the grade they gave against the correct one.",
+      },
+      {
+        heading: "What the Data Shows",
+        visual: "gap-chart",
+        body: "Fifty-seven people played Sunny Side Diner between November 17 and November 20, 2026. Each of its nine items was judged by between 19 and 30 of them.\n\nFor every item, a trainee decides whether it breaks the Food Code. If they say it does, they pick which rule it breaks and how serious it is. Across the six violations, trainees identified 78% as violations, and on 36% they also picked the correct rule and the correct seriousness. That leaves 42% where a trainee identified a violation but could not say which rule it broke or how serious it was.\n\nTrainees do better on the most basic rules: hot food at 135 degrees or above, cold food at 41 degrees or below, raw chicken kept on a shelf below the lettuce so it cannot drip onto food that will not be cooked. On the chili, the storage rack and the potato salad, 55 to 60% picked the correct rule and seriousness. They do worse on the other three violations, and having a tool does not help. A sanitizer test strip will give a reading from the bucket, but a trainee has to know it should read at least 50 parts per million. On that bucket, on a handwashing sink that works but is stacked with dirty dishes, and in a conversation with Dot the line cook about whether she knows to stay home when she is sick, only 10 to 22% picked the correct rule and seriousness.\n\nThree of the nine items are not violations. The soup, the milk and the tuna salad are all within the Food Code, so the correct move is to cite nothing. Between 20 and 22 trainees judged each of those three. 79% correctly left them alone, and 21% cited a violation that was not there.\n\nFour awards track how a trainee worked. One is for taking the temperature of every item that needs one before deciding about it. One is for not citing any of the three items that were within the Food Code. One is for catching the raw chicken stored above the lettuce. One is for giving the restaurant the correct grade. Fifteen playtesters finished an inspection, and 27% of them got all four awards. The median score was 725 points out of a possible 1,100.\n\nTo see whether trainees improve, we need the same data from the other four restaurants.",
+      },
+      {
+        heading: "Why It Scales",
+        body: "Only the restaurant changes between games. Underneath every restaurant is the same reusable engine. A 3D space you walk. A mentor who corrects you. Tools that produce evidence. A decision loop that asks what is wrong, how serious it is, and what grade that adds up to. An audience that reacts to the decision. And xAPI telemetry recorded per decision, so a single score no longer hides whether the trainee noticed, whether they classified it correctly, and whether they gathered evidence first.\n\nAccess is the other constraint the game removes. Practicing on the job means finding a working kitchen that happens to have violations in it the day you need them, and a senior inspector free to walk it with you. Nobody can schedule a blocked handwashing sink, and nobody is going to ask an owner to mix the sanitizer too weak so a trainee gets to catch it. Sunny Side Diner has the same nine items waiting every time, including the three items where nothing is wrong, and it runs for one trainee or for fifty on the same afternoon.\n\nNone of that is specific to food safety, but it is specific to physical work. The engine suits any job where someone walks into a space, works out what they are looking at, and has to classify it. A delivery driver deciding where a package is safe to leave. A technician working a row of racks in a data center. A safety walkthrough of a warehouse floor. Swapping the domain means swapping the space, the rules, and the mentor, not rebuilding the mechanics.\n\nGrade Pending is the first game built on it. Any game built next inherits the same measurement, which shows where trainees see a problem but cannot classify it. That is the data that says what to teach.",
+      },
+    ],
+    disclaimer:
+      "Built for learning, not certification. Rules are based on the FDA Food Code (2022); grading is modeled on New York City's restaurant grading system.",
+    metaItems: [
+      { iconName: "User", label: "ROLE", value: "Solo project" },
+      { iconName: "Clock", label: "STATUS", value: "Playable now, still in testing" },
+      { iconName: "TrendingUp", label: "EARLY DATA", value: "57 playtesters; they find 78% of violations, cite and rate 36% correctly" },
+    ],
+  },
   {
     slug: "ai-interview-simulation",
     image: "/images/case-studies/interview-sim.png",

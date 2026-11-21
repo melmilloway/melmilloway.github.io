@@ -2,14 +2,43 @@
 
 import { useEffect, useRef } from "react";
 import AnimatedHeading from "./AnimatedHeading";
+import GapChart from "./GapChart";
 
 interface CaseStudySectionProps {
   heading: string;
   body: string;
   index: number;
+  visual?: "gap-chart";
 }
 
-export default function CaseStudySection({ heading, body, index }: CaseStudySectionProps) {
+const LINK = /\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g;
+
+// Body copy is plain text apart from markdown-style links, so parse those into anchors.
+function renderBody(text: string) {
+  const parts: React.ReactNode[] = [];
+  let last = 0;
+  let match: RegExpExecArray | null;
+  LINK.lastIndex = 0;
+  while ((match = LINK.exec(text)) !== null) {
+    if (match.index > last) parts.push(text.slice(last, match.index));
+    const [, label, href] = match;
+    parts.push(
+      <a
+        key={`${href}-${match.index}`}
+        href={href}
+        {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        className="no-underline text-purple underline decoration-purple underline-offset-4 hover:text-purple-medium transition-colors"
+      >
+        {label}
+      </a>
+    );
+    last = match.index + match[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts.length ? parts : text;
+}
+
+export default function CaseStudySection({ heading, body, index, visual }: CaseStudySectionProps) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -51,9 +80,10 @@ export default function CaseStudySection({ heading, body, index }: CaseStudySect
           key={i}
           className="font-sans text-ink/85 text-[16px] leading-relaxed mb-4 last:mb-0"
         >
-          {paragraph}
+          {renderBody(paragraph)}
         </p>
       ))}
+      {visual === "gap-chart" && <GapChart />}
     </section>
   );
 }
