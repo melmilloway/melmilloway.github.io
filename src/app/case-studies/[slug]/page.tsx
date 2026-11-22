@@ -91,6 +91,7 @@ export default async function CaseStudyPage({ params }: Props) {
               index={i}
               visual={section.visual}
               visualAfter={section.visualAfter}
+              figures={section.figures}
             />
           ))}
         </div>

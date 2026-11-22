@@ -9,6 +9,8 @@ export interface CaseStudy {
     body: string;
     visual?: "gap-chart";
     visualAfter?: number;
+    /** Screenshots of the work, each with a caption saying what it shows. */
+    figures?: { src: string; alt: string; caption: string; width: number; height: number; narrow?: boolean }[];
   }[];
   disclaimer?: string;
   liveLink?: { label: string; href: string };
@@ -110,6 +112,15 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Solution",
         body: "Built the Miro Verified credentialing program from the ground up in 4 months, selecting and procuring a badging platform, designing badges with brand and marketing, connecting the platform to Miro Academy's LMS, and launching three skill-based badges at the conference.\n\nIn the first three months after launch, the program issued 9,655 badges to 6,271 unique users. Badges aren't automatically added to a profile; users have to actively accept them. A 79.6% acceptance rate, above Credly's platform average of 67%, shows users found the credential worth claiming. The 53% share rate, above Credly's average of 47%, drove traffic back to Miro Academy, putting Miro in front of people who had never used the platform and turning credential shares into a customer acquisition channel.",
+        figures: [
+          {
+            src: "/images/case-studies/figures/miro-badges.png",
+            alt: "Two digital badges, Miro essentials and Mapping and diagramming, each shown as a shield with a 45 minute label.",
+            caption: "Two of the three badges that launched at the user conference, designed with brand and marketing.",
+            width: 1250,
+            height: 620,
+          },
+        ],
       },
     ],
     metaItems: [
@@ -138,6 +149,15 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Solution",
         body: "Led the development of a candidate prep program built in partnership with recruiters across the globe and tailored to individual job profiles. The courses launched first within three months, followed by candidate prep info pages. For technical roles like SDE, the program included deeper dive content specific to what those candidates needed to know.\n\nOver six months, the SDE track alone collected nearly 8K survey responses. Full-time candidates reported a 95% satisfaction rate and 89% knowledge improvement. Interns reported a 96% satisfaction rate and 90% knowledge improvement.",
+        figures: [
+          {
+            src: "/images/case-studies/figures/amazon-oa-prep.png",
+            alt: "A page titled Best practices for the Coding Assessment with four cards: review and practice, make use of online resources, manage your time, avoid these actions.",
+            caption: "Part of the prep for one role, on amazon.jobs where candidates find it rather than behind a login.",
+            width: 1700,
+            height: 768,
+          },
+        ],
       },
     ],
     metaItems: [
@@ -166,6 +186,15 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Solution",
         body: "Built a suite of six free tools for Articulate Rise creators, removing the most time-consuming technical tasks from the design process entirely. Designers typed plain language describing what they wanted to track. The tool generated the code. The SCORM Packager converted HTML files in minutes with no manual setup. The tools were free, publicly available, and used by the broader learning community.\n\nAs an estimation: across an organization of 1K learning designers, each packaging roughly five HTML modules a year, SCORM packaging at four hours per file and $50 an hour adds up to approximately $1 million annually. With the SCORM Packager, that same work took under five minutes per file, dropping the cost to around $16,000.",
+        figures: [
+          {
+            src: "/images/case-studies/figures/tools-leaderboard.png",
+            alt: "The SCORM Leaderboard Generator: a settings panel on the left, a live leaderboard preview and a generated code panel on the right.",
+            caption: "The leaderboard generator. Settings on the left, a live preview and the code to paste into Rise on the right.",
+            width: 1700,
+            height: 1232,
+          },
+        ],
       },
     ],
     metaItems: [
@@ -228,6 +257,23 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Solution",
         body: "Built an AI-powered app that ingests store-level data (modeled on customer review sources) and automatically generates a new coaching scenario every day. When a café lead logs into the POS at the start of their shift, the scenario is already there. No extra steps, no separate platform, no manual content creation. The learning lives where the work happens.",
+        figures: [
+          {
+            src: "/images/case-studies/figures/catcafe-pipeline.png",
+            alt: "An n8n workflow: POS login trigger, mock Yelp review database, generate scenario JSON, generate shift tip and wrap-up, merge all content, send scenario data to template.",
+            caption: "A café lead clocking in at the POS starts the workflow. It pulls that store's reviews, writes the scenario and the shift tip, and sends both to the template. Nobody authors the content.",
+            width: 1700,
+            height: 976,
+          },
+          {
+            src: "/images/case-studies/figures/catcafe-scenario.png",
+            alt: "A generated scenario titled Managing Customer Complaints During Rush, with three response choices and a submit button.",
+            caption: "What the lead sees at the start of the shift. This one came from complaints about drink accuracy during a rush.",
+            width: 1400,
+            height: 1970,
+            narrow: true,
+          },
+        ],
       },
     ],
     metaItems: [
