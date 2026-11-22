@@ -402,13 +402,6 @@ export const caseStudies: CaseStudy[] = [
           width: 1600, height: 919,
           thumbWidth: 480, thumbHeight: 276,
         },
-        {
-          src: "/images/case-studies/gallery/cat-cafe-ai-app/whiskerbeans-simulation-claude-working-n8n-07-29-2026-03-21-pm.png",
-          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/whiskerbeans-simulation-claude-working-n8n-07-29-2026-03-21-pm-thumb.png",
-          alt: "The WhiskerBeans simulation workflow in n8n",
-          width: 1600, height: 919,
-          thumbWidth: 480, thumbHeight: 276,
-        },
       ],
     },
     image: "/images/case-studies/whisker.png",
