@@ -90,6 +90,7 @@ export default async function CaseStudyPage({ params }: Props) {
               body={section.body}
               index={i}
               visual={section.visual}
+              visualAfter={section.visualAfter}
             />
           ))}
         </div>

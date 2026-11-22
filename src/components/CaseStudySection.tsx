@@ -9,6 +9,8 @@ interface CaseStudySectionProps {
   body: string;
   index: number;
   visual?: "gap-chart";
+  /** Render the visual after this paragraph (0-based). Omitted means after the last one. */
+  visualAfter?: number;
 }
 
 const LINK = /\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g;
@@ -38,7 +40,7 @@ function renderBody(text: string) {
   return parts.length ? parts : text;
 }
 
-export default function CaseStudySection({ heading, body, index, visual }: CaseStudySectionProps) {
+export default function CaseStudySection({ heading, body, index, visual, visualAfter }: CaseStudySectionProps) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -75,15 +77,18 @@ export default function CaseStudySection({ heading, body, index, visual }: CaseS
       >
         {heading}
       </AnimatedHeading>
-      {body.split("\n\n").map((paragraph, i) => (
-        <p
-          key={i}
-          className="font-sans text-ink/85 text-[16px] leading-relaxed mb-4 last:mb-0"
-        >
-          {renderBody(paragraph)}
-        </p>
-      ))}
-      {visual === "gap-chart" && <GapChart />}
+      {(() => {
+        const paragraphs = body.split("\n\n");
+        const at = visualAfter ?? paragraphs.length - 1;
+        return paragraphs.map((paragraph, i) => (
+          <div key={i}>
+            <p className="font-sans text-ink/85 text-[16px] leading-relaxed mb-4">
+              {renderBody(paragraph)}
+            </p>
+            {visual === "gap-chart" && i === at && <GapChart />}
+          </div>
+        ));
+      })()}
     </section>
   );
 }
