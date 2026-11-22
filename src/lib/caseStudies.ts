@@ -19,6 +19,46 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
   {
     slug: "grade-pending",
+    gallery: {
+      heading: "Inside the game",
+      items: [
+        {
+          src: "/images/case-studies/gallery/grade-pending/01-title-screen.png",
+          thumb: "/images/case-studies/gallery/grade-pending/01-title-screen-thumb.png",
+          alt: "The Grade Pending title screen over the town of Brightwater",
+          width: 1600, height: 1000,
+          thumbWidth: 480, thumbHeight: 300,
+        },
+        {
+          src: "/images/case-studies/gallery/grade-pending/02-main-menu.png",
+          thumb: "/images/case-studies/gallery/grade-pending/02-main-menu-thumb.png",
+          alt: "The main menu, showing the town and how many inspectors have played",
+          width: 1600, height: 1000,
+          thumbWidth: 480, thumbHeight: 300,
+        },
+        {
+          src: "/images/case-studies/gallery/grade-pending/03-inspecting-the-diner.png",
+          thumb: "/images/case-studies/gallery/grade-pending/03-inspecting-the-diner-thumb.png",
+          alt: "Inspecting Sunny Side Diner, with the Grubble feed and the tool bar",
+          width: 1600, height: 900,
+          thumbWidth: 480, thumbHeight: 270,
+        },
+        {
+          src: "/images/case-studies/gallery/grade-pending/04-rosa-feedback.png",
+          thumb: "/images/case-studies/gallery/grade-pending/04-rosa-feedback-thumb.png",
+          alt: "Rosa Delgado giving feedback straight after a decision",
+          width: 1600, height: 900,
+          thumbWidth: 480, thumbHeight: 270,
+        },
+        {
+          src: "/images/case-studies/gallery/grade-pending/05-walk-in-cooler.png",
+          thumb: "/images/case-studies/gallery/grade-pending/05-walk-in-cooler-thumb.png",
+          alt: "The walk-in cooler, with raw chicken stored above the lettuce",
+          width: 1600, height: 900,
+          thumbWidth: 480, thumbHeight: 270,
+        },
+      ],
+    },
     image: "/images/case-studies/grade-pending.png",
     title: "Teaching Judgment Through a 3D Inspection Game",
     subtitle:
@@ -311,6 +351,46 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "pathogen-patrol",
+    gallery: {
+      heading: "Inside the simulation",
+      items: [
+        {
+          src: "/images/case-studies/gallery/pathogen-patrol/01-title-screen.png",
+          thumb: "/images/case-studies/gallery/pathogen-patrol/01-title-screen-thumb.png",
+          alt: "The Pathogen Patrol title screen at Knotty Pines Senior Community",
+          width: 1600, height: 1000,
+          thumbWidth: 480, thumbHeight: 300,
+        },
+        {
+          src: "/images/case-studies/gallery/pathogen-patrol/02-staff-announcement.png",
+          thumb: "/images/case-studies/gallery/pathogen-patrol/02-staff-announcement-thumb.png",
+          alt: "The staff announcement briefing, with audio and a transcript",
+          width: 1600, height: 1000,
+          thumbWidth: 480, thumbHeight: 300,
+        },
+        {
+          src: "/images/case-studies/gallery/pathogen-patrol/03-pick-your-character.png",
+          thumb: "/images/case-studies/gallery/pathogen-patrol/03-pick-your-character-thumb.png",
+          alt: "Picking a character: Niko, a medical assistant, or Casey, a rehab tech",
+          width: 1600, height: 1000,
+          thumbWidth: 480, thumbHeight: 300,
+        },
+        {
+          src: "/images/case-studies/gallery/pathogen-patrol/04-shift-begins.png",
+          thumb: "/images/case-studies/gallery/pathogen-patrol/04-shift-begins-thumb.png",
+          alt: "The start of the shift, with the Pine Points and shift progress tracker",
+          width: 1600, height: 1000,
+          thumbWidth: 480, thumbHeight: 300,
+        },
+        {
+          src: "/images/case-studies/gallery/pathogen-patrol/05-branching-decision.png",
+          thumb: "/images/case-studies/gallery/pathogen-patrol/05-branching-decision-thumb.png",
+          alt: "A branching decision: how to help Ms. Taylor out of bed",
+          width: 1600, height: 1000,
+          thumbWidth: 480, thumbHeight: 300,
+        },
+      ],
+    },
     image: "/images/case-studies/pines.png",
     liveLink: {
       label: "View Pathogen Patrol",

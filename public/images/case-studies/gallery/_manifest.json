@@ -231,5 +231,99 @@
       "thumbHeight": 276,
       "source": "Whiskerbeans Shift/WhiskerBeans-Shift-Scenarios-Test-n8n-07-29-2026_03_21_PM.png"
     }
+  ],
+  "grade-pending": [
+    {
+      "src": "/images/case-studies/gallery/grade-pending/01-title-screen.png",
+      "thumb": "/images/case-studies/gallery/grade-pending/01-title-screen-thumb.png",
+      "width": 1600,
+      "height": 1000,
+      "thumbWidth": 480,
+      "thumbHeight": 300,
+      "source": "01-title-screen"
+    },
+    {
+      "src": "/images/case-studies/gallery/grade-pending/02-main-menu.png",
+      "thumb": "/images/case-studies/gallery/grade-pending/02-main-menu-thumb.png",
+      "width": 1600,
+      "height": 1000,
+      "thumbWidth": 480,
+      "thumbHeight": 300,
+      "source": "02-main-menu"
+    },
+    {
+      "src": "/images/case-studies/gallery/grade-pending/03-inspecting-the-diner.png",
+      "thumb": "/images/case-studies/gallery/grade-pending/03-inspecting-the-diner-thumb.png",
+      "width": 1600,
+      "height": 900,
+      "thumbWidth": 480,
+      "thumbHeight": 270,
+      "source": "03-inspecting-the-diner"
+    },
+    {
+      "src": "/images/case-studies/gallery/grade-pending/04-rosa-feedback.png",
+      "thumb": "/images/case-studies/gallery/grade-pending/04-rosa-feedback-thumb.png",
+      "width": 1600,
+      "height": 900,
+      "thumbWidth": 480,
+      "thumbHeight": 270,
+      "source": "04-rosa-feedback"
+    },
+    {
+      "src": "/images/case-studies/gallery/grade-pending/05-walk-in-cooler.png",
+      "thumb": "/images/case-studies/gallery/grade-pending/05-walk-in-cooler-thumb.png",
+      "width": 1600,
+      "height": 900,
+      "thumbWidth": 480,
+      "thumbHeight": 270,
+      "source": "05-walk-in-cooler"
+    }
+  ],
+  "pathogen-patrol": [
+    {
+      "src": "/images/case-studies/gallery/pathogen-patrol/01-title-screen.png",
+      "thumb": "/images/case-studies/gallery/pathogen-patrol/01-title-screen-thumb.png",
+      "width": 1600,
+      "height": 1000,
+      "thumbWidth": 480,
+      "thumbHeight": 300,
+      "source": "01-title-screen"
+    },
+    {
+      "src": "/images/case-studies/gallery/pathogen-patrol/02-staff-announcement.png",
+      "thumb": "/images/case-studies/gallery/pathogen-patrol/02-staff-announcement-thumb.png",
+      "width": 1600,
+      "height": 1000,
+      "thumbWidth": 480,
+      "thumbHeight": 300,
+      "source": "02-staff-announcement"
+    },
+    {
+      "src": "/images/case-studies/gallery/pathogen-patrol/03-pick-your-character.png",
+      "thumb": "/images/case-studies/gallery/pathogen-patrol/03-pick-your-character-thumb.png",
+      "width": 1600,
+      "height": 1000,
+      "thumbWidth": 480,
+      "thumbHeight": 300,
+      "source": "03-pick-your-character"
+    },
+    {
+      "src": "/images/case-studies/gallery/pathogen-patrol/04-shift-begins.png",
+      "thumb": "/images/case-studies/gallery/pathogen-patrol/04-shift-begins-thumb.png",
+      "width": 1600,
+      "height": 1000,
+      "thumbWidth": 480,
+      "thumbHeight": 300,
+      "source": "04-shift-begins"
+    },
+    {
+      "src": "/images/case-studies/gallery/pathogen-patrol/05-branching-decision.png",
+      "thumb": "/images/case-studies/gallery/pathogen-patrol/05-branching-decision-thumb.png",
+      "width": 1600,
+      "height": 1000,
+      "thumbWidth": 480,
+      "thumbHeight": 300,
+      "source": "05-branching-decision"
+    }
   ]
 }
