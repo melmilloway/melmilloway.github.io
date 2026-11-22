@@ -9,10 +9,9 @@ export interface CaseStudy {
     body: string;
     visual?: "gap-chart";
     visualAfter?: number;
-    /** Screenshots of the work, each with a caption saying what it shows. */
-    figures?: { src: string; alt: string; caption: string; width: number; height: number; narrow?: boolean }[];
   }[];
   disclaimer?: string;
+  gallery?: { heading: string; items: { src: string; thumb: string; alt: string; width: number; height: number; thumbWidth: number; thumbHeight: number }[] };
   liveLink?: { label: string; href: string };
   metaItems?: { iconName: string; label: string; value: string }[];
 }
@@ -90,6 +89,25 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "miro-verified",
+    gallery: {
+      heading: "Miro Verified",
+      items: [
+        {
+          src: "/images/case-studies/gallery/miro-verified/badges-pilot-1.png",
+          thumb: "/images/case-studies/gallery/miro-verified/badges-pilot-1-thumb.png",
+          alt: "The Miro Verified page showing the digital badges",
+          width: 1366, height: 2618,
+          thumbWidth: 480, thumbHeight: 920,
+        },
+        {
+          src: "/images/case-studies/gallery/miro-verified/web-1920-5.png",
+          thumb: "/images/case-studies/gallery/miro-verified/web-1920-5-thumb.png",
+          alt: "The Miro Verified page design at desktop width",
+          width: 1600, height: 900,
+          thumbWidth: 480, thumbHeight: 270,
+        },
+      ],
+    },
     image: "/images/case-studies/miro.png",
     liveLink: {
       label: "View Miro Verified",
@@ -112,15 +130,6 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Solution",
         body: "Built the Miro Verified credentialing program from the ground up in 4 months, selecting and procuring a badging platform, designing badges with brand and marketing, connecting the platform to Miro Academy's LMS, and launching three skill-based badges at the conference.\n\nIn the first three months after launch, the program issued 9,655 badges to 6,271 unique users. Badges aren't automatically added to a profile; users have to actively accept them. A 79.6% acceptance rate, above Credly's platform average of 67%, shows users found the credential worth claiming. The 53% share rate, above Credly's average of 47%, drove traffic back to Miro Academy, putting Miro in front of people who had never used the platform and turning credential shares into a customer acquisition channel.",
-        figures: [
-          {
-            src: "/images/case-studies/figures/miro-badges.png",
-            alt: "Two digital badges, Miro essentials and Mapping and diagramming, each shown as a shield with a 45 minute label.",
-            caption: "Two of the three badges that launched at the user conference, designed with brand and marketing.",
-            width: 1250,
-            height: 620,
-          },
-        ],
       },
     ],
     metaItems: [
@@ -131,6 +140,74 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "amazon-candidate-prep",
+    gallery: {
+      heading: "The candidate-facing prep pages",
+      items: [
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/behavioral-competency-and-amazon-s-leadership-principles-amazon-sde-onli.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/behavioral-competency-and-amazon-s-leadership-principles-amazon-sde-onli-thumb.png",
+          alt: "The behavioral competency and Leadership Principles page",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/interview-journey-amazon-sde-online-assessment-oa-and-interview-prep-cou.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/interview-journey-amazon-sde-online-assessment-oa-and-interview-prep-cou-thumb.png",
+          alt: "The interview journey page",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/online-assessment-overview-amazon-sde-online-assessment-oa-and-interview.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/online-assessment-overview-amazon-sde-online-assessment-oa-and-interview-thumb.png",
+          alt: "The Online Assessment overview page",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/online-assessment-prep-for-applied-science-interns-03-04-2026-08-01-pm.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/online-assessment-prep-for-applied-science-interns-03-04-2026-08-01-pm-thumb.png",
+          alt: "Online assessment prep for Applied Science interns",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/online-assessment-prep-for-sde-roles-03-04-2026-07-59-pm.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/online-assessment-prep-for-sde-roles-03-04-2026-07-59-pm-thumb.png",
+          alt: "Online assessment prep for SDE roles",
+          width: 1600, height: 7030,
+          thumbWidth: 480, thumbHeight: 2109,
+        },
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/online-assessment-prep-for-sde-roles-03-04-2026-08-00-pm.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/online-assessment-prep-for-sde-roles-03-04-2026-08-00-pm-thumb.png",
+          alt: "Online assessment prep for SDE roles",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/practice-your-knowledge-amazon-sde-online-assessment-oa-and-interview-pr.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/practice-your-knowledge-amazon-sde-online-assessment-oa-and-interview-pr-thumb.png",
+          alt: "The practice your knowledge page",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/technical-competency-amazon-sde-online-assessment-oa-and-interview-prep-.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/technical-competency-amazon-sde-online-assessment-oa-and-interview-prep--thumb.png",
+          alt: "The technical competency page",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/amazon-candidate-prep/technical-competency-amazon-sde-online-assessment-oa-and-interview-prep--2.png",
+          thumb: "/images/case-studies/gallery/amazon-candidate-prep/technical-competency-amazon-sde-online-assessment-oa-and-interview-prep--2-thumb.png",
+          alt: "The technical competency page",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+      ],
+    },
     image: "/images/case-studies/candidate-prep.png",
     title: "Standardizing How Amazon Prepares Candidates at Global Scale",
     subtitle:
@@ -149,15 +226,6 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Solution",
         body: "Led the development of a candidate prep program built in partnership with recruiters across the globe and tailored to individual job profiles. The courses launched first within three months, followed by candidate prep info pages. For technical roles like SDE, the program included deeper dive content specific to what those candidates needed to know.\n\nOver six months, the SDE track alone collected nearly 8K survey responses. Full-time candidates reported a 95% satisfaction rate and 89% knowledge improvement. Interns reported a 96% satisfaction rate and 90% knowledge improvement.",
-        figures: [
-          {
-            src: "/images/case-studies/figures/amazon-oa-prep.png",
-            alt: "A page titled Best practices for the Coding Assessment with four cards: review and practice, make use of online resources, manage your time, avoid these actions.",
-            caption: "Part of the prep for one role, on amazon.jobs where candidates find it rather than behind a login.",
-            width: 1700,
-            height: 768,
-          },
-        ],
       },
     ],
     metaItems: [
@@ -168,6 +236,60 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "xapi-tools",
+    gallery: {
+      heading: "The six tools",
+      items: [
+        {
+          src: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-58-pm-1.png",
+          thumb: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-58-pm-1-thumb.png",
+          alt: "A screen from the Tools for Course Creators suite",
+          width: 1600, height: 2129,
+          thumbWidth: 480, thumbHeight: 639,
+        },
+        {
+          src: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-58-pm.png",
+          thumb: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-58-pm-thumb.png",
+          alt: "A screen from the Tools for Course Creators suite",
+          width: 1600, height: 887,
+          thumbWidth: 480, thumbHeight: 266,
+        },
+        {
+          src: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-59-pm-1.png",
+          thumb: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-59-pm-1-thumb.png",
+          alt: "A screen from the Tools for Course Creators suite",
+          width: 1600, height: 1624,
+          thumbWidth: 480, thumbHeight: 487,
+        },
+        {
+          src: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-59-pm-2.png",
+          thumb: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-59-pm-2-thumb.png",
+          alt: "A screen from the Tools for Course Creators suite",
+          width: 1600, height: 1694,
+          thumbWidth: 480, thumbHeight: 508,
+        },
+        {
+          src: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-59-pm-3.png",
+          thumb: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-59-pm-3-thumb.png",
+          alt: "A screen from the Tools for Course Creators suite",
+          width: 1600, height: 2129,
+          thumbWidth: 480, thumbHeight: 639,
+        },
+        {
+          src: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-59-pm.png",
+          thumb: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-02-59-pm-thumb.png",
+          alt: "A screen from the Tools for Course Creators suite",
+          width: 1600, height: 1694,
+          thumbWidth: 480, thumbHeight: 508,
+        },
+        {
+          src: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-03-02-pm.png",
+          thumb: "/images/case-studies/gallery/xapi-tools/tools-for-course-creators-07-29-2026-03-02-pm-thumb.png",
+          alt: "A screen from the Tools for Course Creators suite",
+          width: 1600, height: 2041,
+          thumbWidth: 480, thumbHeight: 612,
+        },
+      ],
+    },
     image: "/images/case-studies/tools.png",
     title: "Eliminating Manual Technical Work for Learning Designers",
     subtitle:
@@ -186,15 +308,6 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Solution",
         body: "Built a suite of six free tools for Articulate Rise creators, removing the most time-consuming technical tasks from the design process entirely. Designers typed plain language describing what they wanted to track. The tool generated the code. The SCORM Packager converted HTML files in minutes with no manual setup. The tools were free, publicly available, and used by the broader learning community.\n\nAs an estimation: across an organization of 1K learning designers, each packaging roughly five HTML modules a year, SCORM packaging at four hours per file and $50 an hour adds up to approximately $1 million annually. With the SCORM Packager, that same work took under five minutes per file, dropping the cost to around $16,000.",
-        figures: [
-          {
-            src: "/images/case-studies/figures/tools-leaderboard.png",
-            alt: "The SCORM Leaderboard Generator: a settings panel on the left, a live leaderboard preview and a generated code panel on the right.",
-            caption: "The leaderboard generator. Settings on the left, a live preview and the code to paste into Rise on the right.",
-            width: 1700,
-            height: 1232,
-          },
-        ],
       },
     ],
     metaItems: [
@@ -237,6 +350,74 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "cat-cafe-ai-app",
+    gallery: {
+      heading: "The app and the pipeline behind it",
+      items: [
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-23-pm-1.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-23-pm-1-thumb.png",
+          alt: "A screen from the WhiskerBeans café training app",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-23-pm.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-23-pm-thumb.png",
+          alt: "A screen from the WhiskerBeans café training app",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-26-pm-1.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-26-pm-1-thumb.png",
+          alt: "A screen from the WhiskerBeans café training app",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-26-pm.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-26-pm-thumb.png",
+          alt: "A screen from the WhiskerBeans café training app",
+          width: 1600, height: 977,
+          thumbWidth: 480, thumbHeight: 293,
+        },
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-27-pm-1.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-27-pm-1-thumb.png",
+          alt: "A screen from the WhiskerBeans café training app",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-27-pm.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-27-pm-thumb.png",
+          alt: "A screen from the WhiskerBeans café training app",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-35-pm.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-35-pm-thumb.png",
+          alt: "A screen from the WhiskerBeans café training app",
+          width: 1600, height: 977,
+          thumbWidth: 480, thumbHeight: 293,
+        },
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/whiskerbeans-shift-scenarios-test-n8n-07-29-2026-03-21-pm.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/whiskerbeans-shift-scenarios-test-n8n-07-29-2026-03-21-pm-thumb.png",
+          alt: "The WhiskerBeans shift scenario workflow in n8n",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+        {
+          src: "/images/case-studies/gallery/cat-cafe-ai-app/whiskerbeans-simulation-claude-working-n8n-07-29-2026-03-21-pm.png",
+          thumb: "/images/case-studies/gallery/cat-cafe-ai-app/whiskerbeans-simulation-claude-working-n8n-07-29-2026-03-21-pm-thumb.png",
+          alt: "The WhiskerBeans simulation workflow in n8n",
+          width: 1600, height: 919,
+          thumbWidth: 480, thumbHeight: 276,
+        },
+      ],
+    },
     image: "/images/case-studies/whisker.png",
     title: "Scaling Scenario-Based Learning with AI-Generated Content",
     subtitle:
@@ -257,23 +438,6 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Solution",
         body: "Built an AI-powered app that ingests store-level data (modeled on customer review sources) and automatically generates a new coaching scenario every day. When a café lead logs into the POS at the start of their shift, the scenario is already there. No extra steps, no separate platform, no manual content creation. The learning lives where the work happens.",
-        figures: [
-          {
-            src: "/images/case-studies/figures/catcafe-pipeline.png",
-            alt: "An n8n workflow: POS login trigger, mock Yelp review database, generate scenario JSON, generate shift tip and wrap-up, merge all content, send scenario data to template.",
-            caption: "A café lead clocking in at the POS starts the workflow. It pulls that store's reviews, writes the scenario and the shift tip, and sends both to the template. Nobody authors the content.",
-            width: 1700,
-            height: 976,
-          },
-          {
-            src: "/images/case-studies/figures/catcafe-scenario.png",
-            alt: "A generated scenario titled Managing Customer Complaints During Rush, with three response choices and a submit button.",
-            caption: "What the lead sees at the start of the shift. This one came from complaints about drink accuracy during a rush.",
-            width: 1400,
-            height: 1970,
-            narrow: true,
-          },
-        ],
       },
     ],
     metaItems: [

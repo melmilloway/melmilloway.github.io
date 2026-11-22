@@ -1,19 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import AnimatedHeading from "./AnimatedHeading";
 import GapChart from "./GapChart";
 
-interface Figure {
-  src: string;
-  alt: string;
-  caption: string;
-  width: number;
-  height: number;
-  /** Portrait shots render at a smaller width so they do not dominate the column. */
-  narrow?: boolean;
-}
 
 interface CaseStudySectionProps {
   heading: string;
@@ -22,7 +12,6 @@ interface CaseStudySectionProps {
   visual?: "gap-chart";
   /** Render the visual after this paragraph (0-based). Omitted means after the last one. */
   visualAfter?: number;
-  figures?: Figure[];
 }
 
 const LINK = /\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g;
@@ -52,7 +41,7 @@ function renderBody(text: string) {
   return parts.length ? parts : text;
 }
 
-export default function CaseStudySection({ heading, body, index, visual, visualAfter, figures }: CaseStudySectionProps) {
+export default function CaseStudySection({ heading, body, index, visual, visualAfter }: CaseStudySectionProps) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -107,20 +96,6 @@ export default function CaseStudySection({ heading, body, index, visual, visualA
         ));
       })()}
 
-      {figures?.map((f) => (
-        <figure key={f.src} className={`mt-8 ${f.narrow ? "max-w-[400px]" : ""}`}>
-          <Image
-            src={f.src}
-            alt={f.alt}
-            width={f.width}
-            height={f.height}
-            className="w-full h-auto border border-ink/10"
-          />
-          <figcaption className="font-sans text-muted text-[13px] mt-3 leading-relaxed">
-            {f.caption}
-          </figcaption>
-        </figure>
-      ))}
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { User, Clock, TrendingUp, Lightbulb, Star, type LucideIcon } from "lucide-react";
 import CaseStudyHeader from "@/components/CaseStudyHeader";
 import CaseStudySection from "@/components/CaseStudySection";
+import Gallery from "@/components/Gallery";
 
 const iconMap: Record<string, LucideIcon> = { User, Clock, TrendingUp, Lightbulb, Star };
 
@@ -91,10 +92,11 @@ export default async function CaseStudyPage({ params }: Props) {
               index={i}
               visual={section.visual}
               visualAfter={section.visualAfter}
-              figures={section.figures}
             />
           ))}
         </div>
+
+        {cs.gallery && <Gallery heading={cs.gallery.heading} items={cs.gallery.items} />}
 
         {/* Live link (xAPI tools) */}
         {cs.liveLink && (
