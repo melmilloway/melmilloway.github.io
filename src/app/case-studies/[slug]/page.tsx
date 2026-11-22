@@ -32,7 +32,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-cream pt-28 pb-24">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="max-w-[920px] mx-auto px-6">
         {/* Back link */}
         <Link
           href="/#case-studies"
@@ -81,8 +81,8 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
         )}
 
-        {/* Sections — two-column grid */}
-        <div className="grid md:grid-cols-2 gap-x-16 gap-y-12">
+        {/* Sections — one full-width row each, heading in a left rail */}
+        <div className="flex flex-col gap-y-14 md:gap-y-20">
           {cs.sections.map((section, i) => (
             <CaseStudySection
               key={section.heading}

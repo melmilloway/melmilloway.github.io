@@ -70,13 +70,18 @@ export default function CaseStudySection({ heading, body, index, visual, visualA
   }, [index]);
 
   return (
-    <section ref={ref} aria-labelledby={heading}>
+    <section
+      ref={ref}
+      aria-labelledby={heading}
+      className="grid gap-x-10 lg:gap-x-14 md:grid-cols-[180px_minmax(0,1fr)] lg:grid-cols-[200px_minmax(0,1fr)]"
+    >
       <AnimatedHeading
         as="h2"
-        className="font-serif text-ink text-[24px] tracking-[-0.01em] mb-4"
+        className="font-serif text-ink text-[24px] tracking-[-0.01em] mb-4 md:mb-0 md:pt-1 md:sticky md:top-28 md:self-start"
       >
         {heading}
       </AnimatedHeading>
+      <div>
       {(() => {
         const paragraphs = body.split("\n\n");
         const at = visualAfter ?? paragraphs.length - 1;
@@ -89,6 +94,7 @@ export default function CaseStudySection({ heading, body, index, visual, visualA
           </div>
         ));
       })()}
+      </div>
     </section>
   );
 }
