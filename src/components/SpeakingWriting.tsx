@@ -1,4 +1,8 @@
 const speakingEvents = [
+  "DevLearn 2026, Las Vegas, November 2026",
+  "Learning Leadership 2026, Las Vegas, November 2026",
+  "iSpring L&D Leadership Series, New York, September 2026",
+  "Articuland 2026, Orlando, September 2026",
   "ATD 2026, May 2026",
   "CLO Exchange Austin, April 2026",
   "DevLearn 2025: From Product Roadmap to Prototype",
@@ -11,6 +15,7 @@ const speakingEvents = [
   "Adobe Learning World 2024: Empowering Learning Teams with UX in Instructional Design",
 ];
 
+import Image from "next/image";
 import AnimatedHeading from "./AnimatedHeading";
 
 export default function SpeakingWriting() {
@@ -34,8 +39,23 @@ export default function SpeakingWriting() {
             <h3 className="font-serif text-ink text-[24px] tracking-[-0.01em] mb-4">
               My Book
             </h3>
+            <a
+              href="https://www.amazon.com/Getting-Unstuck-Learning-Design-Clarity/dp/1963392949"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-[200px] mb-5 no-underline transition-transform duration-200 hover:-translate-y-0.5"
+            >
+              <Image
+                src="/images/book/getting-unstuck-cover.jpg"
+                alt="Cover of Getting Unstuck in Learning Design: How to Create Clarity and Move Work Forward, by Melissa Milloway"
+                width={600}
+                height={900}
+                className="w-full h-auto shadow-[0_6px_20px_rgba(26,24,20,0.18)]"
+              />
+            </a>
             <p className="font-serif italic text-ink text-[17px] mb-3 leading-snug">
-              Getting Unstuck in Learning Design
+              Getting Unstuck in Learning Design: How to Create Clarity and Move
+              Work Forward
             </p>
             <p className="font-sans text-muted text-[15px] mb-2">
               Publishing with ATD.
@@ -79,8 +99,7 @@ export default function SpeakingWriting() {
             </h3>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-6">
               I speak regularly at industry events on learning strategy, AI in
-              learning design, and building experiences that scale. Upcoming and
-              recent:
+              learning design, and building experiences that scale. Recent talks:
             </p>
             <ul className="flex flex-col gap-2" role="list">
               {speakingEvents.map((event) => (
@@ -109,6 +128,9 @@ export default function SpeakingWriting() {
             <h3 className="font-serif text-ink text-[24px] tracking-[-0.01em] mb-4">
               Community &amp; Recognition
             </h3>
+            <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
+              Named a Guildmaster by the Learning Guild at DevLearn 2026.
+            </p>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
               LinkedIn Top Voice in Education with 114K+ followers, sharing
               ideas on learning design, AI, and building work that scales.
