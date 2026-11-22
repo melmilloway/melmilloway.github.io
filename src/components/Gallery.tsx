@@ -49,7 +49,9 @@ export default function Gallery({ items, heading }: { items: GalleryItem[]; head
         {heading}
       </h2>
       <p className="font-sans text-muted text-[13px] mb-6">
-        {items.length} screens. Select one to see it full size.
+        {items.length === 1
+          ? "One screen. Select it to see it full size."
+          : `${items.length} screens. Select one to see it full size.`}
       </p>
 
       {/* Masonry, so every screen keeps its own proportions and nothing is cropped */}

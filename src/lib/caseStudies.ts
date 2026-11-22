@@ -99,13 +99,6 @@ export const caseStudies: CaseStudy[] = [
           width: 1366, height: 2618,
           thumbWidth: 480, thumbHeight: 920,
         },
-        {
-          src: "/images/case-studies/gallery/miro-verified/web-1920-5.png",
-          thumb: "/images/case-studies/gallery/miro-verified/web-1920-5-thumb.png",
-          alt: "The Miro Verified page design at desktop width",
-          width: 1600, height: 900,
-          thumbWidth: 480, thumbHeight: 270,
-        },
       ],
     },
     image: "/images/case-studies/miro.png",
