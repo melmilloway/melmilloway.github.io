@@ -97,6 +97,18 @@ export default function SpeakingWriting() {
             <h3 className="font-serif text-ink text-[24px] tracking-[-0.01em] mb-4">
               Speaking
             </h3>
+            <figure className="mb-5">
+              <Image
+                src="/images/speaking/clo-exchange-panel.jpg"
+                alt="Mel Milloway speaking into a microphone on a panel at CLO Exchange, seated beside another panellist against a blue stage curtain"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+              />
+              <figcaption className="font-sans text-muted text-[13px] mt-2 leading-relaxed">
+                On a panel at CLO Exchange, Austin.
+              </figcaption>
+            </figure>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-6">
               I speak regularly at industry events on learning strategy, AI in
               learning design, and building experiences that scale. Recent talks:
