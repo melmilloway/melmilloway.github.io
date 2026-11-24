@@ -280,6 +280,15 @@ html::before {
   animation: blob-three 9s ease infinite;
 }
 
+/* The content container caps at 1400px, so on wider screens the cluster
+   stopped short of the right edge and read as floating. Pull it back out
+   by the centring gutter so it always bleeds off the edge. */
+@media (min-width: 768px) {
+  .blob-cont {
+    margin-right: calc(-1 * (max(0px, (100vw - 1400px) / 2) + 1.5rem + 110px));
+  }
+}
+
 @media (max-width: 767px) {
   .hero-headline {
     font-size: clamp(36px, 9.5vw, 52px);

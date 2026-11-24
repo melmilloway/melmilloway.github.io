@@ -11,7 +11,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative md:min-h-screen flex items-start overflow-hidden pt-32 pb-20 md:pt-24 md:pb-16 hero-section"
+      className="relative lg:min-h-screen flex items-start overflow-hidden pt-32 pb-20 md:pt-24 md:pb-16 hero-section"
       aria-label="Hero"
     >
       <div className="max-w-[1400px] mx-auto px-6 w-full grid md:grid-cols-[3fr_2fr] gap-12 items-center">
