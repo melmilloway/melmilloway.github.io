@@ -141,7 +141,7 @@ export default function SpeakingWriting() {
               Community &amp; Recognition
             </h3>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
-              Named a Guildmaster by the Learning Guild at DevLearn 2026.
+              Named a Guild Master by The Learning Guild at DevLearn 2026.
             </p>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
               LinkedIn Top Voice in Education with 114K+ followers, sharing
