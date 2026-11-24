@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Comme } from "next/font/google";
 import "./globals.css";
 import CursorDot from "@/components/CursorDot";
@@ -37,6 +37,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+};
+
+// Without this, mobile browsers tint the status bar and the bottom bar with
+// their own default while the page is cream, so those strips read as a
+// different colour. The grain lives on a fixed overlay and never covers them.
+export const viewport: Viewport = {
+  themeColor: "#faf8f4",
 };
 
 export default function RootLayout({
