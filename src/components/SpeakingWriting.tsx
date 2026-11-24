@@ -143,11 +143,33 @@ export default function SpeakingWriting() {
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
               Named a Guild Master by The Learning Guild at DevLearn 2026. The
               award goes to members who have contributed to the community
-              consistently, counting both how much they share and how good it is.
+              consistently, in both the amount and the quality of what they share.
             </p>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
-              LinkedIn Top Voice in Education with 114K+ followers, sharing
-              ideas on learning design, AI, and building work that scales.
+              One of{" "}
+              <a
+                href="https://www.linkedin.com/pulse/linkedin-top-voices-2019-education-george-anders/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="no-underline text-purple underline decoration-purple underline-offset-4 hover:text-purple-medium transition-colors"
+              >
+                LinkedIn&apos;s Top Voices in Education
+              </a>{" "}
+              for 2019, now with 114K+ followers, sharing ideas on learning
+              design, AI, and building work that scales.
+            </p>
+            <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
+              LinkedIn Learning instructor. My course,{" "}
+              <a
+                href="https://www.linkedin.com/learning/skill-sprint-build-a-proof-of-concept-with-ai-to-resolve-a-recurring-problem"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="no-underline text-purple underline decoration-purple underline-offset-4 hover:text-purple-medium transition-colors"
+              >
+                Skill Sprint: Build a Proof of Concept with AI to Resolve a
+                Recurring Problem
+              </a>
+              , came out in June 2026.
             </p>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed">
               Featured in Amazon&apos;s internal Impact Stories distributed to
