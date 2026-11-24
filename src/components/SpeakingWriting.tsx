@@ -57,8 +57,8 @@ export default function SpeakingWriting() {
               Getting Unstuck in Learning Design: How to Create Clarity and Move
               Work Forward
             </p>
-            <p className="font-sans text-muted text-[15px] mb-2">
-              Publishing with ATD.
+            <p className="font-sans text-ink text-[15px] font-medium mb-3">
+              Out February 1, 2027 from ATD, and open for pre-order now.
             </p>
             <p className="font-sans text-ink/80 text-[16px] leading-relaxed mb-4">
               Learning designers don&apos;t get a playbook. This book is the next
