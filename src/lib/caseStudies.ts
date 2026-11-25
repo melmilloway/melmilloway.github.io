@@ -400,8 +400,8 @@ export const caseStudies: CaseStudy[] = [
         {
           src: "/images/case-studies/gallery/pathogen-patrol/05-branching-decision.png",
           thumb: "/images/case-studies/gallery/pathogen-patrol/05-branching-decision-thumb.png",
-          alt: "A branching decision: how to help Ms. Taylor out of bed",
-          caption: "A branching decision: how to help Ms. Taylor out of bed.",
+          alt: "A scenario-based question with consequences: helping Ms. Taylor out of bed",
+          caption: "A scenario-based question with consequences: helping Ms. Taylor out of bed.",
           width: 1600, height: 1000,
           thumbWidth: 480, thumbHeight: 300,
         },
