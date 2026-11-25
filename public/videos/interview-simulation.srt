@@ -1,0 +1,55 @@
+1
+00:00:23,000 --> 00:00:25,360
+JORDAN: Hi, I'm Jordan.
+
+2
+00:00:25,360 --> 00:00:27,880
+JORDAN: Thanks so much for taking the time to meet with me today.
+
+3
+00:00:27,880 --> 00:00:30,280
+JORDAN: I just spoke with Alex and Priya from the team,
+
+4
+00:00:30,280 --> 00:00:32,740
+JORDAN: and wow, everyone's been so welcoming.
+
+5
+00:00:32,740 --> 00:00:34,840
+JORDAN: I've been looking forward to this conversation.
+
+6
+00:00:34,840 --> 00:00:37,940
+JORDAN: I'm really excited about the role and can't wait to learn more from you.
+
+7
+00:00:41,120 --> 00:00:44,080
+MEL: Hi, Jordan. I'm Mel from Microsoft.
+
+8
+00:00:44,080 --> 00:00:46,200
+MEL: Glad to have you here.
+
+9
+00:00:46,920 --> 00:00:51,120
+MEL: Hi, Jordan. I'm Mel from Microsoft.
+
+10
+00:00:53,160 --> 00:00:55,640
+JORDAN: Nice to meet you, Mel.
+
+11
+00:00:55,640 --> 00:00:57,000
+JORDAN: Thank you for having me here.
+
+12
+00:00:57,000 --> 00:01:00,560
+JORDAN: I'm excited to learn more about the opportunities at Microsoft.
+
+13
+00:01:00,560 --> 00:01:02,560
+MEL: So you can see what I said,
+
+14
+00:01:02,560 --> 00:01:06,700
+MEL: the feedback from what I said, and then why it matters.

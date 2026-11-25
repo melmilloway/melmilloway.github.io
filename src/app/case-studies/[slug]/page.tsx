@@ -5,6 +5,7 @@ import { User, Clock, TrendingUp, Lightbulb, Star, type LucideIcon } from "lucid
 import CaseStudyHeader from "@/components/CaseStudyHeader";
 import CaseStudySection from "@/components/CaseStudySection";
 import Gallery from "@/components/Gallery";
+import CaseStudyVideo from "@/components/CaseStudyVideo";
 
 const iconMap: Record<string, LucideIcon> = { User, Clock, TrendingUp, Lightbulb, Star };
 
@@ -95,6 +96,8 @@ export default async function CaseStudyPage({ params }: Props) {
             />
           ))}
         </div>
+
+        {cs.video && <CaseStudyVideo {...cs.video} />}
 
         {cs.gallery && <Gallery heading={cs.gallery.heading} items={cs.gallery.items} />}
 

@@ -1,9 +1,12 @@
+import type { CaseStudyVideoData } from "@/components/CaseStudyVideo";
+
 export interface CaseStudy {
   slug: string;
   title: string;
   subtitle: string;
   description: string;
   image?: string;
+  video?: CaseStudyVideoData;
   sections: {
     heading: string;
     body: string;
@@ -102,6 +105,15 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "ai-interview-simulation",
     image: "/images/case-studies/interview-sim.png",
+    video: {
+      src: "/videos/interview-simulation.mp4",
+      poster: "/videos/interview-simulation-poster.jpg",
+      captions: "/videos/interview-simulation.vtt",
+      heading: "How it works, end to end",
+      blurb: "The calendar invite through to the feedback. Captions available.",
+      width: 1920,
+      height: 1080,
+    },
     title: "Scaling Personalized Interview Practice with AI",
     subtitle:
       "To strengthen candidate experience and improve hiring quality.",
