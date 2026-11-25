@@ -10,6 +10,8 @@ export interface GalleryItem {
   caption: string;
   /** "browser" (default) frames it like a desktop window; "device" like a phone. */
   frame?: "browser" | "device";
+  /** Renders full width above the grid, for a shot too wide to read in a column. */
+  wide?: boolean;
   width: number;
   height: number;
   thumbWidth: number;
@@ -71,6 +73,9 @@ export default function Gallery({
 
   if (!items.length) return null;
   const current = open === null ? null : items[open];
+  const indexed = items.map((it, i) => ({ it, i }));
+  const wide = indexed.filter(({ it }) => it.wide);
+  const rest = indexed.filter(({ it }) => !it.wide);
 
   return (
     <section className="mt-16 md:mt-20" aria-labelledby="gallery-heading">
@@ -91,9 +96,33 @@ export default function Gallery({
           : `${items.length} screens. Select one to see it full size.`}
       </p>
 
+      {/* Wide items lead, full width, because a column would make them unreadable */}
+      {wide.map(({ it, i }) => (
+        <figure key={it.src} className="mb-6">
+          <button
+            type="button"
+            onClick={() => setOpen(i)}
+            className="group block w-full cursor-pointer overflow-hidden rounded-md border border-ink/15 bg-white shadow-[0_1px_2px_rgba(26,24,20,0.06),0_6px_16px_-6px_rgba(26,24,20,0.18)] transition-[border-color,box-shadow] hover:border-purple/50 focus:outline-none focus-visible:border-purple"
+            aria-label={`Open full size: ${it.alt}`}
+          >
+            <BrowserBar />
+            <Image
+              src={it.thumb}
+              alt={it.alt}
+              width={it.thumbWidth}
+              height={it.thumbHeight}
+              className="w-full h-auto transition-opacity group-hover:opacity-90"
+            />
+          </button>
+          <figcaption className="font-sans text-muted text-[12px] leading-[1.45] mt-2">
+            {it.caption}
+          </figcaption>
+        </figure>
+      ))}
+
       {/* Masonry, so every screen keeps its own proportions and nothing is cropped */}
       <div className="columns-2 md:columns-3 gap-4 [column-fill:_balance]">
-        {items.map((it, i) => (
+        {rest.map(({ it, i }) => (
           <figure key={it.src} className="mb-5 break-inside-avoid">
             <button
               type="button"
