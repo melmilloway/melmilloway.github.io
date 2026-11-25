@@ -99,7 +99,13 @@ export default async function CaseStudyPage({ params }: Props) {
 
         {cs.video && <CaseStudyVideo {...cs.video} />}
 
-        {cs.gallery && <Gallery heading={cs.gallery.heading} items={cs.gallery.items} />}
+        {cs.gallery && (
+          <Gallery
+            heading={cs.gallery.heading}
+            blurb={cs.gallery.blurb}
+            items={cs.gallery.items}
+          />
+        )}
 
         {/* Live link (xAPI tools) */}
         {cs.liveLink && (

@@ -37,7 +37,15 @@ function DeviceBar() {
   );
 }
 
-export default function Gallery({ items, heading }: { items: GalleryItem[]; heading: string }) {
+export default function Gallery({
+  items,
+  heading,
+  blurb,
+}: {
+  items: GalleryItem[];
+  heading: string;
+  blurb?: string;
+}) {
   const [open, setOpen] = useState<number | null>(null);
   const close = useCallback(() => setOpen(null), []);
   const step = useCallback(
@@ -72,7 +80,12 @@ export default function Gallery({ items, heading }: { items: GalleryItem[]; head
       >
         {heading}
       </h2>
-      <p className="font-sans text-muted text-[13px] mb-6">
+      {blurb && (
+        <p className="font-sans text-ink/80 text-[15px] leading-relaxed max-w-[62ch] mt-3">
+          {blurb}
+        </p>
+      )}
+      <p className="font-sans text-muted text-[13px] mb-6 mt-2">
         {items.length === 1
           ? "One screen. Select it to see it full size."
           : `${items.length} screens. Select one to see it full size.`}

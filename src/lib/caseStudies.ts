@@ -15,7 +15,7 @@ export interface CaseStudy {
     visualAfter?: number;
   }[];
   disclaimer?: string;
-  gallery?: { heading: string; items: GalleryItem[] };
+  gallery?: { heading: string; blurb?: string; items: GalleryItem[] };
   liveLink?: { label: string; href: string };
   metaItems?: { iconName: string; label: string; value: string }[];
 }
@@ -441,12 +441,14 @@ export const caseStudies: CaseStudy[] = [
     slug: "cat-cafe-ai-app",
     gallery: {
       heading: "The app and the pipeline behind it",
+      blurb:
+        "Nobody writes these scenarios. At POS login an n8n workflow pulls store review data, sends it to an AI model that writes that day's scenario and shift tip, and posts the result back into the app before the lead starts work.",
       items: [
         {
           src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-23-pm-1.png",
           thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-23-pm-1.png",
-          alt: "The app building a scenario for the shift just started.",
-          caption: "The app building a scenario for the shift just started.",
+          alt: "The app writing that shift's scenario with AI, live at clock-in.",
+          caption: "The app writing that shift's scenario with AI, live at clock-in.",
           frame: "device",
           width: 404, height: 895,
           thumbWidth: 404, thumbHeight: 895,
@@ -472,8 +474,8 @@ export const caseStudies: CaseStudy[] = [
         {
           src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-26-pm.png",
           thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-26-pm.png",
-          alt: "A customer gets frustrated during a rush. Three ways to handle it.",
-          caption: "A customer gets frustrated during a rush. Three ways to handle it.",
+          alt: "An AI-written scenario: a customer gets frustrated during a rush.",
+          caption: "An AI-written scenario: a customer gets frustrated during a rush.",
           frame: "device",
           width: 404, height: 963,
           thumbWidth: 404, thumbHeight: 963,
@@ -490,8 +492,8 @@ export const caseStudies: CaseStudy[] = [
         {
           src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-27-pm.png",
           thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-27-pm.png",
-          alt: "A coaching tip before the shift, with an example.",
-          caption: "A coaching tip before the shift, with an example.",
+          alt: "The shift tip, written by the same workflow, with an example.",
+          caption: "The shift tip, written by the same workflow, with an example.",
           frame: "device",
           width: 404, height: 536,
           thumbWidth: 404, thumbHeight: 536,
@@ -499,8 +501,8 @@ export const caseStudies: CaseStudy[] = [
         {
           src: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-35-pm.png",
           thumb: "/images/case-studies/gallery/cat-cafe-ai-app/manager-espresso-shot-whiskerbeans-cafe-training-07-29-2026-03-35-pm.png",
-          alt: "A second scenario, on drink accuracy complaints.",
-          caption: "A second scenario, on drink accuracy complaints.",
+          alt: "A second AI-written scenario, on drink accuracy complaints.",
+          caption: "A second AI-written scenario, on drink accuracy complaints.",
           frame: "device",
           width: 404, height: 963,
           thumbWidth: 404, thumbHeight: 963,
@@ -509,7 +511,7 @@ export const caseStudies: CaseStudy[] = [
           src: "/images/case-studies/gallery/cat-cafe-ai-app/whiskerbeans-shift-scenarios-test-n8n-07-29-2026-03-21-pm.png",
           thumb: "/images/case-studies/gallery/cat-cafe-ai-app/whiskerbeans-shift-scenarios-test-n8n-07-29-2026-03-21-pm-thumb.png",
           alt: "The WhiskerBeans shift scenario workflow in n8n",
-          caption: "The n8n workflow behind it, from POS login to finished scenario.",
+          caption: "The n8n workflow. Store review data goes in, an AI model writes the scenario and the tip, and the app gets them back.",
           width: 1600, height: 919,
           thumbWidth: 480, thumbHeight: 276,
         },
