@@ -7,10 +7,23 @@ export interface GalleryItem {
   src: string;
   thumb: string;
   alt: string;
+  caption: string;
   width: number;
   height: number;
   thumbWidth: number;
   thumbHeight: number;
+}
+
+/* Screely-style chrome: a title bar with three dots and an address pill. */
+function BrowserBar() {
+  return (
+    <span className="flex items-center gap-[5px] h-[22px] px-2.5 bg-[#ece8e1] border-b border-ink/10">
+      <span className="w-[7px] h-[7px] rounded-full bg-[#dd6b60]" />
+      <span className="w-[7px] h-[7px] rounded-full bg-[#e3b341]" />
+      <span className="w-[7px] h-[7px] rounded-full bg-[#73bf54]" />
+      <span className="ml-1.5 flex-1 h-[11px] rounded-full bg-white/70" />
+    </span>
+  );
 }
 
 export default function Gallery({ items, heading }: { items: GalleryItem[]; heading: string }) {
@@ -55,23 +68,28 @@ export default function Gallery({ items, heading }: { items: GalleryItem[]; head
       </p>
 
       {/* Masonry, so every screen keeps its own proportions and nothing is cropped */}
-      <div className="columns-2 md:columns-3 gap-3 [column-fill:_balance]">
+      <div className="columns-2 md:columns-3 gap-4 [column-fill:_balance]">
         {items.map((it, i) => (
-          <button
-            key={it.src}
-            type="button"
-            onClick={() => setOpen(i)}
-            className="group mb-3 block w-full break-inside-avoid cursor-pointer border border-ink/10 bg-white overflow-hidden transition-colors hover:border-purple/60 focus:outline-none focus-visible:border-purple"
-            aria-label={`Open full size: ${it.alt}`}
-          >
-            <Image
-              src={it.thumb}
-              alt={it.alt}
-              width={it.thumbWidth}
-              height={it.thumbHeight}
-              className="w-full h-auto transition-opacity group-hover:opacity-85"
-            />
-          </button>
+          <figure key={it.src} className="mb-5 break-inside-avoid">
+            <button
+              type="button"
+              onClick={() => setOpen(i)}
+              className="group block w-full cursor-pointer rounded-md overflow-hidden border border-ink/15 bg-white shadow-[0_1px_2px_rgba(26,24,20,0.06),0_6px_16px_-6px_rgba(26,24,20,0.18)] transition-[border-color,box-shadow] hover:border-purple/50 hover:shadow-[0_1px_2px_rgba(26,24,20,0.06),0_10px_24px_-8px_rgba(66,49,169,0.28)] focus:outline-none focus-visible:border-purple"
+              aria-label={`Open full size: ${it.alt}`}
+            >
+              <BrowserBar />
+              <Image
+                src={it.thumb}
+                alt={it.alt}
+                width={it.thumbWidth}
+                height={it.thumbHeight}
+                className="w-full h-auto transition-opacity group-hover:opacity-90"
+              />
+            </button>
+            <figcaption className="font-sans text-muted text-[12px] leading-[1.45] mt-2">
+              {it.caption}
+            </figcaption>
+          </figure>
         ))}
       </div>
 
@@ -111,15 +129,19 @@ export default function Gallery({ items, heading }: { items: GalleryItem[]; head
               </button>
             </div>
           </div>
-          <Image
-            key={current.src}
-            src={current.src}
-            alt={current.alt}
-            width={current.width}
-            height={current.height}
-            className="w-full max-w-[1100px] h-auto mx-auto bg-white"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <figure className="w-full max-w-[1100px] mx-auto" onClick={(e) => e.stopPropagation()}>
+            <Image
+              key={current.src}
+              src={current.src}
+              alt={current.alt}
+              width={current.width}
+              height={current.height}
+              className="w-full h-auto bg-white"
+            />
+            <figcaption className="font-sans text-[13px] text-white/80 leading-relaxed mt-3 pb-4">
+              {current.caption}
+            </figcaption>
+          </figure>
         </div>
       )}
     </section>
