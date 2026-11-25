@@ -8,6 +8,8 @@ export interface GalleryItem {
   thumb: string;
   alt: string;
   caption: string;
+  /** "browser" (default) frames it like a desktop window; "device" like a phone. */
+  frame?: "browser" | "device";
   width: number;
   height: number;
   thumbWidth: number;
@@ -22,6 +24,15 @@ function BrowserBar() {
       <span className="w-[7px] h-[7px] rounded-full bg-[#e3b341]" />
       <span className="w-[7px] h-[7px] rounded-full bg-[#73bf54]" />
       <span className="ml-1.5 flex-1 h-[11px] rounded-full bg-white/70" />
+    </span>
+  );
+}
+
+/* Phone-shaped shots get a speaker slot instead of a window title bar. */
+function DeviceBar() {
+  return (
+    <span className="flex items-center justify-center h-[18px] bg-[#ece8e1] border-b border-ink/10">
+      <span className="w-10 h-[4px] rounded-full bg-ink/25" />
     </span>
   );
 }
@@ -74,10 +85,10 @@ export default function Gallery({ items, heading }: { items: GalleryItem[]; head
             <button
               type="button"
               onClick={() => setOpen(i)}
-              className="group block w-full cursor-pointer rounded-md overflow-hidden border border-ink/15 bg-white shadow-[0_1px_2px_rgba(26,24,20,0.06),0_6px_16px_-6px_rgba(26,24,20,0.18)] transition-[border-color,box-shadow] hover:border-purple/50 hover:shadow-[0_1px_2px_rgba(26,24,20,0.06),0_10px_24px_-8px_rgba(66,49,169,0.28)] focus:outline-none focus-visible:border-purple"
+              className={`group block w-full cursor-pointer overflow-hidden ${it.frame === "device" ? "rounded-xl" : "rounded-md"} border border-ink/15 bg-white shadow-[0_1px_2px_rgba(26,24,20,0.06),0_6px_16px_-6px_rgba(26,24,20,0.18)] transition-[border-color,box-shadow] hover:border-purple/50 hover:shadow-[0_1px_2px_rgba(26,24,20,0.06),0_10px_24px_-8px_rgba(66,49,169,0.28)] focus:outline-none focus-visible:border-purple`}
               aria-label={`Open full size: ${it.alt}`}
             >
-              <BrowserBar />
+              {it.frame === "device" ? <DeviceBar /> : <BrowserBar />}
               <Image
                 src={it.thumb}
                 alt={it.alt}
@@ -129,7 +140,11 @@ export default function Gallery({ items, heading }: { items: GalleryItem[]; head
               </button>
             </div>
           </div>
-          <figure className="w-full max-w-[1100px] mx-auto" onClick={(e) => e.stopPropagation()}>
+          <figure
+            className="w-full mx-auto"
+            style={{ maxWidth: Math.min(current.width, 1100) }}
+            onClick={(e) => e.stopPropagation()}
+          >
             <Image
               key={current.src}
               src={current.src}
